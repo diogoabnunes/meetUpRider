@@ -11,10 +11,12 @@ void parse_nodes(GraphViewer *gv, string file);
 void parse_edges(GraphViewer *gv, string file);
 
 int main() {
+    int width = 600;
+    int height = 600;
 
-    GraphViewer *gv = new GraphViewer(600, 600, false);
+    GraphViewer *gv = new GraphViewer(width, height, false);
     gv->setBackground("../earth.jpg");
-    gv->createWindow(600, 600);
+    gv->createWindow(width, height);
     gv->defineEdgeCurved(false);
     gv->defineVertexColor("blue");
     gv->defineEdgeColor("black");
@@ -25,6 +27,8 @@ int main() {
     gv->rearrange();
 
     getchar();
+    gv->closeWindow();
+
     return 0;
 }
 
@@ -46,6 +50,7 @@ void parse_nodes(GraphViewer *gv, string file) {
             ss >> useless; // ,
             ss >> y; // y
             gv->addNode(idNo, x, y);
+            gv->setVertexSize(idNo, 10);
         }
         nos.close();
     }
