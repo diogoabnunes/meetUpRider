@@ -22,3 +22,5 @@ int main() {
     getchar();
     return 0;
 }
+
+public void
