@@ -7,6 +7,9 @@
 
 using namespace std;
 
+void parse_nodes(GraphViewer *gv, string file);
+void parse_edges(GraphViewer *gv, string file);
+
 int main() {
 
     GraphViewer *gv = new GraphViewer(600, 600, false);
@@ -16,7 +19,8 @@ int main() {
     gv->defineVertexColor("blue");
     gv->defineEdgeColor("black");
 
-    
+    parse_nodes(gv, "../mapas/GridGraphs/16x16/nodes.txt");
+    parse_edges(gv, "../mapas/GridGraphs/16x16/edges.txt");
 
     gv->rearrange();
 
