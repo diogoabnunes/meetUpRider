@@ -363,29 +363,6 @@ vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
 	return res;
 }
 
-/**************** Minimum Spanning Tree  ***************/
-template <class T>
-bool Graph<T>::addBidirectionalEdge(const T &sourc, const T &dest, double w) {
-    // TODO
-    return false;
-}
-
-
-
-template <class T>
-vector<Vertex<T>* > Graph<T>::calculatePrim() {
-	// TODO
-	return vertexSet;
-}
-
-
-
-template <class T>
-vector<Vertex<T>*> Graph<T>::calculateKruskal() {
-	// TODO
-	return vertexSet;
-}
-
 
 
 #endif /* GRAPH_H_ */
