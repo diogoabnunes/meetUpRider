@@ -28,7 +28,7 @@ int main() {
 
     getchar();
     gv->closeWindow();
-    
+
     return 0;
 }
 
