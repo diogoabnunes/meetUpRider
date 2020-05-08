@@ -5,7 +5,7 @@
 #include <unistd.h>
 #else
 #include <winsock2.h>
-#include <Windows.h>
+#include <windows.h>
 #endif
 
 #include <stdlib.h>

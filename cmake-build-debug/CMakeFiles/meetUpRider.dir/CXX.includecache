@@ -6,7 +6,7 @@
 
 #IncludeRegexTransform: 
 
-/home/diogo/Documentos/meetUpRider/connection.h
+../lib/connection.h
 cstdio
 -
 cstdlib
@@ -28,22 +28,14 @@ string
 iostream
 -
 
-/home/diogo/Documentos/meetUpRider/edgetype.h
+../lib/edgetype.h
 
-/home/diogo/Documentos/meetUpRider/graphviewer.cpp
-graphviewer.h
-/home/diogo/Documentos/meetUpRider/graphviewer.h
-string
--
-sstream
--
-
-/home/diogo/Documentos/meetUpRider/graphviewer.h
+../lib/graphviewer.h
 unistd.h
 -
 winsock2.h
 -
-Windows.h
+windows.h
 -
 stdlib.h
 -
@@ -52,13 +44,21 @@ signal.h
 string
 -
 edgetype.h
-/home/diogo/Documentos/meetUpRider/edgetype.h
+../lib/edgetype.h
 connection.h
-/home/diogo/Documentos/meetUpRider/connection.h
+../lib/connection.h
 
-/home/diogo/Documentos/meetUpRider/main.cpp
-iostream
+C:/Users/Diogo Nunes/Desktop/MeetUpRider/main.cpp
+cstdio
 -
 graphviewer.h
-/home/diogo/Documentos/meetUpRider/graphviewer.h
+C:/Users/Diogo Nunes/Desktop/MeetUpRider/graphviewer.h
+fstream
+-
+iostream
+-
+sstream
+-
+algorithm
+-
 

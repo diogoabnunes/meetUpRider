@@ -1,3 +1,3 @@
-/home/diogo/Documentos/meetUpRider/cmake-build-debug/CMakeFiles/rebuild_cache.dir
-/home/diogo/Documentos/meetUpRider/cmake-build-debug/CMakeFiles/meetUpRider.dir
-/home/diogo/Documentos/meetUpRider/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Diogo Nunes/Desktop/MeetUpRider/cmake-build-debug/CMakeFiles/meetUpRider.dir
+C:/Users/Diogo Nunes/Desktop/MeetUpRider/cmake-build-debug/CMakeFiles/edit_cache.dir
+C:/Users/Diogo Nunes/Desktop/MeetUpRider/cmake-build-debug/CMakeFiles/rebuild_cache.dir

@@ -1,7 +1,10 @@
 file(REMOVE_RECURSE
-  "CMakeFiles/meetUpRider.dir/graphviewer.cpp.o"
-  "CMakeFiles/meetUpRider.dir/main.cpp.o"
-  "meetUpRider"
+  "CMakeFiles/meetUpRider.dir/lib/connection.cpp.obj"
+  "CMakeFiles/meetUpRider.dir/lib/graphviewer.cpp.obj"
+  "CMakeFiles/meetUpRider.dir/main.cpp.obj"
+  "libmeetUpRider.dll.a"
+  "meetUpRider.exe"
+  "meetUpRider.exe.manifest"
   "meetUpRider.pdb"
 )
 

@@ -4,13 +4,15 @@ set(CMAKE_DEPENDS_LANGUAGES
   )
 # The set of files for implicit dependencies of each language:
 set(CMAKE_DEPENDS_CHECK_CXX
-  "/home/diogo/Documentos/meetUpRider/graphviewer.cpp" "/home/diogo/Documentos/meetUpRider/cmake-build-debug/CMakeFiles/meetUpRider.dir/graphviewer.cpp.o"
-  "/home/diogo/Documentos/meetUpRider/main.cpp" "/home/diogo/Documentos/meetUpRider/cmake-build-debug/CMakeFiles/meetUpRider.dir/main.cpp.o"
+  "C:/Users/Diogo Nunes/Desktop/MeetUpRider/lib/connection.cpp" "C:/Users/Diogo Nunes/Desktop/MeetUpRider/cmake-build-debug/CMakeFiles/meetUpRider.dir/lib/connection.cpp.obj"
+  "C:/Users/Diogo Nunes/Desktop/MeetUpRider/lib/graphviewer.cpp" "C:/Users/Diogo Nunes/Desktop/MeetUpRider/cmake-build-debug/CMakeFiles/meetUpRider.dir/lib/graphviewer.cpp.obj"
+  "C:/Users/Diogo Nunes/Desktop/MeetUpRider/main.cpp" "C:/Users/Diogo Nunes/Desktop/MeetUpRider/cmake-build-debug/CMakeFiles/meetUpRider.dir/main.cpp.obj"
   )
 set(CMAKE_CXX_COMPILER_ID "GNU")
 
 # The include file search paths:
 set(CMAKE_CXX_TARGET_INCLUDE_PATH
+  "../lib"
   )
 
 # Targets to which this target links.
