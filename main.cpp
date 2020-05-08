@@ -62,7 +62,7 @@ int visualizeGraph() {
     int height = 600;
 
     GraphViewer *gv = new GraphViewer(width, height, false);
-    gv->setBackground("../earth.jpg");
+    //gv->setBackground("../earth.jpg");
     gv->createWindow(width, height);
     gv->defineEdgeCurved(false);
     gv->defineVertexColor("blue");
