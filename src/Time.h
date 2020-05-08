@@ -4,13 +4,16 @@
 
 #ifndef MEETUPRIDER_TIME_H
 #define MEETUPRIDER_TIME_H
-
+#include <string>
+using namespace std;
 
 class Time {
 public:
     Time(int hour, int minutes);
 
     Time();
+
+    Time(string t) ;
 
     int getHour() const;
 
@@ -21,8 +24,8 @@ public:
     void setMinutes(int minutes);
 
 private:
-    int hour{};
-    int minutes{};
+    int hour;
+    int minutes;
 };
 
 
