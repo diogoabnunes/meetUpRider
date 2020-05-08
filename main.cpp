@@ -12,6 +12,7 @@ int main() {
     GraphViewer *gv = new GraphViewer(600, 600, false);
     gv->setBackground("../earth.jpg");
     gv->createWindow(600, 600);
+    //gv->defineEdgeCurved(false);
     gv->defineVertexColor("blue");
     gv->defineEdgeColor("black");
     gv->addNode(0, 200, 200);
