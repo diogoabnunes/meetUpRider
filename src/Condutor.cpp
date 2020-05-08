@@ -4,5 +4,13 @@
 
 #include "Condutor.h"
 
-Condutor::Condutor(int id, int origem, int destino, const Time &horaPartida, const Time &horaChegada, int idCarro)
-        : Pessoa(id, origem, destino, horaPartida, horaChegada), idCarro(idCarro) {}
+Condutor::Condutor(int id, int origem, int destino, const Time &horaPartida, const Time &horaChegada, Automovel carro)
+        : Pessoa(id, origem, destino, horaPartida, horaChegada), carro(carro) {}
+
+Automovel Condutor::getAutomovel() {
+    return carro;
+}
+
+void Condutor::setAutomovel(Automovel carro) {
+    this->carro = carro;
+}

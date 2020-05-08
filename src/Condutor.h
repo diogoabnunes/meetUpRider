@@ -7,13 +7,18 @@
 
 
 #include "Pessoa.h"
+#include "Automovel.h"
 
 class Condutor:public  Pessoa {
 public:
-    Condutor(int id, int origem, int destino, const Time &horaPartida, const Time &horaChegada, int idCarro);
+    Condutor(int id, int origem, int destino, const Time &horaPartida, const Time &horaChegada, Automovel carro);
+
+    Automovel getAutomovel();
+
+    void setAutomovel(Automovel carro);
 
 private:
-    int idCarro;
+    Automovel carro;
 };
 
 

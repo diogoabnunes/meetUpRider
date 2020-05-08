@@ -8,8 +8,12 @@ class Automovel {
     unsigned int nSeats;
 
 public:
+    Automovel();
+    Automovel(unsigned int id,unsigned int nSeats);
     unsigned int getId();
+    void setId(unsigned int id);
     unsigned int getNSeats();
+    void setNSeats(unsigned int nSeats);
 };
 
 
