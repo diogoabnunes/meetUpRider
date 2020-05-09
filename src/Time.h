@@ -5,6 +5,8 @@
 #ifndef MEETUPRIDER_TIME_H
 #define MEETUPRIDER_TIME_H
 #include <string>
+#include "vector"
+#include "utils.h"
 using namespace std;
 
 class Time {
@@ -13,7 +15,7 @@ public:
 
     Time();
 
-    Time(string t) ;
+    Time(string& t) ;
 
     int getHour() const;
 

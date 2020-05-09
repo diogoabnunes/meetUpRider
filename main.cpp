@@ -4,6 +4,10 @@
 #include <iostream>
 #include <sstream>
 #include <algorithm>
+#include <string>
+#include "vector"
+#include "src/ReadFiles.h"
+#include "src/Pessoa.h"
 
 using namespace std;
 
@@ -12,6 +16,9 @@ void parse_edges(GraphViewer *gv, string file);
 int visualizeGraph();
 
 int main() {
+
+    vector<Pessoa*> v=readUsers("resources/users.txt");
+    auto c=readCarros("resources/cars.txt");
 
     int option = -1;
     do {

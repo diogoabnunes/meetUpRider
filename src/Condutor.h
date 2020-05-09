@@ -11,14 +11,14 @@
 
 class Condutor:public  Pessoa {
 public:
-    Condutor(int id, int origem, int destino, const Time &horaPartida, const Time &horaChegada, Automovel carro);
+    Condutor(int id, int origem, int destino, const Time &horaPartida, const Time &horaChegada, int carro);
 
-    Automovel getAutomovel();
+    int getAutomovel();
 
-    void setAutomovel(Automovel carro);
+    void setAutomovel(int carro);
 
 private:
-    Automovel carro;
+    int carro;
 };
 
 

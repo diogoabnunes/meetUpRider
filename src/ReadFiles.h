@@ -20,5 +20,6 @@ using namespace std;
 
 vector<Pessoa*>readUsers(string filename);
 
+vector<Automovel> readCarros(string filename);
 
 #endif //MEETUPRIDER_READFILES_H

@@ -24,9 +24,10 @@ Time::Time(int hour, int minutes) : hour(hour), minutes(minutes) {}
 
 Time::Time() {hour=-1; minutes=-1;}
 
-Time::Time(string t) {
-    hour=stoi(t.substr(0,t.find_first_of('h')-1));
-    minutes=stoi(t.substr(t.find_first_of('h')+1));
+Time::Time(string& t) {
+    auto time=split(t,"h");
+    hour=stoi(time[0]);
+    minutes=stoi(time[1]);
 }
 
 

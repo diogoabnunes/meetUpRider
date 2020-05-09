@@ -11,7 +11,7 @@
 class Pessoa {
 
 
-private:
+protected:
     int id;
     int origem;
     int destino;
