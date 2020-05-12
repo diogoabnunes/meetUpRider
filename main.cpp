@@ -11,14 +11,13 @@
 
 using namespace std;
 
-void parse_nodes(GraphViewer *gv, string file);
-void parse_edges(GraphViewer *gv, string file);
 int visualizeGraph();
 
 int main() {
 
-    vector<Pessoa*> v=readUsers("resources/users.txt");
-    auto c=readCarros("resources/cars.txt");
+    vector<Pessoa*> v = readUsers("../resources/users.txt");
+    auto c = readCarros("../resources/cars.txt");
+    initGraph();
 
     int option = -1;
     do {
@@ -69,7 +68,6 @@ int visualizeGraph() {
     int height = 600;
 
     GraphViewer *gv = new GraphViewer(width, height, false);
-    //gv->setBackground("../earth.jpg");
     gv->createWindow(width, height);
     gv->defineEdgeCurved(false);
     gv->defineVertexColor("blue");
@@ -81,53 +79,4 @@ int visualizeGraph() {
     gv->rearrange();
 
     return 0;
-}
-
-void parse_nodes(GraphViewer *gv, string file) {
-
-    ifstream nos("../mapas/GridGraphs/16x16/nodes.txt");
-    if (nos.is_open())
-    {
-        string line; char useless;
-        int idNo, x, y;
-        getline(nos, line); // number of nodes
-        while (getline(nos, line))
-        {
-            stringstream ss(line);
-            ss >> useless; // (
-            ss >> idNo; // id
-            ss >> useless; // ,
-            ss >> x; // x
-            ss >> useless; // ,
-            ss >> y; // y
-            gv->addNode(idNo, x, y);
-            gv->setVertexSize(idNo, 10);
-        }
-        nos.close();
-    }
-    cout << "nos readed\n";
-}
-
-void parse_edges(GraphViewer *gv, string file) {
-
-    ifstream arestas("../mapas/GridGraphs/16x16/edges.txt");
-    if (arestas.is_open())
-    {
-        int idAresta = 0;
-        string line; char useless;
-        int idNoOrigem, idNoDestino;
-        getline(arestas, line); // number of edges
-        while (getline(arestas, line))
-        {
-            stringstream ss(line);
-            ss >> useless; // (
-            ss >> idNoOrigem; // id
-            ss >> useless; // ,
-            ss >> idNoDestino; // id
-            gv->addEdge(idAresta, idNoOrigem, idNoDestino, 0);
-            idAresta++;
-        }
-        arestas.close();
-    }
-    cout << "arestas readed\n";
 }

@@ -20,3 +20,8 @@ vector<string> split(const string& str, const string& delim)
     while (pos < str.length() && prev < str.length());
     return tokens;
 }
+
+void wait() {
+    cout << "ENTER to continue";
+    getchar();
+}
