@@ -15,9 +15,9 @@ int visualizeGraph();
 
 int main() {
 
-    vector<Pessoa*> v = readUsers("../resources/users.txt");
-    auto c = readCarros("../resources/cars.txt");
-    initGraph();
+    vector<Condutor*>r;
+    vector<Pessoa*> v=readUsers("../resources/users.txt",r);
+    auto c=readCarros("../resources/cars.txt");
 
     int option = -1;
     do {

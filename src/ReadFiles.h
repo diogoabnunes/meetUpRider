@@ -17,11 +17,12 @@
 #include "Condutor.h"
 #include "graphviewer.h"
 #include "Graph.h"
+#include "Local.h"
 using namespace std;
 
 void initGraph();
 
-vector<Pessoa*>readUsers(string filename);
+vector<Pessoa*>readUsers(string filename,  vector<Condutor*>&cond);
 
 vector<Automovel> readCarros(string filename);
 
