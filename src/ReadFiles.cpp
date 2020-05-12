@@ -25,8 +25,9 @@ vector<Pessoa *> readUsers(string filename, vector<Condutor*>&cond) {
                 pessoas.push_back(p);
             }
             else{
-                auto* c=new Condutor(stoi(l[1]),stoi(l[2]),stoi(l[3]),partida,chegada,stoi(l[6]));
+                auto * c=new Condutor(stoi(l[1]),stoi(l[2]),stoi(l[3]),partida,chegada,stoi(l[6]));
                 cond.push_back(c);
+
             }
         }
     }
