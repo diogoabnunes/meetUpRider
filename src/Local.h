@@ -8,6 +8,8 @@
 
 class Local {
 public:
+    Local(int id, int x, int y);
+
     Local(int id);
 
     int getId() const;
@@ -16,6 +18,8 @@ public:
 
 private:
     int id;
+    int x;
+    int y;
 
 };
 

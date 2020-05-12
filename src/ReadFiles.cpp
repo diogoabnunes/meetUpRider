@@ -5,7 +5,9 @@
 #include "ReadFiles.h"
 
 void initGraph() {
-
+    Graph<Local> g;
+    parse_nodes(&g, "../mapas/GridGraphs/16x16/nodes.txt");
+    parse_edges(&g, "../mapas/GridGraphs/16x16/edges.txt");
 }
 
 vector<Pessoa *> readUsers(string filename, vector<Condutor*>&cond) {
@@ -33,8 +35,6 @@ vector<Pessoa *> readUsers(string filename, vector<Condutor*>&cond) {
     file.close();
     return pessoas;
 }
-
-
 
 vector<Automovel> readCarros(string filename){
     vector<Automovel>carros;
@@ -79,9 +79,28 @@ void parse_nodes(GraphViewer *gv, string file) {
     cout << "nos readed\n";
 }
 
-void parse_nodes(Graph<Local> *gv, string file) {
+void parse_nodes(Graph<Local> *g, string file) {
 
-
+    ifstream nos("../mapas/GridGraphs/16x16/nodes.txt");
+    if (nos.is_open())
+    {
+        string line;  char useless;
+        int idNo, x, y;
+        getline(nos, line); // number of nodes
+        while (getline(nos, line))
+        {
+            stringstream ss(line);
+            ss >> useless; // (
+            ss >> idNo; // id
+            ss >> useless; // ,
+            ss >> x; // x
+            ss >> useless; // ,
+            ss >> y; // y
+            g->addVertex(Local(idNo, x, y));
+        }
+        nos.close();
+    }
+    cout << "nos readed\n";
 }
 
 void parse_edges(GraphViewer *gv, string file) {
@@ -108,7 +127,25 @@ void parse_edges(GraphViewer *gv, string file) {
     cout << "arestas readed\n";
 }
 
-void parse_edges(Graph<Local> *gv, string file) {
+void parse_edges(Graph<Local> *g, string file) {
 
-    
+    ifstream arestas("../mapas/GridGraphs/16x16/edges.txt");
+    if (arestas.is_open())
+    {
+        int idAresta = 0;
+        string line; char useless;
+        int idNoOrigem, idNoDestino;
+        getline(arestas, line); // number of edges
+        while (getline(arestas, line))
+        {
+            stringstream ss(line);
+            ss >> useless; // (
+            ss >> idNoOrigem; // id
+            ss >> useless; // ,
+            ss >> idNoDestino; // id
+            g->addEdge(Local(idNoOrigem), Local(idNoDestino), 1); // peso tem que ser alterado conforme o tipo de estrada
+        }
+        arestas.close();
+    }
+    cout << "arestas readed\n";
 }
