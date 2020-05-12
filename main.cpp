@@ -14,7 +14,7 @@ using namespace std;
 int visualizeGraph();
 
 int main() {
-
+    initGraph();
     vector<Condutor*>r;
     vector<Pessoa*> v=readUsers("../resources/users.txt",r);
     auto c=readCarros("../resources/cars.txt");

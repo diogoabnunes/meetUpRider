@@ -16,6 +16,10 @@ public:
 
     void setId(int id);
 
+    bool operator==(const Local &rhs) const;
+
+    bool operator!=(const Local &rhs) const;
+
 private:
     int id;
     int x;
