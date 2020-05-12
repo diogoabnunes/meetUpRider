@@ -12,4 +12,6 @@ void Local::setId(int id) {
     Local::id = id;
 }
 
+Local::Local(int id, int x, int y) : id(id), x(x), y(y) {}
+
 Local::Local(int id) : id(id) {}

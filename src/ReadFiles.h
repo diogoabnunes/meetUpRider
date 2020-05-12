@@ -27,9 +27,9 @@ vector<Pessoa*>readUsers(string filename,  vector<Condutor*>&cond);
 vector<Automovel> readCarros(string filename);
 
 void parse_nodes(GraphViewer *gv, string file);
-void parse_nodes(Graph<Local> *gv, string file);
+void parse_nodes(Graph<Local> *g, string file);
 
 void parse_edges(GraphViewer *gv, string file);
-void parse_edges(Graph<Local> *gv, string file);
+void parse_edges(Graph<Local> *g, string file);
 
 #endif //MEETUPRIDER_READFILES_H
