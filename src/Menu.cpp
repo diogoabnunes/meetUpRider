@@ -65,3 +65,13 @@ int Menu::visualizeGraph() {
 
         return 0;
 }
+
+Menu::Menu(const Dados &dados) : dados(dados) {}
+
+const Dados &Menu::getDados() const {
+    return dados;
+}
+
+void Menu::setDados(const Dados &dados) {
+    Menu::dados = dados;
+}
