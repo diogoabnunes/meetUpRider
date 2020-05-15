@@ -1,13 +1,17 @@
 #include "Dados.h"
 
-Dados::Dados(Graph<Local> grafo, vector<Condutor *> condutores, vector<Pessoa *> pessoas, vector<Automovel *> carros) {
-    this->grafoInicial=grafo;
-    this->condutores=condutores;
-    this->pessoas=pessoas;
-    this->carros=carros;
+Dados::Dados() {
+    Graph<Local> graph;
+    initGraph(graph);
+    vector<Condutor*> r;
+    vector<Pessoa*> v=readUsers("../resources/users.txt",r);
+    vector<Automovel *> c=readCarros("../resources/cars.txt");
+
+    this->grafoInicial=graph;
+    this->condutores=r;
+    this->pessoas=v;
+    this->carros=c;
 }
-
-
 
 vector<Condutor *> Dados::getCondutores() {
     return condutores;

@@ -21,7 +21,7 @@ class Dados {
     vector<Automovel*> carros;
 
 public:
-    Dados(Graph<Local> grafo,vector<Condutor*> condutores ,vector<Pessoa*> pessoas, vector<Automovel *> carros);
+    Dados();
 
     vector<Condutor*> getCondutores();
     vector<Pessoa*> getPessoas();

@@ -16,8 +16,8 @@ public:
 public:
     Menu(const Dados &dados);
 
-    void showMenu();
-    int visualizeGraph();
+    void showMenu(Dados &dados);
+    int visualizeGraph(Dados &dados);
 };
 
 

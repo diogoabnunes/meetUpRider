@@ -5,7 +5,19 @@
 
 using namespace std;
 
-void Menu::showMenu() {
+
+Menu::Menu(const Dados &dados) : dados(dados) {}
+
+const Dados &Menu::getDados() const {
+    return dados;
+}
+
+void Menu::setDados(const Dados &dados) {
+    Menu::dados = dados;
+}
+
+
+void Menu::showMenu(Dados &dados) {
     int option = -1;
     do {
         cout << "\nMeetUpRider\n\n";
@@ -19,7 +31,7 @@ void Menu::showMenu() {
         switch (option)
         {
             case 1:
-                if (this->visualizeGraph() != 0) {
+                if (this->visualizeGraph(dados) != 0) {
                     cout << "Error visualizing graph\n";
                     exit(1);
                 }
@@ -48,30 +60,52 @@ void Menu::showMenu() {
     } while (option != 0);
 }
 
-int Menu::visualizeGraph() {
-        int width = 600;
-        int height = 600;
+void graph_to_graphviewer(const Graph<Local> &g)
+{
+    int width = 600;
+    int height = 600;
 
-        GraphViewer *gv = new GraphViewer(width, height, false);
-        gv->createWindow(width, height);
-        gv->defineEdgeCurved(false);
-        gv->defineVertexColor("blue");
-        gv->defineEdgeColor("black");
+    GraphViewer *gv = new GraphViewer(width, height, false);
+    gv->createWindow(width, height);
+    gv->defineEdgeCurved(false);
+    gv->defineVertexColor("blue");
+    gv->defineEdgeColor("black");
 
-        parse_nodes(gv, "../mapas/GridGraphs/16x16/nodes.txt");
-        parse_edges(gv, "../mapas/GridGraphs/16x16/edges.txt");
+    parse_nodes(gv, "../mapas/GridGraphs/16x16/nodes.txt");
+    parse_edges(gv, "../mapas/GridGraphs/16x16/edges.txt");
 
-        gv->rearrange();
-
-        return 0;
+    gv->rearrange();
 }
 
-Menu::Menu(const Dados &dados) : dados(dados) {}
+int Menu::visualizeGraph(Dados &dados) {
+    int see = -1;
+    do {
+        cout << "Visualizar grafo:\n";
+        cout << "[1] Visualizar grafo inicial\n";
+        cout << "[2] Visualizar grafo conexo\n";
+        cout << "[3] Visualizar grafo processado\n";
+        cout << "[0] Voltar\n";
+        cin >> see;
 
-const Dados &Menu::getDados() const {
-    return dados;
-}
+        switch (see)
+        {
+            case 1:
+                graph_to_graphviewer(dados.getGrafoInicial());
+                break;
 
-void Menu::setDados(const Dados &dados) {
-    Menu::dados = dados;
+            case 2:
+                graph_to_graphviewer(dados.getGrofoConexo());
+                break;
+
+            case 3:
+                graph_to_graphviewer(dados.getGrafoProcessado());
+                break;
+
+            case 0:
+                break;
+
+            default:
+                break;
+        }
+    } while (see != 0);
 }
