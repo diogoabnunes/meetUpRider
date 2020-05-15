@@ -169,3 +169,27 @@ int Dados::visualizeGraph() {
     } while (see != 0);
     return 0;
 }
+/*
+
+void Dados::processarGrafo() {
+    cout << "Dfs a partir do ponto de partida do condutor." << endl;
+    wholeMapGraph.dfs(NodeInfo(driver.getSourceNodeID()));
+    cout << "Done." << endl;
+
+    Vertex *destVertex = wholeMapGraph.findVertex(NodeInfo(driverDestNodeID));
+
+    if (!destVertex->isVisited()) {
+
+        cout << "The driver's destination isn't reachable from his starting position. Exiting..." << endl;
+        return;
+    }
+
+    cout << "Building achievable from driver graph..." << endl;
+    wholeMapGraph.buildAchievableGraph(graphAfterDFS);
+    cout << "Done." << endl;
+    cout << "Processing graph..." << endl;
+    graphAfterDFS.processGraph(fwGraph, driver);
+    cout << "Done." << endl;
+
+}
+*/

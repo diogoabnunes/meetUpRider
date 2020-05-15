@@ -53,6 +53,8 @@ public:
     int visualizeGraph();
 
     void addPessoatoLocal();
+
+    void processarGrafo();
 };
 
 
