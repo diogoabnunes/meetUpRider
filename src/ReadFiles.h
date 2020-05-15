@@ -20,11 +20,11 @@
 #include "Local.h"
 using namespace std;
 
-void initGraph();
+void initGraph(Graph<Local> &g);
 
 vector<Pessoa*>readUsers(string filename,  vector<Condutor*>&cond);
 
-vector<Automovel> readCarros(string filename);
+vector<Automovel*> readCarros(string filename);
 
 void parse_nodes(GraphViewer *gv, string file);
 void parse_nodes(Graph<Local> *g, string file);

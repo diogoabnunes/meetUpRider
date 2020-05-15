@@ -4,8 +4,7 @@
 
 #include "ReadFiles.h"
 
-void initGraph() {
-    Graph<Local> g;
+void initGraph(Graph<Local> &g) {
     parse_nodes(&g, "../mapas/GridGraphs/16x16/nodes.txt");
     parse_edges(&g, "../mapas/GridGraphs/16x16/edges.txt");
 }
@@ -37,8 +36,8 @@ vector<Pessoa *> readUsers(string filename, vector<Condutor*>&cond) {
     return pessoas;
 }
 
-vector<Automovel> readCarros(string filename){
-    vector<Automovel>carros;
+vector<Automovel *> readCarros(string filename){
+    vector<Automovel*>carros;
     ifstream file;
     file.open(filename);
     if(!file.fail()){
@@ -46,8 +45,8 @@ vector<Automovel> readCarros(string filename){
         while (!file.eof()){
             getline(file,line);
             auto l=split(line,";");
-            carros.push_back(Automovel(stoi(l[0]),stoi(l[1])));
-
+            Automovel *a = new Automovel(stoi(l[0]),stoi(l[1]));
+            carros.push_back(a);
         }
     }
     file.close();
@@ -77,7 +76,7 @@ void parse_nodes(GraphViewer *gv, string file) {
         }
         nos.close();
     }
-    cout << "nos readed\n";
+    cout << "nos read\n";
 }
 
 void parse_nodes(Graph<Local> *g, string file) {
@@ -101,7 +100,7 @@ void parse_nodes(Graph<Local> *g, string file) {
         }
         nos.close();
     }
-    cout << "nos readed\n";
+    cout << "nos read\n";
 }
 
 void parse_edges(GraphViewer *gv, string file) {
@@ -125,7 +124,7 @@ void parse_edges(GraphViewer *gv, string file) {
         }
         arestas.close();
     }
-    cout << "arestas readed\n";
+    cout << "arestas read\n";
 }
 
 void parse_edges(Graph<Local> *g, string file) {
@@ -148,5 +147,5 @@ void parse_edges(Graph<Local> *g, string file) {
         }
         arestas.close();
     }
-    cout << "arestas readed\n";
+    cout << "arestas read\n";
 }
