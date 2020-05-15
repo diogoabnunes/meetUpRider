@@ -46,6 +46,8 @@ public:
 
     Pessoa* searchPessoa(int id);
 
+    Local searchLocal(int id);
+
     void addPessoa();
 
     void graph_to_graphviewer(Graph<Local> &g);

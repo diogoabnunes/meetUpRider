@@ -28,7 +28,14 @@ class Vertex {
 	bool visited;          // auxiliary field
 	double dist = 0;
 	Vertex<T> *path = nullptr;
-	int queueIndex = 0; 		// required by MutablePriorityQueue
+	int queueIndex = 0;
+public:
+    int getQueueIndex() const;
+
+    void setQueueIndex(int queueIndex);
+
+private:
+    // required by MutablePriorityQueue
 
 	void addEdge(Vertex<T> *dest, double w);
 
@@ -42,6 +49,8 @@ public:
 	Vertex *getPath() const;
 
     void setInfo(T info);
+
+    bool isVisited() const;
 
     friend class Graph<T>;
 	friend class MutablePriorityQueue<Vertex<T>>;
@@ -146,7 +155,7 @@ public:
 
 	//FP04 -DFS
     void dfsVisit(Vertex<T> *v,  vector<T> & res) const;
-    vector<T> dfs() const;
+    vector<T> dfs(T v) const;
 
 	// Fp05 - single source
 	void dijkstraShortestPath(const T &s);
@@ -169,12 +178,31 @@ public:
 	//for the project
     void getGrafoConexo(Graph<T> & graph);
 
+    double **getW() const;
+
+    void setW(double **w);
+
 
 };
 
 template<class T>
 void Vertex<T>::setInfo(T info) {
     Vertex::info = info;
+}
+
+template<class T>
+bool Vertex<T>::isVisited() const {
+    return visited;
+}
+
+template<class T>
+int Vertex<T>::getQueueIndex() const {
+    return queueIndex;
+}
+
+template<class T>
+void Vertex<T>::setQueueIndex(int queueIndex) {
+    Vertex::queueIndex = queueIndex;
 }
 
 template<class T>
@@ -425,15 +453,11 @@ vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
 
 
 template <class T>
-vector<T> Graph<T>::dfs() const {
+vector<T> Graph<T>::dfs(T v) const {
 
     vector<T> res;
     for(auto it=vertexSet.begin();it<vertexSet.end();it++)(*it)->visited= false;
-    for(auto & v:vertexSet){
-        if (!v->visited){
-            dfsVisit(v,res);
-        }
-    }
+    dfsVisit(findVertex(v),res);
     return res;
 }
 
@@ -460,8 +484,8 @@ void Graph<T>::getGrafoConexo(Graph<T>& graph) {
         if (vertexSet.at(i)->visited) {
             graph.addVertex(vertexSet.at(i)->info);
             for (int j = 0; j < vertexSet.at(i)->adj.size(); j++) {
-                graph.addEdge(vertexSet.at(i)->adj.at(j).orig->info, vertexSet.at(i)->adj.at(j).dest->info, vertexSet.at(i)->adj.at(j).info);
-                graph.addEdge(vertexSet.at(i)->adj.at(j).dest->info,vertexSet.at(i)->adj.at(j).orig->info, vertexSet.at(i)->adj.at(j).info);
+                graph.addEdge(vertexSet.at(i)->adj.at(j).orig->info, vertexSet.at(i)->adj.at(j).dest->info,0);
+                graph.addEdge(vertexSet.at(i)->adj.at(j).dest->info,vertexSet.at(i)->adj.at(j).orig->info,0);
             }
         }
     }
@@ -469,8 +493,15 @@ void Graph<T>::getGrafoConexo(Graph<T>& graph) {
 
 }
 
+template<class T>
+double **Graph<T>::getW() const {
+    return W;
+}
 
-
+template<class T>
+void Graph<T>::setW(double **w) {
+    W = w;
+}
 
 
 #endif /* GRAPH_H_ */

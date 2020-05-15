@@ -43,6 +43,7 @@ void Menu::showMenu(Dados &dados) {
                 break;
 
             case 5:
+                dados.processarGrafo();
                 //runAlgorithm();
                 break;
 

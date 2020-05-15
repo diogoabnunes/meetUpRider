@@ -75,6 +75,13 @@ Pessoa* Dados::searchPessoa(int id) {
     return NULL;
 }
 
+Local Dados::searchLocal(int id) {
+    for(auto l :grafoInicial.getVertexSet()){
+        if(l->getInfo().getId()==id){
+            return l->getInfo();
+        }
+    }
+}
 
 void Dados::addPessoatoLocal() {
     for(auto & l:grafoInicial.getVertexSet()){
@@ -172,24 +179,37 @@ int Dados::visualizeGraph() {
 
 
 void Dados::processarGrafo() {
-    cout << "Dfs a partir do ponto de partida do condutor." << endl;
-    grafoInicial.dfs();
-    cout << "Done." << endl;
-
-    Vertex *destVertex = wholeMapGraph.findVertex(NodeInfo(driverDestNodeID));
-
-    if (!destVertex->isVisited()) {
-
-        cout << "The driver's destination isn't reachable from his starting position. Exiting..." << endl;
-        return;
+    cout << "Dfs a partir do ponto de partida do condutor... " ;
+    grafoInicial.dfs(condutores[0]->getOrigem());
+    cout << "Concluido" << endl;
+    auto destino =grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
+    if (!destino->isVisited()) {
+        cout << "O destino do condutor nao e atingivel a partir da sua origem. " << endl;
+        exit(0);
     }
+    cout << "A obter o grafo conexo... ";
+    grafoInicial.getGrafoConexo(grafoConexo);
+    cout << "Concluido" << endl;
+    cout << "A processar o grafo... " ;
 
-    cout << "Building achievable from driver graph..." << endl;
-    wholeMapGraph.buildAchievableGraph(graphAfterDFS);
-    cout << "Done." << endl;
-    cout << "Processing graph..." << endl;
-    graphAfterDFS.processGraph(fwGraph, driver);
-    cout << "Done." << endl;
+    grafoConexo.floydWarshallShortestPath();
+    int i=0;
+    for (i = 0; i < grafoConexo.getVertexSet().size(); i++) {
+        grafoConexo.getVertexSet()[i]->setQueueIndex(i);
+        //caso o local seja partida ou chegada de algum cliente
+        if (!grafoConexo.getVertexSet()[i]->getInfo().getPartida().empty() || !grafoConexo.getVertexSet()[i]->getInfo().getChegada().empty()) {
+            grafoProcessado.addVertex(grafoConexo.getVertexSet()[i]->getInfo());
+            grafoProcessado.findVertex(grafoConexo.getVertexSet()[i]->getInfo())->setQueueIndex(i);
+        }
+    }
+    // add the driver origin and destination node
+    grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()))->getInfo());
+    grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()))->getInfo());
+    grafoProcessado.setW(grafoConexo.getW());
+
+    cout << "Concluido" << endl;
 
 }
+
+
 
