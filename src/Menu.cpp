@@ -64,16 +64,22 @@ void graph_to_graphviewer(const Graph<Local> &g)
 {
     int width = 600;
     int height = 600;
-
     GraphViewer *gv = new GraphViewer(width, height, false);
     gv->createWindow(width, height);
     gv->defineEdgeCurved(false);
     gv->defineVertexColor("blue");
     gv->defineEdgeColor("black");
 
-    parse_nodes(gv, "../mapas/GridGraphs/16x16/nodes.txt");
-    parse_edges(gv, "../mapas/GridGraphs/16x16/edges.txt");
-
+    int idEdge = 0;
+    for (auto v : g.getVertexSet())
+    {
+        gv->addNode(v->getInfo().getId(), v->getInfo().getX(), v->getInfo().getY());
+        gv->setVertexLabel(v->getInfo().getId(), to_string(v->getInfo().getId()));
+        for (auto a : v->getAdj())
+        {
+            gv->addEdge(idEdge++, v->getInfo().getId(), a.getDest()->getInfo().getId(), 0);
+        }
+    }
     gv->rearrange();
 }
 
@@ -108,4 +114,5 @@ int Menu::visualizeGraph(Dados &dados) {
                 break;
         }
     } while (see != 0);
+    return 0;
 }

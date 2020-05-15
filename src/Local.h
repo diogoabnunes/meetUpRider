@@ -20,6 +20,14 @@ public:
 
     bool operator!=(const Local &rhs) const;
 
+    int getX() const;
+
+    void setX(int x);
+
+    int getY() const;
+
+    void setY(int y);
+
 private:
     int id;
     int x;

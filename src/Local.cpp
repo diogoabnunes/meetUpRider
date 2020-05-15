@@ -23,3 +23,19 @@ bool Local::operator==(const Local &rhs) const {
 bool Local::operator!=(const Local &rhs) const {
     return !(rhs == *this);
 }
+
+int Local::getX() const {
+    return x;
+}
+
+void Local::setX(int x) {
+    Local::x = x;
+}
+
+int Local::getY() const {
+    return y;
+}
+
+void Local::setY(int y) {
+    Local::y = y;
+}
