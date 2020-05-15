@@ -5,7 +5,10 @@
 
 using namespace std;
 
-void Menu::showMenu() {
+
+Menu::Menu() {}
+
+void Menu::showMenu(Dados &dados) {
     int option = -1;
     do {
         cout << "\nMeetUpRider\n\n";
@@ -13,13 +16,15 @@ void Menu::showMenu() {
         cout << "[2] Visualizar informação de uma pessoa específica\n";
         cout << "[3] Adicionar pessoa\n";
         cout << "[4] Remover pessoa\n";
+        cout << "[5] Correr algoritmo\n";
+        cout << "[6] Analisar complexidade\n";
         cout << "[0] Terminar programa\n";
         cin >> option;
 
         switch (option)
         {
             case 1:
-                if (this->visualizeGraph() != 0) {
+                if (dados.visualizeGraph() != 0) {
                     cout << "Error visualizing graph\n";
                     exit(1);
                 }
@@ -30,11 +35,19 @@ void Menu::showMenu() {
                 break;
 
             case 3:
-                //addPessoa();
+                dados.addPessoa();
                 break;
 
             case 4:
                 //delPessoa();
+                break;
+
+            case 5:
+                //runAlgorithm();
+                break;
+
+            case 6:
+                //analiseComplexity();
                 break;
 
             case 0:
@@ -46,32 +59,5 @@ void Menu::showMenu() {
                 break;
         }
     } while (option != 0);
-}
-
-int Menu::visualizeGraph() {
-        int width = 600;
-        int height = 600;
-
-        GraphViewer *gv = new GraphViewer(width, height, false);
-        gv->createWindow(width, height);
-        gv->defineEdgeCurved(false);
-        gv->defineVertexColor("blue");
-        gv->defineEdgeColor("black");
-
-        parse_nodes(gv, "../mapas/GridGraphs/16x16/nodes.txt");
-        parse_edges(gv, "../mapas/GridGraphs/16x16/edges.txt");
-
-        gv->rearrange();
-
-        return 0;
-}
-
-Menu::Menu(const Dados &dados) : dados(dados) {}
-
-const Dados &Menu::getDados() const {
-    return dados;
-}
-
-void Menu::setDados(const Dados &dados) {
-    Menu::dados = dados;
+    // atualizar ficheiro users.txt caso haja alterações
 }

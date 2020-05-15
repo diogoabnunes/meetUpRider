@@ -16,16 +16,10 @@
 using namespace std;
 
 int main() {
-    Graph<Local> graph;
-    initGraph(graph);
-    vector<Condutor*> r;
-    vector<Pessoa*> v=readUsers("../resources/users.txt",r);
-    vector<Automovel *> c=readCarros("../resources/cars.txt");
 
-    Dados *dados= new Dados(graph,r,v,c);
-
+    Dados *dados= new Dados();
     Menu menu;
-    menu.showMenu();
+    menu.showMenu(*dados);
 
     return 0;
 }

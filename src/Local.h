@@ -6,6 +6,8 @@
 #define MEETUPRIDER_LOCAL_H
 
 
+#include "Pessoa.h"
+
 class Local {
 public:
     Local(int id, int x, int y);
@@ -20,11 +22,28 @@ public:
 
     bool operator!=(const Local &rhs) const;
 
+    int getX() const;
+
+    void setX(int x);
+
+    int getY() const;
+
+    void setY(int y);
+
+    const vector<Pessoa*> & getPartida() const;
+
+    void setPartida(const vector<Pessoa*> & partida);
+
+    const vector<Pessoa*> & getChegada() const;
+
+    void setChegada(const vector<Pessoa*> & chegada);
+
 private:
     int id;
     int x;
     int y;
-
+    vector<Pessoa*>partida;
+    vector<Pessoa*>chegada;
 };
 
 

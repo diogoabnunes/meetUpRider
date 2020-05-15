@@ -23,3 +23,37 @@ bool Local::operator==(const Local &rhs) const {
 bool Local::operator!=(const Local &rhs) const {
     return !(rhs == *this);
 }
+
+int Local::getX() const {
+    return x;
+}
+
+void Local::setX(int x) {
+    Local::x = x;
+}
+
+int Local::getY() const {
+    return y;
+}
+
+void Local::setY(int y) {
+    Local::y = y;
+}
+
+const vector<Pessoa*> & Local::getPartida() const{
+return
+partida;
+}
+
+void Local::setPartida(const vector<Pessoa*> & partida) {
+    Local::partida = partida;
+}
+
+const vector<Pessoa*> & Local::getChegada() const{
+return
+chegada;
+}
+
+void Local::setChegada(const vector<Pessoa*> & chegada) {
+    Local::chegada = chegada;
+}

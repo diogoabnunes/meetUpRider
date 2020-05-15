@@ -14,14 +14,14 @@ using namespace std;
 
 class Dados {
     Graph<Local> grafoInicial;
-    Graph<Local> grofoConexo;
+    Graph<Local> grafoConexo;
     Graph<Local> grafoProcessado;
     vector<Condutor*> condutores;
     vector<Pessoa*> pessoas;
     vector<Automovel*> carros;
 
 public:
-    Dados(Graph<Local> grafo,vector<Condutor*> condutores ,vector<Pessoa*> pessoas, vector<Automovel *> carros);
+    Dados();
 
     vector<Condutor*> getCondutores();
     vector<Pessoa*> getPessoas();
@@ -36,13 +36,23 @@ public:
 
     void setGrafoInicial(const Graph<Local> &grafoInicial);
 
-    const Graph<Local> &getGrofoConexo() const;
+    const Graph<Local> &getGrafoConexo() const;
 
-    void setGrofoConexo(const Graph<Local> &grofoConexo);
+    void setGrafoConexo(const Graph<Local> &grafoConexo);
 
     const Graph<Local> &getGrafoProcessado() const;
 
     void setGrafoProcessado(const Graph<Local> &grafoProcessado);
+
+    Pessoa* searchPessoa(int id);
+
+    void addPessoa();
+
+    void graph_to_graphviewer(Graph<Local> &g);
+
+    int visualizeGraph();
+
+    void addPessoatoLocal();
 };
 
 

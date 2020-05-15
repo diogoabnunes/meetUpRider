@@ -37,6 +37,7 @@ public:
 	Vertex(T in);
 	bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 	T getInfo() const;
+    const vector<Edge<T>> &getAdj() const;
 	double getDist() const;
 	Vertex *getPath() const;
 	friend class Graph<T>;
@@ -66,6 +67,11 @@ T Vertex<T>::getInfo() const {
 	return this->info;
 }
 
+template<class T>
+const vector<Edge<T>> &Vertex<T>::getAdj() const {
+    return adj;
+}
+
 template <class T>
 double Vertex<T>::getDist() const {
 	return this->dist;
@@ -93,6 +99,16 @@ public:
 
 	// Fp07
 	double getWeight() const;
+
+    Vertex<T> *getOrig() const;
+
+    void setOrig(Vertex<T> *orig);
+
+    Vertex<T> *getDest() const;
+
+    void setDest(Vertex<T> *dest);
+
+    void setWeight(double weight);
 };
 
 template <class T>
@@ -148,6 +164,31 @@ public:
 
 
 };
+
+template<class T>
+Vertex<T> *Edge<T>::getOrig() const {
+    return orig;
+}
+
+template<class T>
+void Edge<T>::setOrig(Vertex<T> *orig) {
+    Edge::orig = orig;
+}
+
+template<class T>
+Vertex<T> *Edge<T>::getDest() const {
+    return dest;
+}
+
+template<class T>
+void Edge<T>::setDest(Vertex<T> *dest) {
+    Edge::dest = dest;
+}
+
+template<class T>
+void Edge<T>::setWeight(double weight) {
+    Edge::weight = weight;
+}
 
 
 template <class T>
