@@ -46,6 +46,9 @@ public:
     void addPessoatoLocal();
 
     void processarGrafo();
+
+    int runAlgorithm();
+
 };
 
 

@@ -177,6 +177,8 @@ int Dados::visualizeGraph() {
     } while (see != 0);
     return 0;
 }
+
+
 /*
 
 void Dados::processarGrafo() {
@@ -199,5 +201,42 @@ void Dados::processarGrafo() {
     graphAfterDFS.processGraph(fwGraph, driver);
     cout << "Done." << endl;
 
+}*/
+
+
+int Dados::runAlgorithm() {
+    int option;
+
+    do {
+        cout << "\nIterações\n\n";
+        cout << "[1] 1ª Iteração\n";
+        cout << "[2] 2ª Iteração\n";
+        cout << "[3] 3ª Iteração\n";
+        cout << "[0] Back\n";
+        cin >> option;
+
+        switch(option){
+            case 1:
+                //Iteracao 1
+                break;
+
+            case 2:
+                //Iteracao 2
+                break;
+
+            case 3:
+                //Iteracao 3
+                break;
+
+            case 0:
+                break;
+
+            default:
+                option = -1;
+                cout << "Choose a valid number\n";
+                break;
+        }
+    }while(option!=0);
+
+    return 0;
 }
-*/
