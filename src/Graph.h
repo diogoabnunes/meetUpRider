@@ -144,6 +144,10 @@ public:
 	int getNumVertex() const;
 	vector<Vertex<T> *> getVertexSet() const;
 
+	//FP04 -DFS
+    void dfsVisit(Vertex<T> *v,  vector<T> & res) const;
+    vector<T> dfs() const;
+
 	// Fp05 - single source
 	void dijkstraShortestPath(const T &s);
 	void unweightedShortestPath(const T &s);
@@ -418,6 +422,36 @@ vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
 	reverse(res.begin(), res.end());
 	return res;
 }
+
+
+template <class T>
+vector<T> Graph<T>::dfs() const {
+
+    vector<T> res;
+    for(auto it=vertexSet.begin();it<vertexSet.end();it++)(*it)->visited= false;
+    for(auto & v:vertexSet){
+        if (!v->visited){
+            dfsVisit(v,res);
+        }
+    }
+    return res;
+}
+
+/*
+ * Auxiliary function that visits a vertex (v) and its adjacent not yet visited, recursively.
+ * Updates a parameter with the list of visited node contents.
+ */
+template <class T>
+void Graph<T>::dfsVisit(Vertex<T> *v, vector<T> & res) const {
+    v->visited=true;
+    res.push_back(v->info);
+    for(auto & e:v->adj){
+        if(!e.dest->visited){
+            dfsVisit(e.dest,res);
+        }
+    }
+}
+
 
 template<class T>
 void Graph<T>::getGrafoConexo(Graph<T>& graph) {

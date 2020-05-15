@@ -169,11 +169,11 @@ int Dados::visualizeGraph() {
     } while (see != 0);
     return 0;
 }
-/*
+
 
 void Dados::processarGrafo() {
     cout << "Dfs a partir do ponto de partida do condutor." << endl;
-    wholeMapGraph.dfs(NodeInfo(driver.getSourceNodeID()));
+    grafoInicial.dfs();
     cout << "Done." << endl;
 
     Vertex *destVertex = wholeMapGraph.findVertex(NodeInfo(driverDestNodeID));
@@ -192,4 +192,4 @@ void Dados::processarGrafo() {
     cout << "Done." << endl;
 
 }
-*/
+
