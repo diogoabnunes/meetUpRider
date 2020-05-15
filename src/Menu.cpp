@@ -94,7 +94,7 @@ int Menu::visualizeGraph(Dados &dados) {
                 break;
 
             case 2:
-                graph_to_graphviewer(dados.getGrofoConexo());
+                graph_to_graphviewer(dados.getGrafoConexo());
                 break;
 
             case 3:

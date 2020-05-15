@@ -46,12 +46,12 @@ void Dados::setGrafoInicial(const Graph<Local> &grafoInicial) {
     Dados::grafoInicial = grafoInicial;
 }
 
-const Graph<Local> &Dados::getGrofoConexo() const {
-    return grofoConexo;
+const Graph<Local> &Dados::getGrafoConexo() const {
+    return grafoConexo;
 }
 
-void Dados::setGrofoConexo(const Graph<Local> &grofoConexo) {
-    Dados::grofoConexo = grofoConexo;
+void Dados::setGrafoConexo(const Graph<Local> &grafoConexo) {
+    Dados::grafoConexo = grafoConexo;
 }
 
 const Graph<Local> &Dados::getGrafoProcessado() const {

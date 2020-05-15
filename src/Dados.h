@@ -14,7 +14,7 @@ using namespace std;
 
 class Dados {
     Graph<Local> grafoInicial;
-    Graph<Local> grofoConexo;
+    Graph<Local> grafoConexo;
     Graph<Local> grafoProcessado;
     vector<Condutor*> condutores;
     vector<Pessoa*> pessoas;
@@ -36,9 +36,9 @@ public:
 
     void setGrafoInicial(const Graph<Local> &grafoInicial);
 
-    const Graph<Local> &getGrofoConexo() const;
+    const Graph<Local> &getGrafoConexo() const;
 
-    void setGrofoConexo(const Graph<Local> &grofoConexo);
+    void setGrafoConexo(const Graph<Local> &grafoConexo);
 
     const Graph<Local> &getGrafoProcessado() const;
 
