@@ -9,8 +9,6 @@
 #include "Time.h"
 
 class Pessoa {
-
-
 protected:
     int id;
     int origem;
