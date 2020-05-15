@@ -6,18 +6,9 @@
 
 
 class Menu {
-private:
-    Dados dados;
 public:
-    const Dados &getDados() const;
-
-    void setDados(const Dados &dados);
-
-public:
-    Menu(const Dados &dados);
-
+    Menu();
     void showMenu(Dados &dados);
-    int visualizeGraph(Dados &dados);
 };
 
 

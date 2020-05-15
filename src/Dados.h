@@ -43,6 +43,14 @@ public:
     const Graph<Local> &getGrafoProcessado() const;
 
     void setGrafoProcessado(const Graph<Local> &grafoProcessado);
+
+    Pessoa* searchPessoa(int id);
+
+    void addPessoa();
+
+    void graph_to_graphviewer(Graph<Local> &g);
+
+    int visualizeGraph();
 };
 
 

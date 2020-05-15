@@ -18,7 +18,7 @@ using namespace std;
 int main() {
 
     Dados *dados= new Dados();
-    Menu menu(*dados);
+    Menu menu;
     menu.showMenu(*dados);
 
     return 0;
