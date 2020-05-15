@@ -140,6 +140,13 @@ public:
     bool addBidirectionalEdge(const T &sourc, const T &dest, double w);
 	vector<Vertex<T>*> calculatePrim();
 	vector<Vertex<T>*> calculateKruskal();
+
+
+
+	//for the project
+    void getGrafoConexo(Graph<T> & graph);
+
+
 };
 
 
@@ -362,6 +369,24 @@ vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
 	reverse(res.begin(), res.end());
 	return res;
 }
+
+template<class T>
+void Graph<T>::getGrafoConexo(Graph<T>& graph) {
+
+    for (int i = 0; i < this->vertexSet.size(); i++) {
+        if (vertexSet.at(i)->visited) {
+            graph.addVertex(vertexSet.at(i)->info);
+            for (int j = 0; j < vertexSet.at(i)->adj.size(); j++) {
+                graph.addEdge(vertexSet.at(i)->adj.at(j).orig->info, vertexSet.at(i)->adj.at(j).dest->info, vertexSet.at(i)->adj.at(j).info);
+                graph.addEdge(vertexSet.at(i)->adj.at(j).dest->info,vertexSet.at(i)->adj.at(j).orig->info, vertexSet.at(i)->adj.at(j).info);
+            }
+        }
+    }
+
+
+}
+
+
 
 
 
