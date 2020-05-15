@@ -2,7 +2,7 @@
 
 Dados::Dados() {
     Graph<Local> graph;
-    initGraph(graph);
+    initGraph(graph, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt");
     vector<Condutor*> r;
     vector<Pessoa*> v=readUsers("../resources/users.txt",r);
     vector<Automovel *> c=readCarros("../resources/cars.txt");
@@ -84,11 +84,19 @@ void Dados::addPessoa() {
     cout << "Origem: "; cin >> origem;
     cout << "Destino: "; cin >> destino;
     int horas, minutos;
-    cout << "Partida:\nHoras: "; cin >> horas;
-    cout << "Minutos: "; cin >> minutos;
+    do {
+        cout << "Partida:\nHoras: "; cin >> horas;
+    } while (horas >= 24);
+    do {
+        cout << "Minutos: "; cin >> minutos;
+    } while (minutos >= 60);
     Time t1(horas, minutos);
-    cout << "Chegada:\nHoras: "; cin >> horas;
-    cout << "Minutos: "; cin >> minutos;
+    do {
+        cout << "Partida:\nHoras: "; cin >> horas;
+    } while (horas >= 24);
+    do {
+        cout << "Minutos: "; cin >> minutos;
+    } while (minutos >= 60);
     Time t2(horas, minutos);
 
     Pessoa* p = new Pessoa(id, origem, destino, t1, t2);
