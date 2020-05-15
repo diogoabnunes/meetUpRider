@@ -12,6 +12,7 @@ Dados::Dados() {
     this->pessoas=v;
     this->carros=c;
     addPessoatoLocal();
+    cout<<grafoInicial.getVertexSet()[2]->getInfo().getChegada().size();
 }
 
 vector<Condutor *> Dados::getCondutores() {
@@ -77,14 +78,16 @@ Pessoa* Dados::searchPessoa(int id) {
 
 void Dados::addPessoatoLocal() {
     for(auto & l:grafoInicial.getVertexSet()){
+        auto local=l->getInfo();
         vector<Pessoa*>partida;
         vector<Pessoa*>chegada;
         for(auto & p:pessoas){
             if(p->getOrigem()==l->getInfo().getId())partida.push_back(p);
             else if(p->getDestino()==l->getInfo().getId())chegada.push_back(p);
         }
-        l->getInfo().setChegada(chegada);
-        l->getInfo().setPartida(partida);
+        local.setChegada(chegada);
+        local.setPartida(partida);
+        l->setInfo(local);
     }
 }
 

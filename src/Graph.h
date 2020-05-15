@@ -40,7 +40,10 @@ public:
     const vector<Edge<T>> &getAdj() const;
 	double getDist() const;
 	Vertex *getPath() const;
-	friend class Graph<T>;
+
+    void setInfo(T info);
+
+    friend class Graph<T>;
 	friend class MutablePriorityQueue<Vertex<T>>;
 };
 
@@ -164,6 +167,11 @@ public:
 
 
 };
+
+template<class T>
+void Vertex<T>::setInfo(T info) {
+    Vertex::info = info;
+}
 
 template<class T>
 Vertex<T> *Edge<T>::getOrig() const {
