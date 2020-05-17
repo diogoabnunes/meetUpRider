@@ -1,7 +1,7 @@
 //
 // Created by clara on 08/05/2020.
 //
-
+#pragma once
 #ifndef MEETUPRIDER_PESSOA_H
 #define MEETUPRIDER_PESSOA_H
 

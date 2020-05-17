@@ -1,7 +1,7 @@
 //
 // Created by clara on 12/05/2020.
 //
-
+#pragma once
 #ifndef MEETUPRIDER_LOCAL_H
 #define MEETUPRIDER_LOCAL_H
 
@@ -37,6 +37,8 @@ public:
     const vector<Pessoa*> & getChegada() const;
 
     void setChegada(const vector<Pessoa*> & chegada);
+
+    double distance( Local dest) ;
 
 private:
     int id;

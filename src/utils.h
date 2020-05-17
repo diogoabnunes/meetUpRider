@@ -8,10 +8,12 @@
 #include <iostream>
 #include <string>
 #include <vector>
+#include <cmath>
 using namespace std;
 
 vector<string> split(const string& str, const string& delim);
 
+//double distance(Local & sourc, Local & dest);
 
 
 #endif //MEETUPRIDER_UTILS_H

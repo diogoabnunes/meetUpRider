@@ -21,7 +21,13 @@ vector<string> split(const string& str, const string& delim)
     return tokens;
 }
 
+/*double distance(Local &sourc, Local &dest) {
+    return sqrt(pow(sourc.getX()-dest.getX(),2)+pow(sourc.getY()-dest.getY(),2));
+}*/
+
 void wait() {
     cout << "ENTER to continue";
     getchar();
 }
+
+

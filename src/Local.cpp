@@ -57,3 +57,11 @@ chegada;
 void Local::setChegada(const vector<Pessoa*> & chegada) {
     Local::chegada = chegada;
 }
+
+double Local::distance(Local dest) {
+
+    double dist=sqrt(pow(getX()-dest.getX(),2)+pow(getY()-dest.getY(),2));
+    //cout<<dist<<endl;
+    return dist;
+
+}
