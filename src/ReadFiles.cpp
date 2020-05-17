@@ -59,8 +59,8 @@ void parse_nodes(Graph<Local> *g, string file) {
     if (nos.is_open())
     {
         string line;  char useless;
-        int idNo;
-        double x, y;
+        long int idNo;
+        long double x, y;
         getline(nos, line); // number of nodes
         while (getline(nos, line))
         {
@@ -83,9 +83,8 @@ void parse_edges(Graph<Local> *g, string file) {
     ifstream arestas(file);
     if (arestas.is_open())
     {
-        int idAresta = 0;
         string line; char useless;
-        int idNoOrigem, idNoDestino;
+        long int idNoOrigem, idNoDestino;
         getline(arestas, line); // number of edges
         while (getline(arestas, line))
         {

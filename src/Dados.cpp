@@ -277,3 +277,7 @@ void Dados::changeGraph(string nodes, string edges) {
     // obter novos grafo simplificado e processado ou delete?
 
 }
+
+void Dados::setRealMap(bool real) {
+    Dados::real = real;
+}

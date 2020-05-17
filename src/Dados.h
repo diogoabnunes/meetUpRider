@@ -18,6 +18,11 @@ class Dados {
     vector<Condutor*> condutores;
     vector<Pessoa*> pessoas;
     vector<Automovel*> carros;
+    bool real = false;
+public:
+    bool isReal() const;
+
+    void setReal(bool real);
 
 public:
     Dados();
