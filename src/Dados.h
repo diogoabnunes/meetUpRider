@@ -15,20 +15,24 @@ class Dados {
     Graph<Local> grafoInicial;
     Graph<Local> grafoConexo;
     Graph<Local> grafoProcessado;
-    vector<Condutor*> condutores;
+    vector<Condutor> condutores;
     vector<Pessoa*> pessoas;
-    vector<Automovel*> carros;
+    vector<Automovel> carros;
+    bool real;
+public:
+    bool isReal() const;
+    void setReal(bool real);
 
 public:
     Dados();
 
-    vector<Condutor*> getCondutores();
+    vector<Condutor> getCondutores();
     vector<Pessoa*> getPessoas();
-    vector<Automovel *> getAutomoveis();
+    vector<Automovel> getAutomoveis();
 
-    void setCondutores(vector<Condutor *> condutores);
-    void setPessoas(vector<Pessoa *> pessoas);
-    void setAutomoveis(vector<Automovel *> carros);
+    void setCondutores(vector<Condutor> condutores);
+    void setPessoas(vector<Pessoa*> pessoas);
+    void setAutomoveis(vector<Automovel> carros);
 
     const Graph<Local> &getGrafoInicial() const;
     void setGrafoInicial(const Graph<Local> &grafoInicial);
@@ -38,24 +42,18 @@ public:
     void setGrafoProcessado(const Graph<Local> &grafoProcessado);
 
     Pessoa* searchPessoa(int id);
-
     Local searchLocal(int id);
-
     void addPessoa();
 
     void graph_to_graphviewer(Graph<Local> &g);
-
     int visualizeGraph();
 
     void addPessoatoLocal();
 
     void processarGrafo();
-
-
     void runIter1(int distMax);
-
-
     int runAlgorithm();
+
     void changeGraph(string nodes,string edges,bool real);
 };
 

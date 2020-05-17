@@ -1,7 +1,3 @@
-//
-// Created by clara on 08/05/2020.
-//
-
 #include "Time.h"
 
 int Time::getHour() const {
@@ -22,9 +18,12 @@ void Time::setMinutes(int minutes) {
 
 Time::Time(int hour, int minutes) : hour(hour), minutes(minutes) {}
 
-Time::Time() {hour=-1; minutes=-1;}
+Time::Time() {
+    hour=-1;
+    minutes=-1;
+}
 
-Time::Time(string& t) {
+Time::Time(string &t) {
     auto time=split(t,"h");
     hour=stoi(time[0]);
     minutes=stoi(time[1]);

@@ -1,7 +1,3 @@
-//
-// Created by clara on 12/05/2020.
-//
-
 #include "Local.h"
 
 int Local::getId() const {
@@ -15,14 +11,6 @@ void Local::setId(int id) {
 Local::Local(int id, int x, int y) : id(id), x(x), y(y) {}
 
 Local::Local(int id) : id(id) {}
-
-bool Local::operator==(const Local &rhs) const {
-    return id == rhs.id;
-}
-
-bool Local::operator!=(const Local &rhs) const {
-    return !(rhs == *this);
-}
 
 int Local::getX() const {
     return x;
@@ -40,20 +28,27 @@ void Local::setY(int y) {
     Local::y = y;
 }
 
-const vector<Pessoa*> & Local::getPartida() const{
-return
-partida;
+const vector<Pessoa> Local::getPartida() const {
+    return partida;
 }
 
-void Local::setPartida(const vector<Pessoa*> & partida) {
-    Local::partida = partida;
+void Local::setPartida(const vector<Pessoa> partida) {
+    this->partida = partida;
 }
 
-const vector<Pessoa*> & Local::getChegada() const{
-return
-chegada;
+const vector<Pessoa> Local::getChegada() const {
+    return chegada;
 }
 
-void Local::setChegada(const vector<Pessoa*> & chegada) {
-    Local::chegada = chegada;
+void Local::setChegada(const vector<Pessoa> chegada) {
+    this->chegada = chegada;
+}
+
+
+bool Local::operator==(const Local &rhs) const {
+    return id == rhs.id;
+}
+
+bool Local::operator!=(const Local &rhs) const {
+    return !(rhs == *this);
 }

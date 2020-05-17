@@ -89,31 +89,37 @@ void Menu::chooseMap(Dados & dados) {
         case 1:
             nodes="../mapas/GridGraphs/16x16/nodes.txt";
             edges="../mapas/GridGraphs/16x16/edges.txt";
+            dados.setReal(false);
             dados.changeGraph(nodes,edges,false);
             break;
         case 2:
             nodes="../mapas/PortugalMaps/Braga/nodes_x_y_braga.txt";
             edges="../mapas/PortugalMaps/Braga/edges_braga.txt";
+            dados.setReal(true);
             dados.changeGraph(nodes,edges,true);
             break;
         case 3:
             nodes="../mapas/PortugalMaps/Lisboa/nodes_x_y_lisboa.txt";
             edges="../mapas/PortugalMaps/Lisboa/edges_lisboa.txt";
+            dados.setReal(true);
             dados.changeGraph(nodes,edges,true);
             break;
         case 4:
             nodes="../mapas/PortugalMaps/Porto/nodes_x_y_porto.txt";
             edges="../mapas/PortugalMaps/Porto/edges_porto.txt";
+            dados.setReal(true);
             dados.changeGraph(nodes,edges,true);
             break;
         case 5:
             nodes="../mapas/PortugalMaps/Portugal/nodes_x_y_portugal.txt";
             edges="../mapas/PortugalMaps/Portugal/edges_portugal.txt";
+            dados.setReal(true);
             dados.changeGraph(nodes,edges,true);
             break;
         case 6:
             nodes="../mapas/GridGraphs/8x8/nodes.txt";
             edges="../mapas/GridGraphs/8x8/edges.txt";
+            dados.setReal(false);
             dados.changeGraph(nodes,edges,false);
         case 0:
             break;

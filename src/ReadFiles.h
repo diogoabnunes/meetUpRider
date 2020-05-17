@@ -22,8 +22,8 @@ using namespace std;
 
 void initGraph(Graph<Local> &g, string nodesfile, string edgesfile, bool real);
 
-vector <Pessoa*> readUsers(string filename, vector<Condutor*> &cond);
-vector <Automovel*> readCarros(string filename);
+vector <Pessoa*> readUsers(string filename, vector<Condutor> &cond);
+vector <Automovel> readCarros(string filename);
 
 void parse_nodes(Graph<Local> *g, string file, bool real);
 void parse_edges(Graph<Local> *g, string file);

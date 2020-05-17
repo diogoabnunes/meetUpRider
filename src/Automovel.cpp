@@ -1,11 +1,11 @@
 #include "Automovel.h"
 
-Automovel::Automovel(unsigned int id ,unsigned int nSeats){
+Automovel::Automovel(unsigned int id ,unsigned int nSeats) {
     this->id= id;
     this->nSeats=nSeats;
 }
 
-Automovel::Automovel(){
+Automovel::Automovel() {
     this->id=-1;
     this->nSeats=-1;
 }

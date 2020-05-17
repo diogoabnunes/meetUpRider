@@ -1,9 +1,4 @@
-//
-// Created by clara on 08/05/2020.
-//
-
 #include "utils.h"
-
 
 vector<string> split(const string& str, const string& delim)
 {
@@ -21,7 +16,12 @@ vector<string> split(const string& str, const string& delim)
     return tokens;
 }
 
-void wait() {
-    cout << "ENTER to continue";
-    getchar();
+string to_lower(string s)
+{
+    string result;
+    for (char c : s)
+    {
+        result += tolower(c);
+    }
+    return result;
 }
