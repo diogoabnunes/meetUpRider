@@ -59,7 +59,8 @@ void parse_nodes(Graph<Local> *g, string file) {
     if (nos.is_open())
     {
         string line;  char useless;
-        int idNo, x, y;
+        int idNo;
+        double x, y;
         getline(nos, line); // number of nodes
         while (getline(nos, line))
         {

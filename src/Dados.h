@@ -51,9 +51,12 @@ public:
 
     void processarGrafo();
 
+
     void runIter1(int distMax);
 
+
     int runAlgorithm();
+    void changeGraph(string nodes,string edges);
 
 };
 

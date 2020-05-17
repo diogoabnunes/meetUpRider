@@ -262,7 +262,18 @@ int Dados::runAlgorithm() {
     return 0;
 }
 
+
 void Dados::runIter1(int max) {
 
-    Vertex<Local>
+
+
+}
+
+
+void Dados::changeGraph(string nodes, string edges) {
+    Graph<Local> grafo;
+    initGraph(grafo, nodes, edges);
+    grafoInicial = grafo;
+    // obter novos grafo simplificado e processado ou delete?
+
 }
