@@ -10,7 +10,7 @@
 #include <algorithm>
 #include <unordered_set>
 #include "MutablePriorityQueue.h"
-
+#include <cmath>
 using namespace std;
 
 template <class T> class Edge;
@@ -67,7 +67,10 @@ Vertex<T>::Vertex(T in): info(in) {}
  */
 template <class T>
 void Vertex<T>::addEdge(Vertex<T> *d, double w) {
-	adj.push_back(Edge<T>(this, d, w));
+    int velocity;
+    if(w>100)velocity=120;
+    else velocity=50;
+	adj.push_back(Edge<T>(this, d, w,velocity));
 }
 
 template <class T>
@@ -102,12 +105,21 @@ class Edge {
 	Vertex<T> *orig; 	// Fp07
 	Vertex<T> * dest;      // destination vertex
 	double weight;         // edge weight
+    int velocity;
+public:
+    int getVelocity() const;
 
-	bool selected; // Fp07
+    void setVelocity(int velocity);
+
+private:
+    bool selected; // Fp07
 
 public:
 	Edge(Vertex<T> *o, Vertex<T> *d, double w);
-	friend class Graph<T>;
+
+    Edge(Vertex<T> *orig, Vertex<T> *dest, double weight, int velocity);
+
+    friend class Graph<T>;
 	friend class Vertex<T>;
 
 	// Fp07
@@ -180,7 +192,7 @@ public:
 
 	//for the project
     void getGrafoConexo(Graph<T> & graph);
-
+    double calcEdgeWeight(const T & sourc, const T & dest);
     double **getW() const;
 
     void setW(double **w);
@@ -232,6 +244,20 @@ template<class T>
 void Edge<T>::setWeight(double weight) {
     Edge::weight = weight;
 }
+
+template<class T>
+int Edge<T>::getVelocity() const {
+    return velocity;
+}
+
+template<class T>
+void Edge<T>::setVelocity(int velocity) {
+    Edge::velocity = velocity;
+}
+
+template<class T>
+Edge<T>::Edge(Vertex<T> *orig, Vertex<T> *dest, double weight, int velocity):orig(orig), dest(dest), weight(weight),
+                                                                             velocity(velocity) {}
 
 
 template <class T>
@@ -528,24 +554,14 @@ bool Graph<T>::removeVertex(const T &in) {
 
 template <class T>
 bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
-    // TODO (5 lines)
-    // HINT: Use "findVertex" to obtain the actual vertices.
-    // HINT: Use the next function to actually remove the edge.
     Vertex<T> *v1 = findVertex(sourc);
     Vertex<T> *v2 = findVertex(dest);
     if (v1 == NULL || v2 == NULL) return false;
     return v1->removeEdgeTo(v2);
 }
 
-/*
- * Auxiliary function to remove an outgoing edge (with a given destination (d))
- * from a vertex (this).
- * Returns true if successful, and false if such edge does not exist.
- */
 template <class T>
 bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
-    // TODO (6 lines)
-    // HINT: use an iterator to scan the "adj" vector and then erase the edge.
     for (auto it = adj.begin(); it != adj.end(); it++) {
         if ((*it).dest == d) {
             adj.erase(it);
@@ -553,6 +569,13 @@ bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
         }
     }
     return false;
+}
+
+template<class T>
+double Graph<T>::calcEdgeWeight(const T &sourc, const T & dest) {
+    auto s=findVertex(sourc);
+    auto d=findVertex(dest);
+    return s->getInfo().distance(d->getInfo());
 }
 
 

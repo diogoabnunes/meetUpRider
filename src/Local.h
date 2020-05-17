@@ -21,13 +21,8 @@ public:
     void setX(int x);
     int getY() const;
     void setY(int y);
-    const vector<Pessoa> getPartida() const;
-    void setPartida(const vector<Pessoa> partida);
-    const vector<Pessoa> getChegada() const;
-    void setChegada(const vector<Pessoa> chegada);
-    
-    bool operator==(const Local &rhs) const;
-    bool operator!=(const Local &rhs) const;
+  
+    double distance(Local dest);
 };
 
 #endif //MEETUPRIDER_LOCAL_H

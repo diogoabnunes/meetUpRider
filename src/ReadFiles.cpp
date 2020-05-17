@@ -104,7 +104,7 @@ void parse_edges(Graph<Local> *g, string file) {
             ss >> idNoOrigem; // id
             ss >> useless; // ,
             ss >> idNoDestino; // id
-            g->addEdge(Local(idNoOrigem), Local(idNoDestino), 1); // peso tem que ser alterado conforme o tipo de estrada
+            g->addEdge(Local(idNoOrigem), Local(idNoDestino), g->calcEdgeWeight(Local(idNoOrigem), Local(idNoDestino)));
             idEdge++;
         }
         arestas.close();

@@ -24,7 +24,6 @@ public:
     void setHoraPartida(const Time &horaPartida);
     const Time &getHoraChegada() const;
     void setHoraChegada(const Time &horaChegada);
-    
 };
 
 #endif //MEETUPRIDER_PESSOA_H

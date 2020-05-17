@@ -44,11 +44,15 @@ void Local::setChegada(const vector<Pessoa> chegada) {
     this->chegada = chegada;
 }
 
-
 bool Local::operator==(const Local &rhs) const {
     return id == rhs.id;
 }
 
 bool Local::operator!=(const Local &rhs) const {
     return !(rhs == *this);
+}
+
+double Local::distance(Local dest) {
+    double dist=sqrt(pow(getX()-dest.getX(),2)+pow(getY()-dest.getY(),2));
+    return dist;
 }
