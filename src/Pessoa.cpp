@@ -1,9 +1,4 @@
-//
-// Created by clara on 08/05/2020.
-//
-
 #include "Pessoa.h"
-
 
 int Pessoa::getId() const {
     return id;
@@ -45,10 +40,5 @@ void Pessoa::setHoraChegada(const Time &horaChegada) {
     Pessoa::horaChegada = horaChegada;
 }
 
-Pessoa::Pessoa(int id, int origem, int destino, const Time &horaPartida, const Time &horaChegada) : id(id),
-                                                                                                    origem(origem),
-                                                                                                    destino(destino),
-                                                                                                    horaPartida(
-                                                                                                            horaPartida),
-                                                                                                    horaChegada(
-                                                                                                            horaChegada) {}
+Pessoa::Pessoa(int id, int origem, int destino, const Time &horaPartida, const Time &horaChegada) : 
+    id(id), origem(origem), destino(destino), horaPartida(horaPartida), horaChegada(horaChegada) {}

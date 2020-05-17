@@ -33,6 +33,7 @@ public:
     int getQueueIndex() const;
 
     void setQueueIndex(int queueIndex);
+    bool removeEdgeTo(Vertex<T> *d);
 
 private:
     // required by MutablePriorityQueue
@@ -162,6 +163,8 @@ public:
 	Vertex<T> *findVertex(const T &in) const;
 	bool addVertex(const T &in);
 	bool addEdge(const T &sourc, const T &dest, double w);
+    bool removeVertex(const T &in);
+    bool removeEdge(const T &sourc, const T &dest);
 	int getNumVertex() const;
 	vector<Vertex<T> *> getVertexSet() const;
 
@@ -532,6 +535,40 @@ double **Graph<T>::getW() const {
 template<class T>
 void Graph<T>::setW(double **w) {
     W = w;
+}
+
+template <class T>
+bool Graph<T>::removeVertex(const T &in) {
+    Vertex<T> *v = findVertex(in);
+    bool elim = false;
+    for (auto it = vertexSet.begin(); it != vertexSet.end(); it++) {
+        (*it)->removeEdgeTo(v);
+        removeEdge(in, (*it)->info);
+        if ((*it) == v) {
+            vertexSet.erase(it);
+            elim = true;
+        }
+    }
+    return elim;
+}
+
+template <class T>
+bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
+    Vertex<T> *v1 = findVertex(sourc);
+    Vertex<T> *v2 = findVertex(dest);
+    if (v1 == NULL || v2 == NULL) return false;
+    return v1->removeEdgeTo(v2);
+}
+
+template <class T>
+bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
+    for (auto it = adj.begin(); it != adj.end(); it++) {
+        if ((*it).dest == d) {
+            adj.erase(it);
+            return true;
+        }
+    }
+    return false;
 }
 
 template<class T>

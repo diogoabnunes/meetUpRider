@@ -2,20 +2,20 @@
 
 Dados::Dados() {
     Graph<Local> graph;
-    initGraph(graph, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt");
+    initGraph(graph, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt", false);
     vector<Condutor*> r;
-    vector<Pessoa*> v=readUsers("../resources/users.txt",r);
-    vector<Automovel *> c=readCarros("../resources/cars.txt");
+    vector<Pessoa*> v = readUsers("../resources/users.txt", r);
+    vector<Automovel> c = readCarros("../resources/cars.txt");
 
     this->grafoInicial=graph;
+    //processarGrafo();
     this->condutores=r;
     this->pessoas=v;
-    this->carros=c;
+    this->carros = c;
     addPessoatoLocal();
-    cout<<grafoInicial.getVertexSet()[2]->getInfo().getChegada().size();
 }
 
-vector<Condutor *> Dados::getCondutores() {
+vector<Condutor*> Dados::getCondutores() {
     return condutores;
 }
 
@@ -23,12 +23,11 @@ vector<Pessoa *> Dados::getPessoas() {
     return pessoas;
 }
 
-vector<Automovel *> Dados::getAutomoveis() {
+vector<Automovel> Dados::getAutomoveis() {
     return carros;
 }
 
-
-void Dados::setCondutores(vector<Condutor *> condutores) {
+void Dados::setCondutores(vector<Condutor*> condutores) {
     this->condutores=condutores;
 }
 
@@ -36,8 +35,8 @@ void Dados::setPessoas(vector<Pessoa *> pessoas) {
     this->pessoas=pessoas;
 }
 
-void Dados::setAutomoveis(vector<Automovel *> carros) {
-    this->carros=carros;
+void Dados::setAutomoveis(vector<Automovel> carros) {
+    this->carros = carros;
 }
 
 const Graph<Local> &Dados::getGrafoInicial() const {
@@ -81,16 +80,17 @@ Local Dados::searchLocal(int id) {
             return l->getInfo();
         }
     }
+    return Local(-1, -1, -1);
 }
 
 void Dados::addPessoatoLocal() {
     for(auto & l:grafoInicial.getVertexSet()){
         auto local=l->getInfo();
-        vector<Pessoa*>partida;
-        vector<Pessoa*>chegada;
-        for(auto & p:pessoas){
-            if(p->getOrigem()==l->getInfo().getId())partida.push_back(p);
-            else if(p->getDestino()==l->getInfo().getId())chegada.push_back(p);
+        vector<Pessoa>partida;
+        vector<Pessoa>chegada;
+        for(auto p : pessoas){
+            if(p->getOrigem()==l->getInfo().getId())partida.push_back(*p);
+            else if(p->getDestino()==l->getInfo().getId())chegada.push_back(*p);
         }
         local.setChegada(chegada);
         local.setPartida(partida);
@@ -98,13 +98,13 @@ void Dados::addPessoatoLocal() {
     }
 }
 
-void Dados::addPessoa() {
+int Dados::addPessoa() {
     int id, origem, destino;
     cout << "ID: "; cin >> id;
     if (searchPessoa(id) != NULL)
     {
         cout << "Já existe uma pessoa com esse ID\n";
-        return;
+        return 1;
     }
     cout << "Origem: "; cin >> origem;
     cout << "Destino: "; cin >> destino;
@@ -126,6 +126,8 @@ void Dados::addPessoa() {
 
     Pessoa* p = new Pessoa(id, origem, destino, t1, t2);
     pessoas.push_back(p);
+
+    return 0;
 }
 
 void Dados::graph_to_graphviewer(Graph<Local> &g)
@@ -138,14 +140,36 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
     gv->defineVertexColor("blue");
     gv->defineEdgeColor("black");
 
+    int minX = std::numeric_limits<int>::max();
+    int minY = std::numeric_limits<int>::max();
+    int maxX = std::numeric_limits<int>::min();
+    int maxY = std::numeric_limits<int>::min();
+
     int idEdge = 0;
     for (auto v : g.getVertexSet())
     {
-        gv->addNode(v->getInfo().getId(), v->getInfo().getX(), v->getInfo().getY());
-        gv->setVertexLabel(v->getInfo().getId(), to_string(v->getInfo().getId()));
-        for (auto a : v->getAdj())
-        {
-            gv->addEdge(idEdge++, v->getInfo().getId(), a.getDest()->getInfo().getId(), 0);
+        if (real) {
+            double yPercent = 1.0 - ((v->getInfo().getY() - minY)/(maxY - minY) * 0.9 + 0.05);
+            double xPercent = (v->getInfo().getX() - minX)/(maxX - minX)*0.9 + 0.05;
+            gv->setVertexSize(v->getInfo().getId(), 10);
+            gv->addNode(v->getInfo().getId(), (int) (xPercent * width), (int) (yPercent * height));
+        }
+        else {
+            gv->setVertexSize(v->getInfo().getId(), 10);
+            gv->addNode(v->getInfo().getId(), v->getInfo().getX(), v->getInfo().getY());
+        }
+    }
+    for (auto v : g.getVertexSet())
+    {
+        if (real) {
+            for (auto e : v->getAdj()) {
+                gv->addEdge(idEdge++, v->getInfo().getId(), e.getDest()->getInfo().getId(), 1);
+            }
+        }
+        else {
+            for (auto e : v->getAdj()) {
+                gv->addEdge(idEdge++, v->getInfo().getId(), e.getDest()->getInfo().getId(), 0);
+            }
         }
     }
     gv->rearrange();
@@ -185,16 +209,14 @@ int Dados::visualizeGraph() {
     return 0;
 }
 
-
-
-void Dados::processarGrafo() {
+int Dados::processarGrafo() {
     cout << "Dfs a partir do ponto de partida do condutor... " ;
     grafoInicial.dfs(condutores[0]->getOrigem());
     cout << "Concluido" << endl;
     auto destino =grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
     if (!destino->isVisited()) {
         cout << "O destino do condutor nao e atingivel a partir da sua origem. " << endl;
-        exit(0);
+        return 1;
     }
     cout << "A obter o grafo conexo... ";
     grafoInicial.getGrafoConexo(grafoConexo);
@@ -216,64 +238,28 @@ void Dados::processarGrafo() {
     grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()))->getInfo());
     grafoProcessado.setW(grafoConexo.getW());
 
-    cout << "Concluido" << endl;
-
-}
-
-
-
-
-
-
-int Dados::runAlgorithm() {
-    int option;
-
-    do {
-        cout << "\nIterações\n\n";
-        cout << "[1] 1ª Iteração\n";
-        cout << "[2] 2ª Iteração\n";
-        cout << "[3] 3ª Iteração\n";
-        cout << "[0] Back\n";
-        cin >> option;
-
-        switch(option){
-            case 1:
-                //Iteracao 1
-                break;
-
-            case 2:
-                //Iteracao 2
-                break;
-
-            case 3:
-                //Iteracao 3
-                break;
-
-            case 0:
-                break;
-
-            default:
-                option = -1;
-                cout << "Choose a valid number\n";
-                break;
-        }
-    }while(option!=0);
-
+    cout << "Grafo processado" << endl;
     return 0;
 }
 
+int Dados::runAlgorithm() {
 
-void Dados::runIter1(int max) {
-
-
-
+    cout << "TODO, de forma a que seja possível visualizar grafos de cada iteracao?\n"; // TODO
+    return 0;
 }
 
-
-void Dados::changeGraph(string nodes, string edges) {
+void Dados::changeGraph(string nodes, string edges, bool real) {
+    this->real = real;
     Graph<Local> grafo;
-    initGraph(grafo, nodes, edges);
-    grafoInicial = grafo;
-    // obter novos grafo simplificado e processado ou delete?
+    initGraph(grafo, nodes, edges, real);
+    this->grafoInicial = grafo;
+    //processarGrafo();
+}
 
+bool Dados::isReal() const {
+    return real;
+}
+
+void Dados::setReal(bool real) {
+    Dados::real = real;
 }

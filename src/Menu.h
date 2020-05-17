@@ -4,7 +4,6 @@
 #include "../lib/graphviewer.h"
 #include "Dados.h"
 
-
 class Menu {
 public:
     Menu();
