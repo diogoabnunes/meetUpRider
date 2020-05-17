@@ -6,4 +6,8 @@ link_libraries(ws2_32 wsock32)
 
 include_directories(lib)
 
-add_executable(meetUpRider main.cpp lib/graphviewer.cpp lib/connection.cpp src/Automovel.cpp src/Pessoa.cpp src/Pessoa.h src/Time.cpp src/Time.h src/Condutor.cpp src/Condutor.h src/ReadFiles.cpp src/ReadFiles.h src/utils.cpp src/utils.h src/Local.cpp src/Local.h src/Menu.cpp src/Menu.h src/Dados.h src/Dados.cpp src/Estrada.cpp src/Estrada.h)
+add_executable(meetUpRider main.cpp lib/graphviewer.cpp lib/connection.cpp
+        src/Automovel.cpp src/Pessoa.cpp src/Pessoa.h src/Time.cpp src/Time.h
+        src/Condutor.cpp src/Condutor.h src/ReadFiles.cpp src/ReadFiles.h
+        src/utils.cpp src/utils.h src/Local.cpp src/Local.h src/Menu.cpp src/Menu.h
+        src/Dados.h src/Dados.cpp)
