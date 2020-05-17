@@ -39,9 +39,9 @@ public:
     void setChegada(const vector<Pessoa*> & chegada);
 
 private:
-    int id;
-    int x;
-    int y;
+    long int id;
+    double x;
+    double y;
     vector<Pessoa*>partida;
     vector<Pessoa*>chegada;
 };

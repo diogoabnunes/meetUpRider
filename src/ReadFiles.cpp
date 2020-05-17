@@ -4,8 +4,8 @@
 
 #include "ReadFiles.h"
 
-void initGraph(Graph<Local> &g, string nodesfile, string edgesfile) {
-    parse_nodes(&g, nodesfile);
+void initGraph(Graph<Local> &g, string nodesfile, string edgesfile, bool real) {
+    parse_nodes(&g, nodesfile, real);
     parse_edges(&g, edgesfile);
 }
 
@@ -50,17 +50,16 @@ vector<Automovel*> readCarros(string filename){
     }
     file.close();
     return carros;
-
 }
 
-void parse_nodes(Graph<Local> *g, string file) {
-
+void parse_nodes(Graph<Local> *g, string file, bool real) {
     ifstream nos(file);
     if (nos.is_open())
     {
         string line;  char useless;
         long int idNo;
         long double x, y;
+        double maxx = -1, maxy = -1;
         getline(nos, line); // number of nodes
         while (getline(nos, line))
         {
@@ -71,15 +70,31 @@ void parse_nodes(Graph<Local> *g, string file) {
             ss >> x; // x
             ss >> useless; // ,
             ss >> y; // y
+            if (real) {
+                if (x > maxx) maxx = x;
+                if (y > maxy) maxy = y;
+            }
             g->addVertex(Local(idNo, x, y));
         }
         nos.close();
+
+        if (real) {
+            double toScaleX = maxx / 600;
+            double toScaleY = maxy / 600;
+            double auxx, auxy;
+            for (auto v : g->getVertexSet()) {
+                auxx = v->getInfo().getX() / toScaleX;
+                auxy = v->getInfo().getY() / toScaleY;
+                v->getInfo().setX(auxx);
+                v->getInfo().setY(auxy);
+            }
+        }
     }
     cout << "Ficheiro de nos lido!\n";
 }
 
 void parse_edges(Graph<Local> *g, string file) {
-
+    int idEdge = 0;
     ifstream arestas(file);
     if (arestas.is_open())
     {
@@ -94,6 +109,7 @@ void parse_edges(Graph<Local> *g, string file) {
             ss >> useless; // ,
             ss >> idNoDestino; // id
             g->addEdge(Local(idNoOrigem), Local(idNoDestino), 1); // peso tem que ser alterado conforme o tipo de estrada
+            idEdge++;
         }
         arestas.close();
     }

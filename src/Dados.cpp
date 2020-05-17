@@ -2,7 +2,7 @@
 
 Dados::Dados() {
     Graph<Local> graph;
-    initGraph(graph, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt");
+    initGraph(graph, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt", false);
     vector<Condutor*> r;
     vector<Pessoa*> v=readUsers("../resources/users.txt",r);
     vector<Automovel *> c=readCarros("../resources/cars.txt");
@@ -12,7 +12,7 @@ Dados::Dados() {
     this->pessoas=v;
     this->carros=c;
     addPessoatoLocal();
-    cout<<grafoInicial.getVertexSet()[2]->getInfo().getChegada().size();
+    cout<<grafoInicial.getVertexSet().size();
 }
 
 vector<Condutor *> Dados::getCondutores() {
@@ -26,7 +26,6 @@ vector<Pessoa *> Dados::getPessoas() {
 vector<Automovel *> Dados::getAutomoveis() {
     return carros;
 }
-
 
 void Dados::setCondutores(vector<Condutor *> condutores) {
     this->condutores=condutores;
@@ -81,6 +80,7 @@ Local Dados::searchLocal(int id) {
             return l->getInfo();
         }
     }
+    return Local(-1, -1, -1);
 }
 
 void Dados::addPessoatoLocal() {
@@ -185,8 +185,6 @@ int Dados::visualizeGraph() {
     return 0;
 }
 
-
-
 void Dados::processarGrafo() {
     cout << "Dfs a partir do ponto de partida do condutor... " ;
     grafoInicial.dfs(condutores[0]->getOrigem());
@@ -217,13 +215,7 @@ void Dados::processarGrafo() {
     grafoProcessado.setW(grafoConexo.getW());
 
     cout << "Concluido" << endl;
-
 }
-
-
-
-
-
 
 int Dados::runAlgorithm() {
     int option;
@@ -236,7 +228,7 @@ int Dados::runAlgorithm() {
         cout << "[0] Back\n";
         cin >> option;
 
-        switch(option){
+        switch(option) {
             case 1:
                 //Iteracao 1
                 break;
@@ -257,27 +249,18 @@ int Dados::runAlgorithm() {
                 cout << "Choose a valid number\n";
                 break;
         }
-    }while(option!=0);
+    } while(option != 0);
 
     return 0;
 }
 
-
 void Dados::runIter1(int max) {
 
-
-
 }
 
-
-void Dados::changeGraph(string nodes, string edges) {
+void Dados::changeGraph(string nodes, string edges, bool real) {
     Graph<Local> grafo;
-    initGraph(grafo, nodes, edges);
+    initGraph(grafo, nodes, edges, real);
     grafoInicial = grafo;
     // obter novos grafo simplificado e processado ou delete?
-
-}
-
-void Dados::setRealMap(bool real) {
-    Dados::real = real;
 }
