@@ -5,7 +5,7 @@ void initGraph(Graph<Local> &g, string nodesfile, string edgesfile, bool real) {
     parse_edges(&g, edgesfile);
 }
 
-vector<Pessoa*> readUsers(string filename, vector<Condutor> &cond) {
+vector<Pessoa*> readUsers(string filename, vector<Condutor*> &cond) {
     vector<Pessoa *>pessoas;
     ifstream file;
     file.open(filename);
@@ -23,7 +23,7 @@ vector<Pessoa*> readUsers(string filename, vector<Condutor> &cond) {
             }
             else {
                 auto *c = new Condutor(stoi(l[1]),stoi(l[2]),stoi(l[3]),partida,chegada,stoi(l[6]));
-                cond.push_back(*c);
+                cond.push_back(c);
             }
         }
     }
@@ -86,7 +86,7 @@ void parse_nodes(Graph<Local> *g, string file, bool real) {
             }
         }*/
     }
-    cout << "Ficheiro de nos lido!\n";
+    cout << file << " lido!\n";
 }
 
 void parse_edges(Graph<Local> *g, string file) {
@@ -109,5 +109,5 @@ void parse_edges(Graph<Local> *g, string file) {
         }
         arestas.close();
     }
-    cout << "Ficheiro de arestas lido!\n";
+    cout << file << " lido!\n";
 }

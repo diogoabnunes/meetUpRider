@@ -15,7 +15,7 @@ class Dados {
     Graph<Local> grafoInicial;
     Graph<Local> grafoConexo;
     Graph<Local> grafoProcessado;
-    vector<Condutor> condutores;
+    vector<Condutor*> condutores;
     vector<Pessoa*> pessoas;
     vector<Automovel> carros;
     bool real;
@@ -26,11 +26,11 @@ public:
 public:
     Dados();
 
-    vector<Condutor> getCondutores();
+    vector<Condutor*> getCondutores();
     vector<Pessoa*> getPessoas();
     vector<Automovel> getAutomoveis();
 
-    void setCondutores(vector<Condutor> condutores);
+    void setCondutores(vector<Condutor*> condutores);
     void setPessoas(vector<Pessoa*> pessoas);
     void setAutomoveis(vector<Automovel> carros);
 
@@ -43,15 +43,14 @@ public:
 
     Pessoa* searchPessoa(int id);
     Local searchLocal(int id);
-    void addPessoa();
+    int addPessoa();
 
     void graph_to_graphviewer(Graph<Local> &g);
     int visualizeGraph();
 
     void addPessoatoLocal();
 
-    void processarGrafo();
-    void runIter1(int distMax);
+    int processarGrafo();
     int runAlgorithm();
 
     void changeGraph(string nodes,string edges,bool real);

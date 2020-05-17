@@ -7,5 +7,6 @@ int main() {
     Dados *dados = new Dados();
     Menu menu;
     menu.showMenu(*dados);
+    // atualizar ficheiros se necessário
     return 0;
 }
