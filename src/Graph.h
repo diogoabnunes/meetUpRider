@@ -101,8 +101,14 @@ class Edge {
 	Vertex<T> *orig; 	// Fp07
 	Vertex<T> * dest;      // destination vertex
 	double weight;         // edge weight
+    int velocity;
+public:
+    int getVelocity() const;
 
-	bool selected; // Fp07
+    void setVelocity(int velocity);
+
+private:
+    bool selected; // Fp07
 
 public:
 	Edge(Vertex<T> *o, Vertex<T> *d, double w);
@@ -228,6 +234,16 @@ void Edge<T>::setDest(Vertex<T> *dest) {
 template<class T>
 void Edge<T>::setWeight(double weight) {
     Edge::weight = weight;
+}
+
+template<class T>
+int Edge<T>::getVelocity() const {
+    return velocity;
+}
+
+template<class T>
+void Edge<T>::setVelocity(int velocity) {
+    Edge::velocity = velocity;
 }
 
 
