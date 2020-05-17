@@ -7,7 +7,6 @@
 #include "Graph.h"
 #include "Local.h"
 #include "ReadFiles.h"
-
 #include <vector>
 
 using namespace std;
@@ -29,19 +28,13 @@ public:
 
     void setCondutores(vector<Condutor *> condutores);
     void setPessoas(vector<Pessoa *> pessoas);
-    void setGrafo(Graph<Local> grafo);
     void setAutomoveis(vector<Automovel *> carros);
 
     const Graph<Local> &getGrafoInicial() const;
-
     void setGrafoInicial(const Graph<Local> &grafoInicial);
-
     const Graph<Local> &getGrafoConexo() const;
-
     void setGrafoConexo(const Graph<Local> &grafoConexo);
-
     const Graph<Local> &getGrafoProcessado() const;
-
     void setGrafoProcessado(const Graph<Local> &grafoProcessado);
 
     Pessoa* searchPessoa(int id);
@@ -57,6 +50,11 @@ public:
     void addPessoatoLocal();
 
     void processarGrafo();
+
+    void runIter1(int distMax);
+
+    int runAlgorithm();
+
 };
 
 

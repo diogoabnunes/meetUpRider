@@ -43,8 +43,11 @@ void Menu::showMenu(Dados &dados) {
                 break;
 
             case 5:
-                dados.processarGrafo();
-                //runAlgorithm();
+
+                if (dados.runAlgorithm() != 0) {
+                    cout << "Error running algorithm\n";
+                    exit(1);
+                }
                 break;
 
             case 6:

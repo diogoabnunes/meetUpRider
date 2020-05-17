@@ -493,6 +493,11 @@ void Graph<T>::getGrafoConexo(Graph<T>& graph) {
 
 }
 
+
+
+
+
+
 template<class T>
 double **Graph<T>::getW() const {
     return W;

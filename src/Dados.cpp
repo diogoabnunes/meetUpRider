@@ -2,7 +2,7 @@
 
 Dados::Dados() {
     Graph<Local> graph;
-    initGraph(graph);
+    initGraph(graph, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt");
     vector<Condutor*> r;
     vector<Pessoa*> v=readUsers("../resources/users.txt",r);
     vector<Automovel *> c=readCarros("../resources/cars.txt");
@@ -109,11 +109,19 @@ void Dados::addPessoa() {
     cout << "Origem: "; cin >> origem;
     cout << "Destino: "; cin >> destino;
     int horas, minutos;
-    cout << "Partida:\nHoras: "; cin >> horas;
-    cout << "Minutos: "; cin >> minutos;
+    do {
+        cout << "Partida:\nHoras: "; cin >> horas;
+    } while (horas >= 24);
+    do {
+        cout << "Minutos: "; cin >> minutos;
+    } while (minutos >= 60);
     Time t1(horas, minutos);
-    cout << "Chegada:\nHoras: "; cin >> horas;
-    cout << "Minutos: "; cin >> minutos;
+    do {
+        cout << "Partida:\nHoras: "; cin >> horas;
+    } while (horas >= 24);
+    do {
+        cout << "Minutos: "; cin >> minutos;
+    } while (minutos >= 60);
     Time t2(horas, minutos);
 
     Pessoa* p = new Pessoa(id, origem, destino, t1, t2);
@@ -178,6 +186,7 @@ int Dados::visualizeGraph() {
 }
 
 
+
 void Dados::processarGrafo() {
     cout << "Dfs a partir do ponto de partida do condutor... " ;
     grafoInicial.dfs(condutores[0]->getOrigem());
@@ -202,7 +211,7 @@ void Dados::processarGrafo() {
             grafoProcessado.findVertex(grafoConexo.getVertexSet()[i]->getInfo())->setQueueIndex(i);
         }
     }
-    // add the driver origin and destination node
+
     grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()))->getInfo());
     grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()))->getInfo());
     grafoProcessado.setW(grafoConexo.getW());
@@ -213,3 +222,47 @@ void Dados::processarGrafo() {
 
 
 
+
+
+
+int Dados::runAlgorithm() {
+    int option;
+
+    do {
+        cout << "\nIterações\n\n";
+        cout << "[1] 1ª Iteração\n";
+        cout << "[2] 2ª Iteração\n";
+        cout << "[3] 3ª Iteração\n";
+        cout << "[0] Back\n";
+        cin >> option;
+
+        switch(option){
+            case 1:
+                //Iteracao 1
+                break;
+
+            case 2:
+                //Iteracao 2
+                break;
+
+            case 3:
+                //Iteracao 3
+                break;
+
+            case 0:
+                break;
+
+            default:
+                option = -1;
+                cout << "Choose a valid number\n";
+                break;
+        }
+    }while(option!=0);
+
+    return 0;
+}
+
+void Dados::runIter1(int max) {
+
+    Vertex<Local>
+}
