@@ -207,13 +207,12 @@ void Dados::processarGrafo() {
         grafoConexo.getVertexSet()[i]->setQueueIndex(i);
         //caso o local seja partida ou chegada de algum cliente
         if (!grafoConexo.getVertexSet()[i]->getInfo().getPartida().empty() || !grafoConexo.getVertexSet()[i]->getInfo().getChegada().empty()) {
-            grafoProcessado.addVertex(grafoConexo.getVertexSet()[i]->getInfo());
-            grafoProcessado.findVertex(grafoConexo.getVertexSet()[i]->getInfo())->setQueueIndex(i);
+            grafoProcessado.addVertex(grafoConexo.getVertexSet()[i]->getInfo(),i);
         }
     }
 
-    grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()))->getInfo());
-    grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()))->getInfo());
+    grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()))->getInfo(),i);
+    grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()))->getInfo(),++i);
     grafoProcessado.setW(grafoConexo.getW());
 
     cout << "Concluido" << endl;
@@ -263,11 +262,37 @@ int Dados::runAlgorithm() {
 }
 
 
+/*
+
+double priorityiter1(Vertex<Local> *v) {
+
+    double currentToSubjectTime = infoStruct.W[infoStruct.current->getQueueIndex()][subjectVertex->getQueueIndex()];
+    double subjectToDriverDestDistance = subjectVertex->getInfo().realDistanceTo(infoStruct.driverDest->getInfo());
+    double subjectToDriverDestTime = infoStruct.W[subjectVertex->getQueueIndex()][infoStruct.driverDest->getQueueIndex()];
+
+
+    return currentToSubjectTime*10 +subjectToDriverDestDistance/100 + subjectToDriverDestTime*10 ;
+}
+
+
+
+struct Choicefunc1
+{
+    bool operator()(Vertex<Local>* lhs, Vertex<Local>* rhs)
+    {
+        return priorityFunction(lhs) > priorityFunction(rhs);
+    }
+};
+
+
 void Dados::runIter1(int max) {
+    vector<Pessoa> passageiros;
+    priority_queue<Vertex<Local>*,vector<Vertex<Local>*>,Choicefunc1>fila;
 
 
 
 }
+*/
 
 
 void Dados::changeGraph(string nodes, string edges) {

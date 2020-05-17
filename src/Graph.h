@@ -42,7 +42,10 @@ private:
 
 public:
 	Vertex(T in);
-	bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
+
+    Vertex(T info, int queueIndex);
+
+    bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 	T getInfo() const;
     const vector<Edge<T>> &getAdj() const;
 	double getDist() const;
@@ -60,9 +63,14 @@ public:
 template <class T>
 Vertex<T>::Vertex(T in): info(in) {}
 
+template<class T>
+Vertex<T>::Vertex(T info, int queueIndex):info(info), queueIndex(queueIndex) {}
+
+
 /*
  * Auxiliary function to add an outgoing edge to a vertex (this),
  * with a given destination vertex (d) and edge weight (w).
+ *
  */
 template <class T>
 void Vertex<T>::addEdge(Vertex<T> *d, double w) {
@@ -161,6 +169,7 @@ class Graph {
 public:
 	Vertex<T> *findVertex(const T &in) const;
 	bool addVertex(const T &in);
+    bool addVertex(const T &in,int index);
 	bool addEdge(const T &sourc, const T &dest, double w);
 	int getNumVertex() const;
 	vector<Vertex<T> *> getVertexSet() const;
@@ -299,6 +308,16 @@ bool Graph<T>::addVertex(const T &in) {
 	vertexSet.push_back(new Vertex<T>(in));
 	return true;
 }
+
+template <class T>
+bool Graph<T>::addVertex(const T &in,int index) {
+    if (findVertex(in) != nullptr)
+        return false;
+    vertexSet.push_back(new Vertex<T>(in));
+    return true;
+}
+
+
 
 /*
  * Adds an edge to a graph (this), given the contents of the source and
