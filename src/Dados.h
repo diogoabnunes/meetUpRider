@@ -46,8 +46,8 @@ public:
     void addPessoatoLocal();
 
     void processarGrafo();
-
     int runAlgorithm();
+    void changeGraph(string nodes,string edges);
 
 };
 

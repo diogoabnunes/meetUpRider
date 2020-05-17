@@ -9,6 +9,7 @@ class Menu {
 public:
     Menu();
     void showMenu(Dados &dados);
+    void chooseMap(Dados &dados);
 };
 
 
