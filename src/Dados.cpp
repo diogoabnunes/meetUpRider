@@ -153,15 +153,17 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
             if (v->getInfo().getY() < miny) miny = v->getInfo().getY();
         }
         for (auto v : g.getVertexSet()) {
-            auxx = (v->getInfo().getX() - minx) / (maxx - minx);
-            auxy = (v->getInfo().getY() - miny) / (maxy - miny);
+            gv->setVertexSize(v->getInfo().getId(), 10);
+            auxx = (v->getInfo().getX() - minx) / (maxx - minx) * 0.9 + 0.05;
+            auxy = 1 - ((v->getInfo().getY() - miny) / (maxy - miny) * 0.9 + 0.05);
+            gv->addNode(v->getInfo().getId(), (int) (auxx * width), (int) (auxy * height));
         }
     }
-    for (auto v : g.getVertexSet())
-    {
-        gv->setVertexSize(v->getInfo().getId(), 10);
-        if (real) gv->addNode(v->getInfo().getId(), (int) auxx * width, (int) auxy * height);
-        else gv->addNode(v->getInfo().getId(), (int) v->getInfo().getX(), (int) v->getInfo().getY());
+    else {
+        for (auto v : g.getVertexSet()) {
+            gv->setVertexSize(v->getInfo().getId(), 10);
+            gv->addNode(v->getInfo().getId(), (int) v->getInfo().getX(), (int) v->getInfo().getY());
+        }
     }
     for (auto v : g.getVertexSet())
     {
