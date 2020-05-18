@@ -12,51 +12,44 @@ void Menu::showMenu(Dados &dados) {
     int option = -1;
     do {
         cout << "\nMeetUpRider\n\n";
-        cout << "[1] Visualizar grafo\n";
-        cout << "[2] Visualizar informação de uma pessoa específica\n";
-        cout << "[3] Adicionar pessoa\n";
-        cout << "[4] Remover pessoa\n";
-        cout << "[5] Correr algoritmo\n";
-        cout << "[6] Analisar complexidade\n";
-        cout << "[7] Mudar grafo\n";
+        cout << "[1] Escolher Localizacao\n";
+        cout << "[2] Correr algoritmo\n";
+        cout << "[3] Visualizar grafo\n";
+        cout << "[4] Visualizar informacao de uma pessoa especifica\n";
+        cout << "[5] Adicionar pessoa\n";
+        cout << "[6] Remover pessoa\n";
+        cout << "[7] Analisar complexidade\n";
         cout << "[0] Terminar programa\n";
         cin >> option;
 
         switch (option)
         {
             case 1:
-                if (dados.visualizeGraph() != 0) {
-                    cout << "Error visualizing graph\n";
-                    exit(1);
-                }
+                chooseMap(dados);
                 break;
 
             case 2:
-                //visualizeInfo();
+                if (dados.runAlgorithm() != 0) exit(2);
                 break;
 
             case 3:
-                dados.addPessoa();
+                if (dados.visualizeGraph() != 0) exit(1);
                 break;
 
             case 4:
-                //delPessoa();
+                //if (dados.visualizeInfo() != 0) exit(4);
                 break;
 
             case 5:
-
-                if (dados.runAlgorithm() != 0) {
-                    cout << "Error running algorithm\n";
-                    exit(1);
-                }
+                if (dados.addPessoa() != 0) exit(5);
                 break;
 
             case 6:
-                //analiseComplexity();
+                //if (dados.delPessoa() != 0) exit(6);
                 break;
 
             case 7:
-                chooseMap(dados);
+                //if (dados.analiseComplexity() != 0) exit(7);
                 break;
 
             case 0:
@@ -64,66 +57,95 @@ void Menu::showMenu(Dados &dados) {
 
             default:
                 option = -1;
-                cout << "Choose a valid number\n";
+                cout << "Numero invalido\n";
                 break;
         }
     } while (option != 0);
-    // atualizar ficheiro users.txt caso haja alterações
 }
 
-void Menu::chooseMap(Dados & dados) {
+void Menu::chooseMap(Dados &dados) {
     int option;
     string edges,nodes;
 
-    do{
-        cout << "\nMapas\n\n";
-        cout << "[1] 16x16\n";
-        cout << "[2] Braga\n";
-        cout << "[3] Lisboa\n";
-        cout << "[4] Porto\n";
-        cout << "[5] Portugal\n";
-        cout << "[6] 8x8\n";
-        cout << "[0] Back\n";
-        cin >> option;
+    cout << "\nMapas\n\n";
+    cout << "[1] Portugal\n";
+    cout << "[2] Aveiro\n";
+    cout << "[3] Braga\n";
+    cout << "[4] Coimbra\n";
+    cout << "[5] Ermesinde\n";
+    cout << "[6] Fafe\n";
+    cout << "[7] Gondomar\n";
+    cout << "[8] Lisboa\n";
+    cout << "[9] Maia\n";
+    cout << "[10] Porto\n";
+    cout << "[11] Viseu\n";
+    cout << "[12] GridGraph 4x4\n";
+    cout << "[13] GridGraph 8x8\n";
+    cout << "[14] GridGraph 16x16\n";
+    cout << "[0] Voltar\n";
+    cin >> option;
 
-        switch(option){
-            case 1:
-                nodes="../mapas/GridGraphs/16x16/nodes.txt";
-                edges="../mapas/GridGraphs/16x16/edges.txt";
-                dados.changeGraph(nodes,edges);
-                break;
-            case 2:
-                nodes="../mapas/PortugalMaps/Lisboa/nodes_x_y_braga.txt";
-                edges="../mapas/PortugalMaps/Lisboa/edges_braga.txt";
-                dados.changeGraph(nodes,edges);
-                break;
-            case 3:
-                nodes="../mapas/PortugalMaps/Lisboa/nodes_x_y_lisboa.txt";
-                edges="../mapas/PortugalMaps/Lisboa/edges_lisboa.txt";
-                dados.changeGraph(nodes,edges);
-                break;
-            case 4:
-                nodes="../mapas/PortugalMaps/Porto/nodes_x_y_porto.txt";
-                edges="../mapas/PortugalMaps/Porto/edges_porto.txt";
-                dados.changeGraph(nodes,edges);
-                break;
-            case 5:
-                nodes="../mapas/PortugalMaps/Porto/nodes_x_y_portugal.txt";
-                edges="../mapas/PortugalMaps/Porto/edges_portugal.txt";
-                dados.changeGraph(nodes,edges);
-                break;
-            case 6:
-                nodes="../mapas/GridGraphs/8x8/nodes.txt";
-                edges="../mapas/GridGraphs/8x8/edges.txt";
-                dados.changeGraph(nodes,edges);
-            case 0:
-                break;
-            default:
-                cout << "Choose a valid number\n";
-                break;
-        }
-
-
-    } while(option != 0);
-
+    switch(option) {
+        case 1:
+            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_portugal.txt",
+                    "../mapas/PortugalMaps/Portugal.edges_portugal.txt", true);
+            break;
+        case 2:
+            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_aveiro.txt",
+                              "../mapas/PortugalMaps/Portugal.edges_aveiro.txt", true);
+            break;
+        case 3:
+            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_braga.txt",
+                              "../mapas/PortugalMaps/Portugal.edges_braga.txt", true);
+            break;
+        case 4:
+            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_coimbra.txt",
+                              "../mapas/PortugalMaps/Portugal.edges_coimbra.txt", true);
+            break;
+        case 5:
+            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_ermesinde.txt",
+                              "../mapas/PortugalMaps/Portugal.edges_ermesinde.txt", true);
+            break;
+        case 6:
+            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_fafe.txt",
+                              "../mapas/PortugalMaps/Portugal.edges_fafe.txt", true);
+            break;
+        case 7:
+            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_gondomar.txt",
+                              "../mapas/PortugalMaps/Portugal.edges_gondomar.txt", true);
+            break;
+        case 8:
+            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_lisboa.txt",
+                              "../mapas/PortugalMaps/Portugal.edges_lisboa.txt", true);
+            break;
+        case 9:
+            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_maia.txt",
+                              "../mapas/PortugalMaps/Portugal.edges_maia.txt", true);
+            break;
+        case 10:
+            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_porto.txt",
+                              "../mapas/PortugalMaps/Portugal.edges_porto.txt", true);
+            break;
+        case 11:
+            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_viseu.txt",
+                              "../mapas/PortugalMaps/Portugal.edges_viseu.txt", true);
+            break;
+        case 12:
+            dados.changeGraph("../mapas/GridGraphs/4x4/nodes.txt",
+                              "../mapas/GridGraphs/4x4/edges.txt", false);
+            break;
+        case 13:
+            dados.changeGraph("../mapas/GridGraphs/8x8/nodes.txt",
+                              "../mapas/GridGraphs/8x8/edges.txt", false);
+            break;
+        case 14:
+            dados.changeGraph("../mapas/GridGraphs/16x16/nodes.txt",
+                              "../mapas/GridGraphs/16x16/edges.txt", false);
+            break;
+        case 0:
+            break;
+        default:
+            cout << "Numero invalido\n";
+            break;
+    }
 }

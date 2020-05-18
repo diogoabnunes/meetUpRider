@@ -2,20 +2,19 @@
 
 Dados::Dados() {
     Graph<Local> graph;
-    initGraph(graph, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt");
     vector<Condutor*> r;
-    vector<Pessoa*> v=readUsers("../resources/users.txt",r);
-    vector<Automovel *> c=readCarros("../resources/cars.txt");
-
+    vector<Pessoa*> v = readUsers("../resources/users.txt", r);
+    vector<Automovel> c = readCarros("../resources/cars.txt");
+    initGraph(graph, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt", false);
     this->grafoInicial=graph;
     this->condutores=r;
     this->pessoas=v;
-    this->carros=c;
+    this->carros = c;
     addPessoatoLocal();
-    cout<<grafoInicial.getVertexSet()[2]->getInfo().getChegada().size();
+    processarGrafo();
 }
 
-vector<Condutor *> Dados::getCondutores() {
+vector<Condutor*> Dados::getCondutores() {
     return condutores;
 }
 
@@ -23,12 +22,11 @@ vector<Pessoa *> Dados::getPessoas() {
     return pessoas;
 }
 
-vector<Automovel *> Dados::getAutomoveis() {
+vector<Automovel> Dados::getAutomoveis() {
     return carros;
 }
 
-
-void Dados::setCondutores(vector<Condutor *> condutores) {
+void Dados::setCondutores(vector<Condutor*> condutores) {
     this->condutores=condutores;
 }
 
@@ -36,8 +34,8 @@ void Dados::setPessoas(vector<Pessoa *> pessoas) {
     this->pessoas=pessoas;
 }
 
-void Dados::setAutomoveis(vector<Automovel *> carros) {
-    this->carros=carros;
+void Dados::setAutomoveis(vector<Automovel> carros) {
+    this->carros = carros;
 }
 
 const Graph<Local> &Dados::getGrafoInicial() const {
@@ -81,6 +79,7 @@ Local Dados::searchLocal(int id) {
             return l->getInfo();
         }
     }
+    return Local(-1, -1, -1);
 }
 
 void Dados::addPessoatoLocal() {
@@ -88,7 +87,7 @@ void Dados::addPessoatoLocal() {
         auto local=l->getInfo();
         vector<Pessoa*>partida;
         vector<Pessoa*>chegada;
-        for(auto & p:pessoas){
+        for(auto p : pessoas){
             if(p->getOrigem()==l->getInfo().getId())partida.push_back(p);
             else if(p->getDestino()==l->getInfo().getId())chegada.push_back(p);
         }
@@ -98,13 +97,13 @@ void Dados::addPessoatoLocal() {
     }
 }
 
-void Dados::addPessoa() {
+int Dados::addPessoa() {
     int id, origem, destino;
     cout << "ID: "; cin >> id;
     if (searchPessoa(id) != NULL)
     {
         cout << "Já existe uma pessoa com esse ID\n";
-        return;
+        return 1;
     }
     cout << "Origem: "; cin >> origem;
     cout << "Destino: "; cin >> destino;
@@ -126,6 +125,8 @@ void Dados::addPessoa() {
 
     Pessoa* p = new Pessoa(id, origem, destino, t1, t2);
     pessoas.push_back(p);
+
+    return 0;
 }
 
 void Dados::graph_to_graphviewer(Graph<Local> &g)
@@ -138,14 +139,36 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
     gv->defineVertexColor("blue");
     gv->defineEdgeColor("black");
 
+    int minX = std::numeric_limits<int>::max();
+    int minY = std::numeric_limits<int>::max();
+    int maxX = std::numeric_limits<int>::min();
+    int maxY = std::numeric_limits<int>::min();
+
     int idEdge = 0;
     for (auto v : g.getVertexSet())
     {
-        gv->addNode(v->getInfo().getId(), v->getInfo().getX(), v->getInfo().getY());
-        gv->setVertexLabel(v->getInfo().getId(), to_string(v->getInfo().getId()));
-        for (auto a : v->getAdj())
-        {
-            gv->addEdge(idEdge++, v->getInfo().getId(), a.getDest()->getInfo().getId(), 0);
+        if (real) {
+            double yPercent = 1.0 - ((v->getInfo().getY() - minY)/(maxY - minY) * 0.9 + 0.05);
+            double xPercent = (v->getInfo().getX() - minX)/(maxX - minX)*0.9 + 0.05;
+            gv->setVertexSize(v->getInfo().getId(), 10);
+            gv->addNode(v->getInfo().getId(), (int) (xPercent * width), (int) (yPercent * height));
+        }
+        else {
+            gv->setVertexSize(v->getInfo().getId(), 10);
+            gv->addNode(v->getInfo().getId(), v->getInfo().getX(), v->getInfo().getY());
+        }
+    }
+    for (auto v : g.getVertexSet())
+    {
+        if (real) {
+            for (auto e : v->getAdj()) {
+                gv->addEdge(idEdge++, v->getInfo().getId(), e.getDest()->getInfo().getId(), 1);
+            }
+        }
+        else {
+            for (auto e : v->getAdj()) {
+                gv->addEdge(idEdge++, v->getInfo().getId(), e.getDest()->getInfo().getId(), 0);
+            }
         }
     }
     gv->rearrange();
@@ -185,16 +208,14 @@ int Dados::visualizeGraph() {
     return 0;
 }
 
-
-
-void Dados::processarGrafo() {
+int Dados::processarGrafo() {
     cout << "Dfs a partir do ponto de partida do condutor... " ;
     grafoInicial.dfs(condutores[0]->getOrigem());
     cout << "Concluido" << endl;
     auto destino =grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
     if (!destino->isVisited()) {
         cout << "O destino do condutor nao e atingivel a partir da sua origem. " << endl;
-        exit(0);
+        return 1;
     }
     cout << "A obter o grafo conexo... ";
     grafoInicial.getGrafoConexo(grafoConexo);
@@ -215,63 +236,32 @@ void Dados::processarGrafo() {
     grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()))->getInfo(),++i);
     grafoProcessado.setW(grafoConexo.getW());
 
-    cout << "Concluido" << endl;
 
+    cout << "Grafo processado" << endl;
+    return 0;
 }
 
-
-
-
-
-
 int Dados::runAlgorithm() {
-    int option;
-
-    do {
-        cout << "\nIterações\n\n";
-        cout << "[1] 1ª Iteração\n";
-        cout << "[2] 2ª Iteração\n";
-        cout << "[3] 3ª Iteração\n";
-        cout << "[0] Back\n";
-        cin >> option;
-
-        switch(option){
-            case 1:
-                //Iteracao 1
-                break;
-
-            case 2:
-                //Iteracao 2
-                break;
-
-            case 3:
-                //Iteracao 3
-                break;
-
-            case 0:
-                break;
-
-            default:
-                option = -1;
-                cout << "Choose a valid number\n";
-                break;
-        }
-    }while(option!=0);
-
+    runIter1(10000);
+    cout << "TODO, de forma a que seja possível visualizar grafos de cada iteracao?\n"; // TODO
     return 0;
 }
 
 
-/*
+struct priorityData {
+    Vertex<Local>*vatual;
+    Vertex <Local>*dest;
+    double **W;
+};
+
+struct priorityData info;
+
 
 double priorityiter1(Vertex<Local> *v) {
 
-    double currentToSubjectTime = infoStruct.W[infoStruct.current->getQueueIndex()][subjectVertex->getQueueIndex()];
-    double subjectToDriverDestDistance = subjectVertex->getInfo().realDistanceTo(infoStruct.driverDest->getInfo());
-    double subjectToDriverDestTime = infoStruct.W[subjectVertex->getQueueIndex()][infoStruct.driverDest->getQueueIndex()];
-
-
-    return currentToSubjectTime*10 +subjectToDriverDestDistance/100 + subjectToDriverDestTime*10 ;
+    double distTov=info.W[info.vatual->getQueueIndex()][v->getQueueIndex()];
+    double vtoDestdist= info.W[v->getQueueIndex()][info.dest->getQueueIndex()];
+    return distTov+vtoDestdist;
 }
 
 
@@ -280,25 +270,93 @@ struct Choicefunc1
 {
     bool operator()(Vertex<Local>* lhs, Vertex<Local>* rhs)
     {
-        return priorityFunction(lhs) > priorityFunction(rhs);
+        return priorityiter1(lhs) > priorityiter1(rhs);
     }
 };
 
 
+
+
 void Dados::runIter1(int max) {
-    vector<Pessoa> passageiros;
+    vector<Pessoa*> passageiros;
+    vector<Local>percurso;
     priority_queue<Vertex<Local>*,vector<Vertex<Local>*>,Choicefunc1>fila;
 
+    condutores[0]->setPickup(condutores[0]->getHoraPartida());
+    passageiros.push_back(condutores[0]);
+    info.dest=grafoProcessado.findVertex(searchLocal(condutores[0]->getDestino()));
+    info.vatual=grafoProcessado.findVertex(searchLocal(condutores[0]->getOrigem()));
+    percurso.push_back(info.vatual->getInfo());
+    info.W=grafoProcessado.getW();
+    int pax=0;
+    while(pax<carros[0].getNSeats()){
+        //esvaziar a fila
+      while(!fila.empty()){
+          fila.pop();
+      }
+
+      for(auto v: grafoProcessado.getVertexSet()){
+
+          double d = info.vatual->getInfo().distance(v->getInfo());
+          if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
+
+      }
+      Vertex<Local>* candidate;
+      Pessoa* candidatep;
+      while(!fila.empty()){
+
+        candidate= fila.top();
+        fila.pop();
+
+        candidatep= candidate->getInfo().getPartida()[0];
+        double distToCandidate=info.W[info.vatual->getQueueIndex()][candidate->getQueueIndex()];
+        if(distToCandidate==INF)continue;
+        double candidateToDest=info.W[candidate->getQueueIndex()][info.dest->getQueueIndex()];
+        if(candidateToDest==INF)continue;
+        for(auto & p:candidate->getInfo().getPartida()) {
+            if (pax < carros[0].getNSeats())passageiros.push_back(p);
+            else break;
+        }
+        percurso.emplace_back(candidate->getQueueIndex());
 
 
+        }
+
+    }
+
+    if (fila.empty()){
+
+        cout << "Fila vazia";
+        for(auto p:passageiros)
+            cout<<p->getId()<<endl<<p->getOrigem();
+
+    }
+
+    cout << "Full car" ;
+    for(auto p:passageiros)
+        cout<<p->getId()<<endl<<p->getOrigem();
 }
-*/
 
 
-void Dados::changeGraph(string nodes, string edges) {
+
+
+
+
+
+
+
+
+void Dados::changeGraph(string nodes, string edges, bool real) {
+    this->real = real;
     Graph<Local> grafo;
-    initGraph(grafo, nodes, edges);
-    grafoInicial = grafo;
-    // obter novos grafo simplificado e processado ou delete?
+    initGraph(grafo, nodes, edges, real);
+    this->grafoInicial = grafo;
+    processarGrafo();
+}
+bool Dados::isReal() const {
+    return real;
+}
 
+void Dados::setReal(bool real) {
+    Dados::real = real;
 }

@@ -1,11 +1,7 @@
-//
-// Created by clara on 08/05/2020.
-//
-
 #include "ReadFiles.h"
 
-void initGraph(Graph<Local> &g, string nodesfile, string edgesfile) {
-    parse_nodes(&g, nodesfile);
+void initGraph(Graph<Local> &g, string nodesfile, string edgesfile, bool real) {
+    parse_nodes(&g, nodesfile, real);
     parse_edges(&g, edgesfile);
 }
 
@@ -21,12 +17,12 @@ vector<Pessoa*> readUsers(string filename, vector<Condutor*> &cond) {
             Time partida(l[4]);
             Time chegada(l[5]);
 
-            if(l[0]=="P"){
+            if (l[0]=="P") {
                 auto* p=new Pessoa(stoi(l[1]),stoi(l[2]),stoi(l[3]),partida,chegada);
                 pessoas.push_back(p);
             }
-            else{
-                auto * c=new Condutor(stoi(l[1]),stoi(l[2]),stoi(l[3]),partida,chegada,stoi(l[6]));
+            else {
+                auto *c = new Condutor(stoi(l[1]),stoi(l[2]),stoi(l[3]),partida,chegada,stoi(l[6]));
                 cond.push_back(c);
             }
         }
@@ -35,8 +31,8 @@ vector<Pessoa*> readUsers(string filename, vector<Condutor*> &cond) {
     return pessoas;
 }
 
-vector<Automovel*> readCarros(string filename){
-    vector<Automovel*>carros;
+vector<Automovel> readCarros(string filename){
+    vector<Automovel>carros;
     ifstream file;
     file.open(filename);
     if(!file.fail()){
@@ -45,22 +41,21 @@ vector<Automovel*> readCarros(string filename){
             getline(file,line);
             auto l=split(line,";");
             Automovel *a = new Automovel(stoi(l[0]),stoi(l[1]));
-            carros.push_back(a);
+            carros.push_back(*a);
         }
     }
     file.close();
     return carros;
-
 }
 
-void parse_nodes(Graph<Local> *g, string file) {
-
+void parse_nodes(Graph<Local> *g, string file, bool real) {
     ifstream nos(file);
     if (nos.is_open())
     {
         string line;  char useless;
-        int idNo;
-        double x, y;
+        long int idNo;
+        long double x, y;
+        double maxx = -1, maxy = -1;
         getline(nos, line); // number of nodes
         while (getline(nos, line))
         {
@@ -71,21 +66,36 @@ void parse_nodes(Graph<Local> *g, string file) {
             ss >> x; // x
             ss >> useless; // ,
             ss >> y; // y
+            if (real) {
+                if (x > maxx) maxx = x;
+                if (y > maxy) maxy = y;
+            }
             g->addVertex(Local(idNo, x, y));
         }
         nos.close();
+
+        if (real) {
+            double toScaleX = maxx / 600;
+            double toScaleY = maxy / 600;
+            double auxx, auxy;
+            for (auto v : g->getVertexSet()) {
+                auxx = v->getInfo().getX() / toScaleX;
+                auxy = v->getInfo().getY() / toScaleY;
+                v->getInfo().setX(auxx);
+                v->getInfo().setY(auxy);
+            }
+        }
     }
-    cout << "Ficheiro de nos lido!\n";
+    cout << file << " lido!\n";
 }
 
 void parse_edges(Graph<Local> *g, string file) {
-
+    int idEdge = 0;
     ifstream arestas(file);
     if (arestas.is_open())
     {
-        int idAresta = 0;
         string line; char useless;
-        int idNoOrigem, idNoDestino;
+        long int idNoOrigem, idNoDestino;
         getline(arestas, line); // number of edges
         while (getline(arestas, line))
         {
@@ -94,9 +104,10 @@ void parse_edges(Graph<Local> *g, string file) {
             ss >> idNoOrigem; // id
             ss >> useless; // ,
             ss >> idNoDestino; // id
-            g->addEdge(Local(idNoOrigem), Local(idNoDestino), g->calcEdgeWeight(Local(idNoOrigem), Local(idNoDestino))); // peso tem que ser alterado conforme o tipo de estrada
+            g->addEdge(Local(idNoOrigem), Local(idNoDestino), g->calcEdgeWeight(Local(idNoOrigem), Local(idNoDestino)));
+            idEdge++;
         }
         arestas.close();
     }
-    cout << "Ficheiro de arestas lido!\n";
+    cout << file << " lido!\n";
 }

@@ -1,7 +1,7 @@
 #ifndef MEETUPRIDER_AUTOMOVEL_H
 #define MEETUPRIDER_AUTOMOVEL_H
 
-#include <stdlib.h>
+#include <cstdlib>
 
 class Automovel {
     unsigned int id;

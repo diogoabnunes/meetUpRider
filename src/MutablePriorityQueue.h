@@ -30,6 +30,7 @@ public:
 	T * extractMin();
 	void decreaseKey(T * x);
 	bool empty();
+	void makeEmpty();
 };
 
 // Index calculations
@@ -101,5 +102,6 @@ void MutablePriorityQueue<T>::set(unsigned i, T * x) {
 	H[i] = x;
 	x->queueIndex = i;
 }
+
 
 #endif /* SRC_MUTABLEPRIORITYQUEUE_H_ */

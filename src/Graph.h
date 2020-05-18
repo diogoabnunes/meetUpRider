@@ -1,3 +1,4 @@
+
 /*
  * Graph.h
  */
@@ -313,7 +314,7 @@ template <class T>
 bool Graph<T>::addVertex(const T &in,int index) {
     if (findVertex(in) != nullptr)
         return false;
-    vertexSet.push_back(new Vertex<T>(in));
+    vertexSet.push_back(new Vertex<T>(in,index));
     return true;
 }
 
@@ -562,3 +563,4 @@ double Graph<T>::calcEdgeWeight(const T &sourc, const T & dest) {
 
 
 #endif /* GRAPH_H_ */
+
