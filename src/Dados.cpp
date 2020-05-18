@@ -139,19 +139,14 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
     gv->defineVertexColor("blue");
     gv->defineEdgeColor("black");
 
-    int minX = std::numeric_limits<int>::max();
-    int minY = std::numeric_limits<int>::max();
-    int maxX = std::numeric_limits<int>::min();
-    int maxY = std::numeric_limits<int>::min();
-
     int idEdge = 0;
     for (auto v : g.getVertexSet())
     {
         if (real) {
-            double yPercent = 1.0 - ((v->getInfo().getY() - minY)/(maxY - minY) * 0.9 + 0.05);
-            double xPercent = (v->getInfo().getX() - minX)/(maxX - minX)*0.9 + 0.05;
+            //double x = (v->getInfo().getX() - minX)/(maxX - minX);
+            //double y = (v->getInfo().getY() - minY)/(maxY - minY);
             gv->setVertexSize(v->getInfo().getId(), 10);
-            gv->addNode(v->getInfo().getId(), (int) (xPercent * width), (int) (yPercent * height));
+            gv->addNode(v->getInfo().getId(), (int) (v->getInfo().getX() * width), (int) (v->getInfo().getY() * height));
         }
         else {
             gv->setVertexSize(v->getInfo().getId(), 10);
@@ -351,7 +346,7 @@ void Dados::changeGraph(string nodes, string edges, bool real) {
     Graph<Local> grafo;
     initGraph(grafo, nodes, edges, real);
     this->grafoInicial = grafo;
-    processarGrafo();
+    //processarGrafo();
 }
 bool Dados::isReal() const {
     return real;

@@ -17,10 +17,10 @@ public:
 
     int getId() const;
     void setId(int id);
-    int getX() const;
-    void setX(int x);
-    int getY() const;
-    void setY(int y);
+    double getX() const;
+    void setX(double x);
+    double getY() const;
+    void setY(double y);
   
     double distance(Local dest);
 

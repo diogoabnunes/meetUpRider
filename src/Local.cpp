@@ -12,19 +12,19 @@ Local::Local(int id, int x, int y) : id(id), x(x), y(y) {}
 
 Local::Local(int id) : id(id) {}
 
-int Local::getX() const {
+double Local::getX() const {
     return x;
 }
 
-void Local::setX(int x) {
+void Local::setX(double x) {
     Local::x = x;
 }
 
-int Local::getY() const {
+double Local::getY() const {
     return y;
 }
 
-void Local::setY(int y) {
+void Local::setY(double y) {
     Local::y = y;
 }
 

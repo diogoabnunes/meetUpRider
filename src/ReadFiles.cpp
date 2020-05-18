@@ -55,7 +55,7 @@ void parse_nodes(Graph<Local> *g, string file, bool real) {
         string line;  char useless;
         long int idNo;
         long double x, y;
-        double maxx = -1, maxy = -1;
+        double maxx = -1, maxy = -1, minx = LONG_MAX, miny = LONG_MAX;
         getline(nos, line); // number of nodes
         while (getline(nos, line))
         {
@@ -69,18 +69,18 @@ void parse_nodes(Graph<Local> *g, string file, bool real) {
             if (real) {
                 if (x > maxx) maxx = x;
                 if (y > maxy) maxy = y;
+                if (x < minx) minx = x;
+                if (y < miny) miny = y;
             }
             g->addVertex(Local(idNo, x, y));
         }
         nos.close();
 
         if (real) {
-            double toScaleX = maxx / 600;
-            double toScaleY = maxy / 600;
             double auxx, auxy;
             for (auto v : g->getVertexSet()) {
-                auxx = v->getInfo().getX() / toScaleX;
-                auxy = v->getInfo().getY() / toScaleY;
+                auxx = (v->getInfo().getX() - minx) / (maxx - minx);
+                auxy = (v->getInfo().getY() - miny) / (maxy - miny);
                 v->getInfo().setX(auxx);
                 v->getInfo().setY(auxy);
             }
