@@ -5,8 +5,8 @@ Dados::Dados() {
     vector<Condutor*> r;
     vector<Pessoa*> v = readUsers("../resources/users.txt", r);
     vector<Automovel> c = readCarros("../resources/cars.txt");
-    initGraph(graph, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt", false);
-    this->grafoInicial=graph;
+    initGraph(grafoInicial, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt", false);
+
     this->condutores=r;
     this->pessoas=v;
     this->carros = c;
@@ -140,6 +140,7 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
     gv->defineEdgeColor("black");
 
     int idEdge = 0;
+    real=false;
     for (auto v : g.getVertexSet())
     {
         if (real) {
