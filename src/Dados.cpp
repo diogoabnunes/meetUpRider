@@ -146,7 +146,7 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
             //double x = (v->getInfo().getX() - minX)/(maxX - minX);
             //double y = (v->getInfo().getY() - minY)/(maxY - minY);
             gv->setVertexSize(v->getInfo().getId(), 10);
-            gv->addNode(v->getInfo().getId(), (int) (v->getInfo().getX() * width), (int) (v->getInfo().getY() * height));
+            gv->addNode(v->getInfo().getId(), (int) (v->getInfo().getX()), (int) (v->getInfo().getY()));
         }
         else {
             gv->setVertexSize(v->getInfo().getId(), 10);

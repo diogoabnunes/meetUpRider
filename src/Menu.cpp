@@ -88,47 +88,47 @@ void Menu::chooseMap(Dados &dados) {
     switch(option) {
         case 1:
             dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_portugal.txt",
-                    "../mapas/PortugalMaps/Portugal.edges_portugal.txt", true);
+                    "../mapas/PortugalMaps/Portugal/edges_portugal.txt", true);
             break;
         case 2:
-            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_aveiro.txt",
-                              "../mapas/PortugalMaps/Portugal.edges_aveiro.txt", true);
+            dados.changeGraph("../mapas/PortugalMaps/Aveiro/nodes_x_y_aveiro.txt",
+                              "../mapas/PortugalMaps/Aveiro/edges_aveiro.txt", true);
             break;
         case 3:
-            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_braga.txt",
-                              "../mapas/PortugalMaps/Portugal.edges_braga.txt", true);
+            dados.changeGraph("../mapas/PortugalMaps/Braga/nodes_x_y_braga.txt",
+                              "../mapas/PortugalMaps/Braga/edges_braga.txt", true);
             break;
         case 4:
-            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_coimbra.txt",
-                              "../mapas/PortugalMaps/Portugal.edges_coimbra.txt", true);
+            dados.changeGraph("../mapas/PortugalMaps/Coimbra/nodes_x_y_coimbra.txt",
+                              "../mapas/PortugalMaps/Coimbra/edges_coimbra.txt", true);
             break;
         case 5:
-            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_ermesinde.txt",
-                              "../mapas/PortugalMaps/Portugal.edges_ermesinde.txt", true);
+            dados.changeGraph("../mapas/PortugalMaps/Ermesinde/nodes_x_y_ermesinde.txt",
+                              "../mapas/PortugalMaps/Ermesinde/edges_ermesinde.txt", true);
             break;
         case 6:
-            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_fafe.txt",
-                              "../mapas/PortugalMaps/Portugal.edges_fafe.txt", true);
+            dados.changeGraph("../mapas/PortugalMaps/Fafe/nodes_x_y_fafe.txt",
+                              "../mapas/PortugalMaps/Fafe/edges_fafe.txt", true);
             break;
         case 7:
-            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_gondomar.txt",
-                              "../mapas/PortugalMaps/Portugal.edges_gondomar.txt", true);
+            dados.changeGraph("../mapas/PortugalMaps/Gondomar/nodes_x_y_gondomar.txt",
+                              "../mapas/PortugalMaps/Gondomar/edges_gondomar.txt", true);
             break;
         case 8:
-            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_lisboa.txt",
-                              "../mapas/PortugalMaps/Portugal.edges_lisboa.txt", true);
+            dados.changeGraph("../mapas/PortugalMaps/Lisboa/nodes_x_y_lisboa.txt",
+                              "../mapas/PortugalMaps/Lisboa/edges_lisboa.txt", true);
             break;
         case 9:
-            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_maia.txt",
-                              "../mapas/PortugalMaps/Portugal.edges_maia.txt", true);
+            dados.changeGraph("../mapas/PortugalMaps/Maia/nodes_x_y_maia.txt",
+                              "../mapas/PortugalMaps/Maia/edges_maia.txt", true);
             break;
         case 10:
-            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_porto.txt",
-                              "../mapas/PortugalMaps/Portugal.edges_porto.txt", true);
+            dados.changeGraph("../mapas/PortugalMaps/Porto/nodes_x_y_porto.txt",
+                              "../mapas/PortugalMaps/Porto/edges_porto.txt", true);
             break;
         case 11:
-            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_viseu.txt",
-                              "../mapas/PortugalMaps/Portugal.edges_viseu.txt", true);
+            dados.changeGraph("../mapas/PortugalMaps/Viseu/nodes_x_y_viseu.txt",
+                              "../mapas/PortugalMaps/Viseu/edges_viseu.txt", true);
             break;
         case 12:
             dados.changeGraph("../mapas/GridGraphs/4x4/nodes.txt",

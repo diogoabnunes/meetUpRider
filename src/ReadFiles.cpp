@@ -79,10 +79,8 @@ void parse_nodes(Graph<Local> *g, string file, bool real) {
         if (real) {
             double auxx, auxy;
             for (auto v : g->getVertexSet()) {
-                auxx = (v->getInfo().getX() - minx) / (maxx - minx);
-                auxy = (v->getInfo().getY() - miny) / (maxy - miny);
-                v->getInfo().setX(auxx);
-                v->getInfo().setY(auxy);
+                v->getInfo().setX(v->getInfo().getX()); // useless -> may be to change
+                v->getInfo().setY(v->getInfo().getX()); // useless -> may be to change
             }
         }
     }
