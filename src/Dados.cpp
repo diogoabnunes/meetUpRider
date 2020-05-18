@@ -12,6 +12,10 @@ Dados::Dados() {
     this->carros = c;
     addPessoatoLocal();
     processarGrafo();
+    this->minx = INT_MAX;
+    this->miny = INT_MAX;
+    this->maxx = INT_MIN;
+    this->maxy = INT_MIN;
 }
 
 vector<Condutor*> Dados::getCondutores() {
@@ -140,31 +144,40 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
     gv->defineEdgeColor("black");
 
     int idEdge = 0;
+<<<<<<< HEAD
     real=false;
     for (auto v : g.getVertexSet())
     {
         if (real) {
             //double x = (v->getInfo().getX() - minX)/(maxX - minX);
             //double y = (v->getInfo().getY() - minY)/(maxY - minY);
-            gv->setVertexSize(v->getInfo().getId(), 10);
-            gv->addNode(v->getInfo().getId(), (int) (v->getInfo().getX()), (int) (v->getInfo().getY()));
+=======
+    double auxx, auxy;
+    if (real) {
+        for (auto v : g.getVertexSet()) {
+            if (v->getInfo().getX() > maxx) maxx = v->getInfo().getX();
+            if (v->getInfo().getY() > maxy) maxy = v->getInfo().getY();
+            if (v->getInfo().getX() < minx) minx = v->getInfo().getX();
+            if (v->getInfo().getY() < miny) miny = v->getInfo().getY();
         }
-        else {
+        for (auto v : g.getVertexSet()) {
+>>>>>>> 73be455c66f3d2fe35792bc9e8a04af3f22456b6
             gv->setVertexSize(v->getInfo().getId(), 10);
-            gv->addNode(v->getInfo().getId(), v->getInfo().getX(), v->getInfo().getY());
+            auxx = (v->getInfo().getX() - minx) / (maxx - minx);
+            auxy = 1 - ((v->getInfo().getY() - miny) / (maxy - miny));
+            gv->addNode(v->getInfo().getId(), (int) (auxx * width), (int) (auxy * height));
+        }
+    }
+    else {
+        for (auto v : g.getVertexSet()) {
+            gv->setVertexSize(v->getInfo().getId(), 10);
+            gv->addNode(v->getInfo().getId(), (int) v->getInfo().getX(), (int) v->getInfo().getY());
         }
     }
     for (auto v : g.getVertexSet())
     {
-        if (real) {
-            for (auto e : v->getAdj()) {
-                gv->addEdge(idEdge++, v->getInfo().getId(), e.getDest()->getInfo().getId(), 1);
-            }
-        }
-        else {
-            for (auto e : v->getAdj()) {
-                gv->addEdge(idEdge++, v->getInfo().getId(), e.getDest()->getInfo().getId(), 0);
-            }
+        for (auto e : v->getAdj()) {
+            gv->addEdge(idEdge++, v->getInfo().getId(), e.getDest()->getInfo().getId(), 0);
         }
     }
     gv->rearrange();
@@ -355,4 +368,36 @@ bool Dados::isReal() const {
 
 void Dados::setReal(bool real) {
     Dados::real = real;
+}
+
+int Dados::getMaxx() const {
+    return maxx;
+}
+
+void Dados::setMaxx(int maxx) {
+    Dados::maxx = maxx;
+}
+
+int Dados::getMinx() const {
+    return minx;
+}
+
+void Dados::setMinx(int minx) {
+    Dados::minx = minx;
+}
+
+int Dados::getMaxy() const {
+    return maxy;
+}
+
+void Dados::setMaxy(int maxy) {
+    Dados::maxy = maxy;
+}
+
+int Dados::getMiny() const {
+    return miny;
+}
+
+void Dados::setMiny(int miny) {
+    Dados::miny = miny;
 }

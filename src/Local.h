@@ -24,10 +24,7 @@ public:
   
     double distance(Local dest);
 
-
-
     bool operator==(const Local &rhs) const ;
-
     bool operator!=(const Local &rhs)const ;
 
     void setId1(long id);
