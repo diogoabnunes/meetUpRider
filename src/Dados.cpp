@@ -154,8 +154,8 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
         }
         for (auto v : g.getVertexSet()) {
             gv->setVertexSize(v->getInfo().getId(), 10);
-            auxx = (v->getInfo().getX() - minx) / (maxx - minx) * 0.9 + 0.05;
-            auxy = 1 - ((v->getInfo().getY() - miny) / (maxy - miny) * 0.9 + 0.05);
+            auxx = (v->getInfo().getX() - minx) / (maxx - minx);
+            auxy = 1 - ((v->getInfo().getY() - miny) / (maxy - miny));
             gv->addNode(v->getInfo().getId(), (int) (auxx * width), (int) (auxy * height));
         }
     }
