@@ -5,7 +5,7 @@ int Local::getId() const {
 }
 
 void Local::setId(int id) {
-    Local::id = id;
+    this->id = id;
 }
 
 Local::Local(int id, int x, int y) : id(id), x(x), y(y) {}
@@ -17,7 +17,7 @@ double Local::getX() const {
 }
 
 void Local::setX(double x) {
-    Local::x = x;
+    this->x = x;
 }
 
 double Local::getY() const {
@@ -25,10 +25,8 @@ double Local::getY() const {
 }
 
 void Local::setY(double y) {
-    Local::y = y;
+    this->y = y;
 }
-
-
 
 bool Local::operator==(const Local &rhs) const {
     return id == rhs.id;
@@ -44,24 +42,22 @@ double Local::distance(Local dest) {
 }
 
 void Local::setId1(long id) {
-    Local::id = id;
+    this->id = id;
 }
 
 const vector<Pessoa*> & Local::getPartida() const{
-return
-partida;
+    return partida;
 }
 
 void Local::setPartida(const vector<Pessoa*> & partida) {
-    Local::partida = partida;
+    this->partida = partida;
 }
 
 const vector<Pessoa *>& Local::getChegada() const{
-return
-chegada;
+    return chegada;
 }
 
 void Local::setChegada(const vector<Pessoa *>& chegada) {
-    Local::chegada = chegada;
+    this->chegada = chegada;
 }
 

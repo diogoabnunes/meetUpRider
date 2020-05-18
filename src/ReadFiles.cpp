@@ -55,7 +55,6 @@ void parse_nodes(Graph<Local> *g, string file, bool real) {
         string line;  char useless;
         long int idNo;
         long double x, y;
-        double maxx = -1, maxy = -1, minx = LONG_MAX, miny = LONG_MAX;
         getline(nos, line); // number of nodes
         while (getline(nos, line))
         {
@@ -66,23 +65,9 @@ void parse_nodes(Graph<Local> *g, string file, bool real) {
             ss >> x; // x
             ss >> useless; // ,
             ss >> y; // y
-            if (real) {
-                if (x > maxx) maxx = x;
-                if (y > maxy) maxy = y;
-                if (x < minx) minx = x;
-                if (y < miny) miny = y;
-            }
             g->addVertex(Local(idNo, x, y));
         }
         nos.close();
-
-        if (real) {
-            double auxx, auxy;
-            for (auto v : g->getVertexSet()) {
-                v->getInfo().setX(v->getInfo().getX()); // useless -> may be to change
-                v->getInfo().setY(v->getInfo().getX()); // useless -> may be to change
-            }
-        }
     }
     cout << file << " lido!\n";
 }

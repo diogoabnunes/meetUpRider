@@ -19,6 +19,24 @@ class Dados {
     vector<Pessoa*> pessoas;
     vector<Automovel> carros;
     bool real;
+    int maxx, minx, maxy, miny;
+public:
+    int getMaxx() const;
+
+    void setMaxx(int maxx);
+
+    int getMinx() const;
+
+    void setMinx(int minx);
+
+    int getMaxy() const;
+
+    void setMaxy(int maxy);
+
+    int getMiny() const;
+
+    void setMiny(int miny);
+
 public:
     bool isReal() const;
     void setReal(bool real);
