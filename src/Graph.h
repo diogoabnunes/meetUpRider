@@ -476,7 +476,7 @@ void Graph<T>::floydWarshallShortestPath() {
 			int j = findVertexIdx(e.dest->info);
 			W[i][j]  = e.weight;
 			P[i][j]  = i;
-            cout<<W[i][j]<<endl<<P[i][j];
+
 		}
 	}
 
@@ -489,6 +489,7 @@ void Graph<T>::floydWarshallShortestPath() {
 				if (val < W[i][j]) {
 					W[i][j] = val;
 					P[i][j] = P[k][j];
+                    //cout<<W[i][j]<<endl<<P[i][j]<<endl;
 				}
 			}
 }

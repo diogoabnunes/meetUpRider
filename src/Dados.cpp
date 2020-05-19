@@ -227,12 +227,10 @@ int Dados::processarGrafo() {
     grafoConexo.floydWarshallShortestPath();
 
     for(auto v:grafoConexo.getVertexSet()){
-        if (!v->getInfo().getPartida().empty() || !v->getInfo().getChegada().empty()){
+        if (!v->getInfo().getPartida().empty() /*|| !v->getInfo().getChegada().empty()*/){
             pdi.push_back(v);
         }
     }
-
-
 
     //int i=0;
     /*for (i = 0; i < grafoConexo.getVertexSet().size(); i++) {
@@ -294,29 +292,22 @@ void Dados::runIter1(int max) {
     priority_queue<Vertex<Local>*,vector<Vertex<Local>*>,Choicefunc1>fila;
 
     condutores[0]->setPickup(condutores[0]->getHoraPartida());
-    passageiros.push_back(condutores[0]);
+    //passageiros.push_back(condutores[0]);
     info.dest=grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()));
     info.vatual=grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()));
-    percurso.push_back(info.vatual->getInfo());
+    //percurso.push_back(info.vatual->getInfo());
     info.W=grafoConexo.getW();
     info.g=&grafoConexo;
 
+
+    for(auto v: pdi){
+        double d = info.vatual->getInfo().distance(v->getInfo());
+        if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
+
+    }
+    Vertex<Local>* candidate;
     int pax=0;
-    while(pax<carros[0].getNSeats()){
-        //esvaziar a fila
-      while(!fila.empty()){
-          fila.pop();
-      }
-
-      for(auto v: pdi){
-
-          double d = info.vatual->getInfo().distance(v->getInfo());
-          if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
-
-      }
-      Vertex<Local>* candidate;
-
-      while(!fila.empty()){
+    while(pax<carros[0].getNSeats()&&!fila.empty()){
 
         candidate= fila.top();
         fila.pop();
@@ -325,28 +316,34 @@ void Dados::runIter1(int max) {
         if(distToCandidate==INF)continue;
         double candidateToDest=info.W[info.g->findVertexIdx(candidate->getInfo())][info.g->findVertexIdx(info.dest->getInfo())];
         if(candidateToDest==INF)continue;
-        for(auto & p:candidate->getInfo().getPartida()) {
-            if (pax < carros[0].getNSeats())passageiros.push_back(p);
+        auto p=candidate->getInfo().getPartida();
+        //percorre todos os clientes à espera de boleia no local candidato
+        for(auto it=p.begin();it<p.end();it++) {
+            if (pax < carros[0].getNSeats()){
+                passageiros.push_back(*it);
+                pax++;
+                p.erase(it);
+
+            }
             else break;
         }
-        percurso.emplace_back(candidate->getQueueIndex());
+        percurso.push_back(candidate->getInfo());
 
 
         }
-
-    }
 
     if (fila.empty()){
 
         cout << "Fila vazia";
         for(auto p:passageiros)
-            cout<<p->getId()<<endl<<p->getOrigem();
+            cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem();
 
     }
-
-    cout << "Full car" ;
-    for(auto p:passageiros)
-        cout<<p->getId()<<endl<<p->getOrigem();
+    else {
+        cout << "Carro cheio";
+        for (auto p:passageiros)
+            cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem();
+    }
 }
 
 
