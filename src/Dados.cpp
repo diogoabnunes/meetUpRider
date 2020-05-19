@@ -5,6 +5,7 @@ Dados::Dados() {
     vector<Condutor*> r;
     vector<Pessoa*> v = readUsers("../resources/users.txt", r);
     vector<Automovel> c = readCarros("../resources/cars.txt");
+
     initGraph(grafoInicial, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt", false);
 
     this->condutores=r;
@@ -169,7 +170,7 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
     for (auto v : g.getVertexSet())
     {
         for (auto e : v->getAdj()) {
-            gv->addEdge(idEdge++, v->getInfo().getId(), e.getDest()->getInfo().getId(), 0);
+            gv->addEdge(idEdge++, v->getInfo().getId(), e.getDest()->getInfo().getId(), 1);
         }
     }
     gv->rearrange();
@@ -216,7 +217,7 @@ int Dados::processarGrafo() {
     auto destino =grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
     if (!destino->isVisited()) {
         cout << "O destino do condutor nao e atingivel a partir da sua origem. " << endl;
-        return 1;
+        return(1) ;
     }
     cout << "A obter o grafo conexo... ";
     grafoInicial.getGrafoConexo(grafoConexo);
@@ -224,10 +225,18 @@ int Dados::processarGrafo() {
     cout << "A processar o grafo... " ;
 
     grafoConexo.floydWarshallShortestPath();
-    int i=0;
-    for (i = 0; i < grafoConexo.getVertexSet().size(); i++) {
+
+    for(auto v:grafoConexo.getVertexSet()){
+        if (!v->getInfo().getPartida().empty() || !v->getInfo().getChegada().empty()){
+            pdi.push_back(v);
+        }
+    }
+
+
+
+    //int i=0;
+    /*for (i = 0; i < grafoConexo.getVertexSet().size(); i++) {
         grafoConexo.getVertexSet()[i]->setQueueIndex(i);
-       cout<< grafoConexo.getW()[12][13];
         //caso o local seja partida ou chegada de algum cliente
         if (!grafoConexo.getVertexSet()[i]->getInfo().getPartida().empty() || !grafoConexo.getVertexSet()[i]->getInfo().getChegada().empty()) {
             grafoProcessado.addVertex(grafoConexo.getVertexSet()[i]->getInfo(),i);
@@ -237,7 +246,8 @@ int Dados::processarGrafo() {
     grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()))->getInfo(),i);
     grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()))->getInfo(),++i);
     grafoProcessado.setW(grafoConexo.getW());
-    grafoProcessado.setP(grafoConexo.getP());
+    grafoProcessado.setP(grafoConexo.getP());*/
+
     cout << "Grafo processado" << endl;
     return 0;
 }
@@ -285,12 +295,12 @@ void Dados::runIter1(int max) {
 
     condutores[0]->setPickup(condutores[0]->getHoraPartida());
     passageiros.push_back(condutores[0]);
-    info.dest=grafoProcessado.findVertex(searchLocal(condutores[0]->getDestino()));
-    info.vatual=grafoProcessado.findVertex(searchLocal(condutores[0]->getOrigem()));
+    info.dest=grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()));
+    info.vatual=grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()));
     percurso.push_back(info.vatual->getInfo());
-    info.W=grafoProcessado.getW();
-    info.g=&grafoProcessado;
-    cout<<info.W[0][1];
+    info.W=grafoConexo.getW();
+    info.g=&grafoConexo;
+
     int pax=0;
     while(pax<carros[0].getNSeats()){
         //esvaziar a fila
@@ -298,7 +308,7 @@ void Dados::runIter1(int max) {
           fila.pop();
       }
 
-      for(auto v: grafoProcessado.getVertexSet()){
+      for(auto v: pdi){
 
           double d = info.vatual->getInfo().distance(v->getInfo());
           if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
@@ -310,11 +320,10 @@ void Dados::runIter1(int max) {
 
         candidate= fila.top();
         fila.pop();
-        cout<<(int)info.W[0][1];
 
-        double distToCandidate=info.W[info.vatual->getQueueIndex()][candidate->getQueueIndex()];
+        double distToCandidate=info.W[info.g->findVertexIdx(info.vatual->getInfo())][info.g->findVertexIdx(candidate->getInfo())];
         if(distToCandidate==INF)continue;
-        double candidateToDest=info.W[candidate->getQueueIndex()][info.dest->getQueueIndex()];
+        double candidateToDest=info.W[info.g->findVertexIdx(candidate->getInfo())][info.g->findVertexIdx(info.dest->getInfo())];
         if(candidateToDest==INF)continue;
         for(auto & p:candidate->getInfo().getPartida()) {
             if (pax < carros[0].getNSeats())passageiros.push_back(p);
@@ -394,4 +403,13 @@ int Dados::getMiny() const {
 
 void Dados::setMiny(int miny) {
     Dados::miny = miny;
+}
+
+const vector<Vertex<Local>*> & Dados::getPdi() const{
+return
+pdi;
+}
+
+void Dados::setPdi(const vector<Vertex<Local>*> & pdi) {
+    Dados::pdi = pdi;
 }

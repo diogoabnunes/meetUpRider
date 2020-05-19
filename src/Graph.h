@@ -210,7 +210,7 @@ public:
 
     void setP(int **p);
 
-    double getfloydWarshallWeight(const T &orig, const T &dest) const;
+    double set(const T &orig, const T &dest) const;
 };
 
 template<class T>
@@ -472,11 +472,11 @@ void Graph<T>::floydWarshallShortestPath() {
 		}
 
 		for (auto e : vertexSet[i]->adj) {
-		    cout<<vertexSet[i]->adj.size();
+
 			int j = findVertexIdx(e.dest->info);
 			W[i][j]  = e.weight;
 			P[i][j]  = i;
-
+            cout<<W[i][j]<<endl<<P[i][j];
 		}
 	}
 
@@ -492,6 +492,7 @@ void Graph<T>::floydWarshallShortestPath() {
 				}
 			}
 }
+
 
 
 template<class T>
@@ -538,17 +539,15 @@ void Graph<T>::getGrafoConexo(Graph<T>& graph) {
     for (int i = 0; i < this->vertexSet.size(); i++) {
         if (vertexSet.at(i)->visited) {
             graph.addVertex(vertexSet.at(i)->info);
-
-        }
-    }
-    for (int i = 0; i < this->vertexSet.size(); i++) {
-        for (auto &e:vertexSet[i]->adj) {
-            if (e.dest->isVisited()) {
-                graph.addEdge(e.orig->info, e.dest->info, e.weight);
+            for (auto &e:vertexSet[i]->adj) {
+                if (e.dest->isVisited()) {
+                    graph.addVertex(e.dest->info);
+                    graph.addEdge(e.orig->info, e.dest->info, e.weight);
+                }
             }
         }
-
     }
+
 }
 
 
