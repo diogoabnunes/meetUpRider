@@ -301,9 +301,9 @@ void Dados::runIter1(int max) {
         candidate= fila.top();
         fila.pop();
 
-        double distToCandidate=info.W[info.g->findVertexIdx(info.vatual->getInfo())][info.g->findVertexIdx(candidate->getInfo())];
+        double distToCandidate=grafoConexo.getW()[grafoConexo.findVertexIdx(info.vatual->getInfo())][grafoConexo.findVertexIdx(candidate->getInfo())];
         if(distToCandidate==INF)continue;
-        double candidateToDest=info.W[info.g->findVertexIdx(candidate->getInfo())][info.g->findVertexIdx(info.dest->getInfo())];
+        double candidateToDest=grafoConexo.getW()[grafoConexo.findVertexIdx(candidate->getInfo())][grafoConexo.findVertexIdx(info.dest->getInfo())];
         if(candidateToDest==INF)continue;
         auto p=candidate->getInfo().getPartida();
         //percorre todos os clientes à espera de boleia no local candidato
