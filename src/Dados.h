@@ -19,7 +19,6 @@ class Dados {
     vector<Condutor*> condutores;
     vector<Pessoa*> pessoas;
     vector<Automovel> carros;
-    vector<Vertex<Local>*> pdi;
     bool real;
     int maxx, minx, maxy, miny;
 public:
@@ -71,14 +70,17 @@ public:
     void addPessoatoLocal();
 
     int processarGrafo();
+
+    //iteraçoes
     void runIter1(int max);
+    vector<Vertex<Local>*> pdiIter1();
+
+
     int runAlgorithm();
 
     void changeGraph(string nodes,string edges,bool real);
 
-    const vector<Vertex<Local>*> & getPdi() const;
 
-    void setPdi(const vector<Vertex<Local>*> & pdi);
 };
 
 

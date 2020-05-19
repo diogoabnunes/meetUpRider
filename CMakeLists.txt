@@ -8,4 +8,4 @@ include_directories(lib)
 
 add_executable(meetUpRider main.cpp lib/graphviewer.cpp lib/connection.cpp src/utils.cpp
         src/Automovel.cpp src/Pessoa.cpp src/Time.cpp src/Condutor.cpp src/ReadFiles.cpp
-        src/Local.cpp src/Menu.cpp src/Dados.cpp)
+        src/Local.cpp src/Menu.cpp src/Dados.cpp src/Viagem.cpp src/Viagem.h)

@@ -1,4 +1,5 @@
 #include "Dados.h"
+#include "Viagem.h"
 
 Dados::Dados() {
     Graph<Local> graph;
@@ -217,7 +218,7 @@ int Dados::processarGrafo() {
     auto destino =grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
     if (!destino->isVisited()) {
         cout << "O destino do condutor nao e atingivel a partir da sua origem. " << endl;
-        return(1) ;
+        exit(1) ;
     }
     cout << "A obter o grafo conexo... ";
     grafoInicial.getGrafoConexo(grafoConexo);
@@ -225,26 +226,6 @@ int Dados::processarGrafo() {
     cout << "A processar o grafo... " ;
 
     grafoConexo.floydWarshallShortestPath();
-
-    for(auto v:grafoConexo.getVertexSet()){
-        if (!v->getInfo().getPartida().empty() /*|| !v->getInfo().getChegada().empty()*/){
-            pdi.push_back(v);
-        }
-    }
-
-    //int i=0;
-    /*for (i = 0; i < grafoConexo.getVertexSet().size(); i++) {
-        grafoConexo.getVertexSet()[i]->setQueueIndex(i);
-        //caso o local seja partida ou chegada de algum cliente
-        if (!grafoConexo.getVertexSet()[i]->getInfo().getPartida().empty() || !grafoConexo.getVertexSet()[i]->getInfo().getChegada().empty()) {
-            grafoProcessado.addVertex(grafoConexo.getVertexSet()[i]->getInfo(),i);
-        }
-    }
-
-    grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()))->getInfo(),i);
-    grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()))->getInfo(),++i);
-    grafoProcessado.setW(grafoConexo.getW());
-    grafoProcessado.setP(grafoConexo.getP());*/
 
     cout << "Grafo processado" << endl;
     return 0;
@@ -256,9 +237,9 @@ int Dados::runAlgorithm() {
     return 0;
 }
 
-
+//struct com informação a ser utilizada na função de prioridade
 struct priorityData {
-    Vertex<Local>*vatual;
+    Vertex<Local>*vatual; //ver
     Vertex <Local>*dest;
     double **W;
     Graph<Local> *g;
@@ -273,8 +254,6 @@ double priorityiter1(Vertex<Local> *v) {
     return distTov+vtoDestdist;
 }
 
-
-
 struct Choicefunc1
 {
     bool operator()(Vertex<Local>* lhs, Vertex<Local>* rhs)
@@ -284,21 +263,31 @@ struct Choicefunc1
 };
 
 
-
+vector<Vertex<Local> *> Dados::pdiIter1() {
+    vector<Vertex<Local> *> pdi;
+    for(auto v:grafoConexo.getVertexSet()) {
+        if (!v->getInfo().getPartida().empty()) {
+            pdi.push_back(v);
+        }
+    }
+    return pdi;
+}
 
 void Dados::runIter1(int max) {
     vector<Pessoa*> passageiros;
     vector<Local>percurso;
+
     priority_queue<Vertex<Local>*,vector<Vertex<Local>*>,Choicefunc1>fila;
 
     condutores[0]->setPickup(condutores[0]->getHoraPartida());
     //passageiros.push_back(condutores[0]);
     info.dest=grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()));
     info.vatual=grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()));
-    //percurso.push_back(info.vatual->getInfo());
+    percurso.push_back(info.vatual->getInfo());
     info.W=grafoConexo.getW();
     info.g=&grafoConexo;
 
+    auto pdi=pdiIter1();
 
     for(auto v: pdi){
         double d = info.vatual->getInfo().distance(v->getInfo());
@@ -329,20 +318,17 @@ void Dados::runIter1(int max) {
         }
         percurso.push_back(candidate->getInfo());
 
-
         }
-
+    Viagem viagem(percurso,passageiros);
     if (fila.empty()){
+        cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
 
-        cout << "Fila vazia";
-        for(auto p:passageiros)
-            cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem();
+        for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl;
 
     }
     else {
-        cout << "Carro cheio";
-        for (auto p:passageiros)
-            cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem();
+        cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl;
+        for (auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl;
     }
 }
 
@@ -402,11 +388,3 @@ void Dados::setMiny(int miny) {
     Dados::miny = miny;
 }
 
-const vector<Vertex<Local>*> & Dados::getPdi() const{
-return
-pdi;
-}
-
-void Dados::setPdi(const vector<Vertex<Local>*> & pdi) {
-    Dados::pdi = pdi;
-}
