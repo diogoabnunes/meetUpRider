@@ -164,10 +164,11 @@ class Graph {
 	bool relax(Vertex<T> *v, Vertex<T> *w, double weight);
 	double ** W = nullptr;   // dist
 	int **P = nullptr;   // path
-	int findVertexIdx(const T &in) const;
+
 
 
 public:
+    int findVertexIdx(const T &in) const;
 	Vertex<T> *findVertex(const T &in) const;
 	bool addVertex(const T &in);
     bool addVertex(const T &in,int index);
@@ -200,11 +201,16 @@ public:
 	//for the project
     void getGrafoConexo(Graph<T> & graph);
     double calcEdgeWeight(const T & sourc, const T & dest);
-    double **getW() const;
 
     void setW(double **w);
 
+    double **getW() const;
 
+    int **getP() const;
+
+    void setP(int **p);
+
+    double getfloydWarshallWeight(const T &orig, const T &dest) const;
 };
 
 template<class T>
@@ -462,11 +468,15 @@ void Graph<T>::floydWarshallShortestPath() {
 		for (unsigned j = 0; j < n; j++) {
 			W[i][j] = i == j? 0 : INF;
 			P[i][j] = -1;
+
 		}
+
 		for (auto e : vertexSet[i]->adj) {
+		    cout<<vertexSet[i]->adj.size();
 			int j = findVertexIdx(e.dest->info);
 			W[i][j]  = e.weight;
 			P[i][j]  = i;
+
 		}
 	}
 
@@ -496,7 +506,6 @@ vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
 	reverse(res.begin(), res.end());
 	return res;
 }
-
 
 template <class T>
 vector<T> Graph<T>::dfs(T v) const {
@@ -529,25 +538,23 @@ void Graph<T>::getGrafoConexo(Graph<T>& graph) {
     for (int i = 0; i < this->vertexSet.size(); i++) {
         if (vertexSet.at(i)->visited) {
             graph.addVertex(vertexSet.at(i)->info);
-            for (int j = 0; j < vertexSet.at(i)->adj.size(); j++) {
-                graph.addEdge(vertexSet.at(i)->adj.at(j).orig->info, vertexSet.at(i)->adj.at(j).dest->info,0);
-                graph.addEdge(vertexSet.at(i)->adj.at(j).dest->info,vertexSet.at(i)->adj.at(j).orig->info,0);
-            }
+
         }
     }
+    for (int i = 0; i < this->vertexSet.size(); i++) {
+        for (auto &e:vertexSet[i]->adj) {
+            if (e.dest->isVisited()) {
+                graph.addEdge(e.orig->info, e.dest->info, e.weight);
+            }
+        }
 
-
+    }
 }
 
 
 
 
 
-
-template<class T>
-double **Graph<T>::getW() const {
-    return W;
-}
 
 template<class T>
 void Graph<T>::setW(double **w) {
@@ -559,6 +566,21 @@ double Graph<T>::calcEdgeWeight(const T &sourc, const T & dest) {
     auto s=findVertex(sourc);
     auto d=findVertex(dest);
     return s->getInfo().distance(d->getInfo());
+}
+
+template<class T>
+double **Graph<T>::getW() const {
+    return W;
+}
+
+template<class T>
+int **Graph<T>::getP() const {
+    return P;
+}
+
+template<class T>
+void Graph<T>::setP(int **p) {
+    P = p;
 }
 
 

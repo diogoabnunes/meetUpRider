@@ -144,14 +144,7 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
     gv->defineEdgeColor("black");
 
     int idEdge = 0;
-<<<<<<< HEAD
-    real=false;
-    for (auto v : g.getVertexSet())
-    {
-        if (real) {
-            //double x = (v->getInfo().getX() - minX)/(maxX - minX);
-            //double y = (v->getInfo().getY() - minY)/(maxY - minY);
-=======
+
     double auxx, auxy;
     if (real) {
         for (auto v : g.getVertexSet()) {
@@ -161,7 +154,6 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
             if (v->getInfo().getY() < miny) miny = v->getInfo().getY();
         }
         for (auto v : g.getVertexSet()) {
->>>>>>> 73be455c66f3d2fe35792bc9e8a04af3f22456b6
             gv->setVertexSize(v->getInfo().getId(), 10);
             auxx = (v->getInfo().getX() - minx) / (maxx - minx);
             auxy = 1 - ((v->getInfo().getY() - miny) / (maxy - miny));
@@ -235,6 +227,7 @@ int Dados::processarGrafo() {
     int i=0;
     for (i = 0; i < grafoConexo.getVertexSet().size(); i++) {
         grafoConexo.getVertexSet()[i]->setQueueIndex(i);
+       cout<< grafoConexo.getW()[12][13];
         //caso o local seja partida ou chegada de algum cliente
         if (!grafoConexo.getVertexSet()[i]->getInfo().getPartida().empty() || !grafoConexo.getVertexSet()[i]->getInfo().getChegada().empty()) {
             grafoProcessado.addVertex(grafoConexo.getVertexSet()[i]->getInfo(),i);
@@ -244,8 +237,7 @@ int Dados::processarGrafo() {
     grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()))->getInfo(),i);
     grafoProcessado.addVertex(grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()))->getInfo(),++i);
     grafoProcessado.setW(grafoConexo.getW());
-
-
+    grafoProcessado.setP(grafoConexo.getP());
     cout << "Grafo processado" << endl;
     return 0;
 }
@@ -261,15 +253,15 @@ struct priorityData {
     Vertex<Local>*vatual;
     Vertex <Local>*dest;
     double **W;
+    Graph<Local> *g;
 };
 
 struct priorityData info;
 
 
 double priorityiter1(Vertex<Local> *v) {
-
-    double distTov=info.W[info.vatual->getQueueIndex()][v->getQueueIndex()];
-    double vtoDestdist= info.W[v->getQueueIndex()][info.dest->getQueueIndex()];
+    double distTov=info.W[info.g->findVertexIdx(info.vatual->getInfo())][info.g->findVertexIdx(v->getInfo())];
+    double vtoDestdist= info.W[info.g->findVertexIdx(v->getInfo())][info.g->findVertexIdx(info.dest->getInfo())];
     return distTov+vtoDestdist;
 }
 
@@ -297,6 +289,8 @@ void Dados::runIter1(int max) {
     info.vatual=grafoProcessado.findVertex(searchLocal(condutores[0]->getOrigem()));
     percurso.push_back(info.vatual->getInfo());
     info.W=grafoProcessado.getW();
+    info.g=&grafoProcessado;
+    cout<<info.W[0][1];
     int pax=0;
     while(pax<carros[0].getNSeats()){
         //esvaziar a fila
@@ -311,13 +305,13 @@ void Dados::runIter1(int max) {
 
       }
       Vertex<Local>* candidate;
-      Pessoa* candidatep;
+
       while(!fila.empty()){
 
         candidate= fila.top();
         fila.pop();
+        cout<<(int)info.W[0][1];
 
-        candidatep= candidate->getInfo().getPartida()[0];
         double distToCandidate=info.W[info.vatual->getQueueIndex()][candidate->getQueueIndex()];
         if(distToCandidate==INF)continue;
         double candidateToDest=info.W[candidate->getQueueIndex()][info.dest->getQueueIndex()];
