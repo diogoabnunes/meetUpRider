@@ -75,6 +75,8 @@ public:
     void runIter1(int max);
     vector<Vertex<Local>*> pdiIter1();
 
+    void runIter2(int max);
+    vector<Vertex<Local>*> pdiIter2();
 
     int runAlgorithm();
 
