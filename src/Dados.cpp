@@ -236,7 +236,7 @@ int Dados::processarGrafo() {
 
 int Dados::runAlgorithm() {
     runIter1(10000);
-    cout<<endl<<grafoConexo.getpathtime(Local(5,0,0),Local(6,1,0));
+    cout<<endl<<grafoConexo.getpathtime(Local(5,0,0),Local(8,1,0));
     cout << "TODO, de forma a que seja possível visualizar grafos de cada iteracao?\n"; // TODO
     return 0;
 }
@@ -250,6 +250,12 @@ struct priorityData {
 };
 
 struct priorityData info;
+
+double priorityIter2(Vertex<Local>*v){
+    double timeToV=info.g->getpathtime(info.vatual->getInfo(),v->getInfo());
+    double timeToDestfromV=info.g->getpathtime(v->getInfo(),info.dest->getInfo());
+    return timeToV+timeToDestfromV;
+}
 
 
 double priorityiter1(Vertex<Local> *v) {
@@ -265,6 +271,17 @@ struct Choicefunc1
         return priorityiter1(lhs) > priorityiter1(rhs);
     }
 };
+
+
+
+struct Choicefunc2
+{
+    bool operator()(Vertex<Local>* lhs, Vertex<Local>* rhs)
+    {
+        return priorityIter2(lhs) > priorityIter2(rhs);
+    }
+};
+
 
 
 vector<Vertex<Local> *> Dados::pdiIter1() {
