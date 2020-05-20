@@ -348,18 +348,16 @@ void Dados::runIter1(int max) {
 
 
 
-
-
-
-
-
-
-
 void Dados::changeGraph(string nodes, string edges, bool real) {
     this->real = real;
     Graph<Local> grafo;
     initGraph(grafo, nodes, edges, real);
     this->grafoInicial = grafo;
+
+    pessoas = readUsers("../resources/random_users.txt", condutores);
+    carros = readCarros("../resources/random_cars.txt");
+
+    addPessoatoLocal();
     //processarGrafo();
 }
 bool Dados::isReal() const {

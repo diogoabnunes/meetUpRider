@@ -29,4 +29,10 @@ Time::Time(string &t) {
     minutes=stoi(time[1]);
 }
 
+bool Time::operator<(const Time &t) {
+    int t1=this->getHour()*100+this->getMinutes();
+    int t2=t.getHour()*100+t.getMinutes();
+    return t1<t2;
+}
+
 

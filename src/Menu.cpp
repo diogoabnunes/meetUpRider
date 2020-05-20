@@ -63,7 +63,7 @@ void Menu::showMenu(Dados &dados) {
     } while (option != 0);
 }
 
-void Menu::chooseMap(Dados &dados) {
+int Menu::chooseMap(Dados &dados) {
     int option;
     string edges,nodes;
 
@@ -143,7 +143,7 @@ void Menu::chooseMap(Dados &dados) {
                               "../mapas/GridGraphs/16x16/edges.txt", false);
             break;
         case 0:
-            break;
+            return -1;
         default:
             cout << "Numero invalido\n";
             break;
