@@ -79,6 +79,8 @@ public:
     const vector<Vertex<Local>*> & getPdi() const;
 
     void setPdi(const vector<Vertex<Local>*> & pdi);
+
+    void refreshUsers(string users);
 };
 
 

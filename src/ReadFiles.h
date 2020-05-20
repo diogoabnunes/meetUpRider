@@ -19,6 +19,7 @@
 #include "graphviewer.h"
 #include "Graph.h"
 #include "Local.h"
+#include "Dados.h"
 using namespace std;
 
 
@@ -31,5 +32,6 @@ void parse_nodes(Graph<Local> *g, string file, bool real);
 void parse_edges(Graph<Local> *g, string file);
 
 void generatePeople(Graph<Local> *graph);
+
 
 #endif //MEETUPRIDER_READFILES_H

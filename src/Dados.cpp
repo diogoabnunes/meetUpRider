@@ -158,12 +158,14 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
             gv->setVertexSize(v->getInfo().getId(), 10);
             auxx = (v->getInfo().getX() - minx) / (maxx - minx);
             auxy = 1 - ((v->getInfo().getY() - miny) / (maxy - miny));
+            gv->setVertexLabel(v->getInfo().getId(), to_string(v->getInfo().getId()));
             gv->addNode(v->getInfo().getId(), (int) (auxx * width), (int) (auxy * height));
         }
     }
     else {
         for (auto v : g.getVertexSet()) {
             gv->setVertexSize(v->getInfo().getId(), 10);
+            gv->setVertexLabel(v->getInfo().getId(), to_string(v->getInfo().getId()));
             gv->addNode(v->getInfo().getId(), (int) v->getInfo().getX(), (int) v->getInfo().getY());
         }
     }
@@ -407,4 +409,16 @@ pdi;
 
 void Dados::setPdi(const vector<Vertex<Local>*> & pdi) {
     Dados::pdi = pdi;
+}
+
+void Dados::refreshUsers(string users) {
+    ofstream file(users);
+
+    if (file.is_open()) {
+        for (Pessoa* p : pessoas) {
+            file << "P;" << p->getId() << ";" << p->getOrigem() << ";" << p->getDestino() << ";"
+                 << p->getHoraPartida() << ";" << p->getHoraChegada() << endl;
+        }
+        file.close();
+    }
 }

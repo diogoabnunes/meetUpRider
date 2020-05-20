@@ -23,6 +23,7 @@ public:
 
     bool operator<(const Time &t);
 
+    friend ostream &operator << (ostream &os, const Time &t);
 };
 
 #endif //MEETUPRIDER_TIME_H

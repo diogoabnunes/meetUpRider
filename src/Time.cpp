@@ -35,4 +35,8 @@ bool Time::operator<(const Time &t) {
     return t1<t2;
 }
 
+ostream &operator<<(ostream &os, const Time &t) {
+    os << t.hour << "h" << t.minutes;
+}
+
 
