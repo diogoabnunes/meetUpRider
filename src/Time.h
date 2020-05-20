@@ -20,6 +20,9 @@ public:
     void setHour(int hour);
     int getMinutes() const;
     void setMinutes(int minutes);
+    Time add(Time t);
+
 };
+
 
 #endif //MEETUPRIDER_TIME_H

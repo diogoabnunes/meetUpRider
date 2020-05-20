@@ -135,6 +135,7 @@ int Dados::addPessoa() {
     return 0;
 }
 
+
 void Dados::graph_to_graphviewer(Graph<Local> &g)
 {
     int width = 600;
@@ -159,12 +160,14 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
             gv->setVertexSize(v->getInfo().getId(), 10);
             auxx = (v->getInfo().getX() - minx) / (maxx - minx);
             auxy = 1 - ((v->getInfo().getY() - miny) / (maxy - miny));
+            gv->setVertexLabel(v->getInfo().getId(), to_string(v->getInfo().getId()));
             gv->addNode(v->getInfo().getId(), (int) (auxx * width), (int) (auxy * height));
         }
     }
     else {
         for (auto v : g.getVertexSet()) {
             gv->setVertexSize(v->getInfo().getId(), 10);
+            gv->setVertexLabel(v->getInfo().getId(), to_string(v->getInfo().getId()));
             gv->addNode(v->getInfo().getId(), (int) v->getInfo().getX(), (int) v->getInfo().getY());
         }
     }
@@ -233,6 +236,7 @@ int Dados::processarGrafo() {
 
 int Dados::runAlgorithm() {
     runIter1(10000);
+    cout<<endl<<grafoConexo.getpathtime(Local(5,0,0),Local(6,1,0));
     cout << "TODO, de forma a que seja possível visualizar grafos de cada iteracao?\n"; // TODO
     return 0;
 }
@@ -317,7 +321,7 @@ void Dados::runIter1(int max) {
             else break;
         }
         percurso.push_back(candidate->getInfo());
-
+        info.vatual=candidate;
         }
     Viagem viagem(percurso,passageiros);
     if (fila.empty()){

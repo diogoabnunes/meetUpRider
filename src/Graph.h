@@ -56,6 +56,7 @@ public:
 
     bool isVisited() const;
 
+    Edge<T> findEdge(T dest);
     friend class Graph<T>;
 	friend class MutablePriorityQueue<Vertex<T>>;
 };
@@ -189,6 +190,7 @@ public:
 	// Fp05 - all pairs
 	void floydWarshallShortestPath();
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest) const;
+	double getpathtime(const T &origin, const T &dest)const;
 	~Graph();
 
 	// Fp07 - minimum spanning tree
@@ -231,6 +233,15 @@ int Vertex<T>::getQueueIndex() const {
 template<class T>
 void Vertex<T>::setQueueIndex(int queueIndex) {
     Vertex::queueIndex = queueIndex;
+}
+
+template<class T>
+Edge<T> Vertex<T>::findEdge(T dest) {
+
+    for(auto e:adj){
+        if(e.dest->getInfo()==dest)return e;
+    }
+    return Edge<T>(nullptr, nullptr, 0);
 }
 
 template<class T>
@@ -495,6 +506,25 @@ void Graph<T>::floydWarshallShortestPath() {
 }
 
 
+template<class T>
+double Graph<T>::getpathtime(const T &origin, const T &dest) const {
+
+    double time=0;
+    unsigned o=findVertexIdx(origin);
+    unsigned d=findVertexIdx(dest);
+    auto partialdest=dest;
+    if(o == -1 || d == -1 || W[o][d] == INF)return INF;
+    while(o!=d){
+        auto v=vertexSet[P[o][d]];
+        auto e= v->findEdge(partialdest);
+        time+=e.getWeight()/(e.getVelocity()*1000/60); //velocity is in km/h so its converted to m/min
+        partialdest=v->getInfo();
+        d=P[o][d];
+    }
+    return time;
+}
+
+
 
 template<class T>
 vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
@@ -582,7 +612,6 @@ template<class T>
 void Graph<T>::setP(int **p) {
     P = p;
 }
-
 
 #endif /* GRAPH_H_ */
 

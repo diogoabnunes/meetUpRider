@@ -29,4 +29,14 @@ Time::Time(string &t) {
     minutes=stoi(time[1]);
 }
 
+Time Time::add(Time t) {
+    int min= minutes+t.getMinutes();
+    int h=hour+t.getHour()+min/60;
+    min=min%60;
+    h=h%60;
+    return {h,min};
+}
+
+
+
 
