@@ -284,6 +284,17 @@ struct Choicefunc2
 
 
 
+Graph<Local> Dados::gpdiIter1() {
+    Graph<Local> pdi;
+    for(auto v:grafoConexo.getVertexSet()) {
+        if (!v->getInfo().getPartida().empty()) {
+            pdi.addVertex(v->getInfo());
+        }
+    }
+    return pdi;
+}
+
+
 vector<Vertex<Local> *> Dados::pdiIter1() {
     vector<Vertex<Local> *> pdi;
     for(auto v:grafoConexo.getVertexSet()) {
@@ -308,24 +319,36 @@ void Dados::runIter1(int max) {
     info.W=grafoConexo.getW();
     info.g=&grafoConexo;
 
-    auto pdi=pdiIter1();
-
-    for(auto v: pdi){
+    auto pdi=gpdiIter1();
+    for(auto v: pdi.getVertexSet()){
         double d = info.vatual->getInfo().distance(v->getInfo());
         if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
 
     }
+
     Vertex<Local>* candidate;
     int pax=0;
+    carros[0].setNSeats(10);
     while(pax<carros[0].getNSeats()&&!fila.empty()){
+        while(!fila.empty())fila.pop();
+        for(auto v: pdi.getVertexSet()){
+            double d = info.vatual->getInfo().distance(v->getInfo());
+            if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
 
+        }
+
+        if(fila.empty())break;
         candidate= fila.top();
         fila.pop();
 
         double distToCandidate=grafoConexo.getW()[grafoConexo.findVertexIdx(info.vatual->getInfo())][grafoConexo.findVertexIdx(candidate->getInfo())];
-        if(distToCandidate==INF)continue;
+        if(distToCandidate==INF){
+            auto a=candidate->getInfo();
+            pdi.removeVertex(a);
+            continue;
+        }
         double candidateToDest=grafoConexo.getW()[grafoConexo.findVertexIdx(candidate->getInfo())][grafoConexo.findVertexIdx(info.dest->getInfo())];
-        if(candidateToDest==INF)continue;
+        if(candidateToDest==INF){pdi.removeVertex(candidate->getInfo());continue;}
         auto p=candidate->getInfo().getPartida();
         //percorre todos os clientes à espera de boleia no local candidato
         for(auto it=p.begin();it<p.end();it++) {
@@ -333,12 +356,14 @@ void Dados::runIter1(int max) {
                 passageiros.push_back(*it);
                 pax++;
                 p.erase(it);
+                it--;
 
             }
             else break;
         }
         percurso.push_back(candidate->getInfo());
         info.vatual=candidate;
+        pdi.removeVertex(candidate->getInfo());
         }
     Viagem viagem(percurso,passageiros);
     if (fila.empty()){
@@ -355,7 +380,14 @@ void Dados::runIter1(int max) {
 
 
 
+void Dados::runIter2(int max) {
 
+}
+
+
+vector<Vertex<Local> *> Dados::pdiIter2() {
+    return vector<Vertex<Local> *>();
+}
 
 
 

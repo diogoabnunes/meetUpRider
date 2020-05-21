@@ -74,6 +74,7 @@ public:
     //iteraçoes
     void runIter1(int max);
     vector<Vertex<Local>*> pdiIter1();
+    Graph<Local> gpdiIter1();
 
     void runIter2(int max);
     vector<Vertex<Local>*> pdiIter2();
