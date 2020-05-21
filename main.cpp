@@ -8,7 +8,6 @@ int main() {
     Dados *dados = new Dados();
 
     int ret;
-
     do ret = menu.chooseMap(*dados);
     while(ret==-1);
 

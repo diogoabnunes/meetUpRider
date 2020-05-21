@@ -8,12 +8,20 @@ protected:
     int id;
     int origem;
     int destino;
-    Time horaPartida;
-    Time horaChegada;
+    Time horaMinPartida;
+    Time horaMaxChegada;
     Time pickup;
 
 public:
     Pessoa(int id, int origem, int destino, const Time &horaPartida, const Time &horaChegada);
+
+    const Time &getHoraMinPartida() const;
+
+    void setHoraMinPartida(const Time &horaMinPartida);
+
+    const Time &getHoraMaxChegada() const;
+
+    void setHoraMaxChegada(const Time &horaMaxChegada);
 
     int getId() const;
     void setId(int id);
@@ -21,10 +29,7 @@ public:
     void setOrigem(int origem);
     int getDestino() const;
     void setDestino(int destino);
-    const Time &getHoraPartida() const;
-    void setHoraPartida(const Time &horaPartida);
-    const Time &getHoraChegada() const;
-    void setHoraChegada(const Time &horaChegada);
+
 
     const Time &getPickup() const;
 

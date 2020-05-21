@@ -24,24 +24,9 @@ void Pessoa::setDestino(int destino) {
     Pessoa::destino = destino;
 }
 
-const Time &Pessoa::getHoraPartida() const {
-    return horaPartida;
-}
 
-void Pessoa::setHoraPartida(const Time &horaPartida) {
-    Pessoa::horaPartida = horaPartida;
-}
-
-const Time &Pessoa::getHoraChegada() const {
-    return horaChegada;
-}
-
-void Pessoa::setHoraChegada(const Time &horaChegada) {
-    Pessoa::horaChegada = horaChegada;
-}
-
-Pessoa::Pessoa(int id, int origem, int destino, const Time &horaPartida, const Time &horaChegada) : 
-    id(id), origem(origem), destino(destino), horaPartida(horaPartida), horaChegada(horaChegada) {}
+Pessoa::Pessoa(int id, int origem, int destino, const Time &horaPartida, const Time &horaChegada) :
+        id(id), origem(origem), destino(destino), horaMinPartida(horaPartida), horaMaxChegada(horaChegada) {}
 
 const Time &Pessoa::getPickup() const {
     return pickup;
@@ -50,3 +35,20 @@ const Time &Pessoa::getPickup() const {
 void Pessoa::setPickup(const Time &pickup) {
     Pessoa::pickup = pickup;
 }
+
+const Time &Pessoa::getHoraMinPartida() const {
+    return horaMinPartida;
+}
+
+void Pessoa::setHoraMinPartida(const Time &horaMinPartida) {
+    Pessoa::horaMinPartida = horaMinPartida;
+}
+
+const Time &Pessoa::getHoraMaxChegada() const {
+    return horaMaxChegada;
+}
+
+void Pessoa::setHoraMaxChegada(const Time &horaMaxChegada) {
+    Pessoa::horaMaxChegada = horaMaxChegada;
+}
+

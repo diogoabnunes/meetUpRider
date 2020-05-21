@@ -11,6 +11,7 @@
 #include <algorithm>
 #include <unordered_set>
 #include "MutablePriorityQueue.h"
+#include "Local.h"
 #include <cmath>
 using namespace std;
 
@@ -45,7 +46,7 @@ public:
 	Vertex(T in);
 
     Vertex(T info, int queueIndex);
-
+    bool removeEdgeTo(Vertex<T> *d);
     bool operator<(Vertex<T> & vertex) const; // // required by MutablePriorityQueue
 	T getInfo() const;
     const vector<Edge<T>> &getAdj() const;
@@ -56,6 +57,7 @@ public:
 
     bool isVisited() const;
 
+    Edge<T> findEdge(T dest);
     friend class Graph<T>;
 	friend class MutablePriorityQueue<Vertex<T>>;
 };
@@ -170,8 +172,12 @@ class Graph {
 public:
     int findVertexIdx(const T &in) const;
 	Vertex<T> *findVertex(const T &in) const;
-	bool addVertex(const T &in);
+	bool addVertex(Local in);
     bool addVertex(const T &in,int index);
+    bool removeVertex(const T &in);
+    bool removeEdge(const T &sourc, const T &dest);
+
+
 	bool addEdge(const T &sourc, const T &dest, double w);
 	int getNumVertex() const;
 	vector<Vertex<T> *> getVertexSet() const;
@@ -189,6 +195,7 @@ public:
 	// Fp05 - all pairs
 	void floydWarshallShortestPath();
 	vector<T> getfloydWarshallPath(const T &origin, const T &dest) const;
+	double getpathtime(const T &origin, const T &dest)const;
 	~Graph();
 
 	// Fp07 - minimum spanning tree
@@ -231,6 +238,15 @@ int Vertex<T>::getQueueIndex() const {
 template<class T>
 void Vertex<T>::setQueueIndex(int queueIndex) {
     Vertex::queueIndex = queueIndex;
+}
+
+template<class T>
+Edge<T> Vertex<T>::findEdge(T dest) {
+
+    for(auto e:adj){
+        if(e.dest->getInfo()==dest)return e;
+    }
+    return Edge<T>(nullptr, nullptr, 0);
 }
 
 template<class T>
@@ -309,7 +325,7 @@ int Graph<T>::findVertexIdx(const T &in) const {
  *  Returns true if successful, and false if a vertex with that content already exists.
  */
 template <class T>
-bool Graph<T>::addVertex(const T &in) {
+bool Graph<T>::addVertex(Local in) {
 	if (findVertex(in) != nullptr)
 		return false;
 	vertexSet.push_back(new Vertex<T>(in));
@@ -340,6 +356,71 @@ bool Graph<T>::addEdge(const T &sourc, const T &dest, double w) {
 	v1->addEdge(v2, w);
 	return true;
 }
+
+
+
+
+
+/*
+ * Removes an edge from a graph (this).
+ * The edge is identified by the source (sourc) and destination (dest) contents.
+ * Returns true if successful, and false if such edge does not exist.
+ */
+template <class T>
+bool Graph<T>::removeEdge(const T &sourc, const T &dest) {
+    // TODO (5 lines)
+    // HINT: Use "findVertex" to obtain the actual vertices.
+    // HINT: Use the next function to actually remove the edge.
+    auto s=findVertex(sourc);
+    auto d=findVertex(dest);
+    if(s!=NULL&&d!=NULL)return s->removeEdgeTo(d);
+    return false;
+}
+
+/*
+ * Auxiliary function to remove an outgoing edge (with a given destination (d))
+ * from a vertex (this).
+ * Returns true if successful, and false if such edge does not exist.
+ */
+template <class T>
+bool Vertex<T>::removeEdgeTo(Vertex<T> *d) {
+    // TODO (6 lines)
+    // HINT: use an iterator to scan the "adj" vector and then erase the edge.
+    auto it=adj.begin();
+    while(it!=adj.end()){
+        if(it->dest==d){
+            adj.erase(it);
+            return true;
+        }
+        it++;
+    }
+    return false;
+}
+
+
+/****************** 1d) removeVertex ********************/
+
+/*
+ *  Removes a vertex with a given content (in) from a graph (this), and
+ *  all outgoing and incoming edges.
+ *  Returns true if successful, and false if such vertex does not exist.
+ */
+template <class T>
+bool Graph<T>::removeVertex(const T &in) {
+    for (auto it = vertexSet.begin(); it != vertexSet.end(); it++)
+        if ((*it)->info  == in) {
+            auto v = *it;
+            vertexSet.erase(it);
+            for (auto u : vertexSet)
+                u->removeEdgeTo(v);
+            delete v;
+            return true;
+        }
+    return false;
+}
+
+
+
 
 
 /**************** Single Source Shortest Path algorithms ************/
@@ -495,6 +576,25 @@ void Graph<T>::floydWarshallShortestPath() {
 }
 
 
+template<class T>
+double Graph<T>::getpathtime(const T &origin, const T &dest) const {
+
+    double time=0;
+    unsigned o=findVertexIdx(origin);
+    unsigned d=findVertexIdx(dest);
+    auto partialdest=dest;
+    if(o == -1 || d == -1 || W[o][d] == INF)return INF;
+    while(o!=d){
+        auto v=vertexSet[P[o][d]];
+        auto e= v->findEdge(partialdest);
+        time+=e.getWeight()/(e.getVelocity()*1000/60); //velocity is in km/h so its converted to m/min
+        partialdest=v->getInfo();
+        d=P[o][d];
+    }
+    return time;
+}
+
+
 
 template<class T>
 vector<T> Graph<T>::getfloydWarshallPath(const T &orig, const T &dest) const{
@@ -582,7 +682,6 @@ template<class T>
 void Graph<T>::setP(int **p) {
     P = p;
 }
-
 
 #endif /* GRAPH_H_ */
 
