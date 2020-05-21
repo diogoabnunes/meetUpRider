@@ -236,7 +236,7 @@ int Dados::processarGrafo() {
 
 int Dados::runAlgorithm() {
     runIter2(1000);
-    cout<<endl<<grafoConexo.getpathtime(Local(5,0,0),Local(8,1,0));
+   // cout<<endl<<grafoConexo.getpathtime(Local(5,0,0),Local(8,1,0));
     cout << "TODO, de forma a que seja possível visualizar grafos de cada iteracao?\n"; // TODO
     return 0;
 }
@@ -372,21 +372,6 @@ void Dados::runIter1(int max) {
 
 
 
-Graph<Local> Dados::pdiIter2() {
-    Graph<Local> pdi;
-    for(auto v:grafoConexo.getVertexSet()) {
-        auto partidas=v->getInfo().getPartida();
-        if (!partidas.empty()) {
-            //for(auto p:partidas){
-                //vertices só são adicionados ao pdi se tiverem algum passageiro cuja hora de partida seja igual ou superior à do condutor
-               // if(condutores[0]->getHoraPartida()<=p->getHoraPartida())pdi.addVertex(v->getInfo());}
-            pdi.addVertex(v->getInfo());
-        }
-    }
-    return pdi;
-}
-
-
 
 void Dados::runIter2(int max) {
     vector<Pessoa*> passageiros;
@@ -404,7 +389,7 @@ void Dados::runIter2(int max) {
     info.g=&grafoConexo;
     bool transportou=false;
 
-    auto pdi=pdiIter2();
+    auto pdi=pdiIter1();
     for(auto v: pdi.getVertexSet()){
         double d = info.vatual->getInfo().distance(v->getInfo());
         if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
@@ -413,7 +398,6 @@ void Dados::runIter2(int max) {
 
     Vertex<Local>* candidate;
     int pax=0;
-    carros[0].setNSeats(10);
     while(pax<carros[0].getNSeats()&&!fila.empty()){
         while(!fila.empty())fila.pop();
         for(auto v: pdi.getVertexSet()){
@@ -469,7 +453,7 @@ void Dados::runIter2(int max) {
     }
     else {
         cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl;
-        for (auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl;
+        for (auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
     }
 }
 

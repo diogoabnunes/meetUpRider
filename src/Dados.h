@@ -77,7 +77,7 @@ public:
     Graph<Local> pdiIter1();
 
     void runIter2(int max);
-    Graph<Local>pdiIter2();
+
 
     int runAlgorithm();
 
