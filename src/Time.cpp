@@ -37,6 +37,12 @@ Time Time::add(Time t) {
     return {h,min};
 }
 
+bool Time::operator<(const Time &rhs) const {
+    if(hour==rhs.hour)return minutes<rhs.minutes;
+    else return hour<rhs.hour;
+}
+
+
 
 
 

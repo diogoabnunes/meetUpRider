@@ -73,11 +73,11 @@ public:
 
     //iteraçoes
     void runIter1(int max);
-    vector<Vertex<Local>*> pdiIter1();
-    Graph<Local> gpdiIter1();
+
+    Graph<Local> pdiIter1();
 
     void runIter2(int max);
-    vector<Vertex<Local>*> pdiIter2();
+    Graph<Local>pdiIter2();
 
     int runAlgorithm();
 

@@ -21,7 +21,7 @@ public:
     int getMinutes() const;
     void setMinutes(int minutes);
     Time add(Time t);
-
+    bool operator<(const Time &rhs) const ;
 };
 
 

@@ -284,7 +284,7 @@ struct Choicefunc2
 
 
 
-Graph<Local> Dados::gpdiIter1() {
+Graph<Local> Dados::pdiIter1() {
     Graph<Local> pdi;
     for(auto v:grafoConexo.getVertexSet()) {
         if (!v->getInfo().getPartida().empty()) {
@@ -295,15 +295,6 @@ Graph<Local> Dados::gpdiIter1() {
 }
 
 
-vector<Vertex<Local> *> Dados::pdiIter1() {
-    vector<Vertex<Local> *> pdi;
-    for(auto v:grafoConexo.getVertexSet()) {
-        if (!v->getInfo().getPartida().empty()) {
-            pdi.push_back(v);
-        }
-    }
-    return pdi;
-}
 
 void Dados::runIter1(int max) {
     vector<Pessoa*> passageiros;
@@ -319,7 +310,7 @@ void Dados::runIter1(int max) {
     info.W=grafoConexo.getW();
     info.g=&grafoConexo;
 
-    auto pdi=gpdiIter1();
+    auto pdi=pdiIter1();
     for(auto v: pdi.getVertexSet()){
         double d = info.vatual->getInfo().distance(v->getInfo());
         if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
@@ -378,16 +369,95 @@ void Dados::runIter1(int max) {
     }
 }
 
+Graph<Local> Dados::pdiIter2() {
+    Graph<Local> pdi;
+    for(auto v:grafoConexo.getVertexSet()) {
+        auto partidas=v->getInfo().getPartida();
+        if (!partidas.empty()) {
+            for(auto p:partidas){
+                if(p->getHoraPartida()<condutores[0]->getHoraPartida())
+            }
+            pdi.addVertex(v->getInfo());
+        }
+    }
+    return pdi;
+}
+
 
 
 void Dados::runIter2(int max) {
+    vector<Pessoa*> passageiros;
+    vector<Local>percurso;
 
+    priority_queue<Vertex<Local>*,vector<Vertex<Local>*>,Choicefunc2>fila;
+
+    condutores[0]->setPickup(condutores[0]->getHoraPartida());
+    //passageiros.push_back(condutores[0]);
+    info.dest=grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()));
+    info.vatual=grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()));
+    percurso.push_back(info.vatual->getInfo());
+    info.W=grafoConexo.getW();
+    info.g=&grafoConexo;
+
+    auto pdi=pdiIter2();
+    for(auto v: pdi.getVertexSet()){
+        double d = info.vatual->getInfo().distance(v->getInfo());
+        if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
+
+    }
+
+    Vertex<Local>* candidate;
+    int pax=0;
+    carros[0].setNSeats(10);
+    while(pax<carros[0].getNSeats()&&!fila.empty()){
+        while(!fila.empty())fila.pop();
+        for(auto v: pdi.getVertexSet()){
+            double d = info.vatual->getInfo().distance(v->getInfo());
+            if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
+
+        }
+
+        if(fila.empty())break;
+        candidate= fila.top();
+        fila.pop();
+
+        double distToCandidate=grafoConexo.getW()[grafoConexo.findVertexIdx(info.vatual->getInfo())][grafoConexo.findVertexIdx(candidate->getInfo())];
+        if(distToCandidate==INF){
+            auto a=candidate->getInfo();
+            pdi.removeVertex(a);
+            continue;
+        }
+        double candidateToDest=grafoConexo.getW()[grafoConexo.findVertexIdx(candidate->getInfo())][grafoConexo.findVertexIdx(info.dest->getInfo())];
+        if(candidateToDest==INF){pdi.removeVertex(candidate->getInfo());continue;}
+        auto p=candidate->getInfo().getPartida();
+        //percorre todos os clientes à espera de boleia no local candidato
+        for(auto it=p.begin();it<p.end();it++) {
+            if (pax < carros[0].getNSeats()){
+                passageiros.push_back(*it);
+                pax++;
+                p.erase(it);
+                it--;
+
+            }
+            else break;
+        }
+        percurso.push_back(candidate->getInfo());
+        info.vatual=candidate;
+        pdi.removeVertex(candidate->getInfo());
+    }
+    Viagem viagem(percurso,passageiros);
+    if (fila.empty()){
+        cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
+
+        for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl;
+
+    }
+    else {
+        cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl;
+        for (auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl;
+    }
 }
 
-
-vector<Vertex<Local> *> Dados::pdiIter2() {
-    return vector<Vertex<Local> *>();
-}
 
 
 
