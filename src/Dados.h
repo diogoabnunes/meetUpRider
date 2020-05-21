@@ -84,7 +84,9 @@ public:
 
     void changeGraph(string nodes,string edges,bool real);
 
+    void setPdi(const vector<Vertex<Local>*> & pdi);
 
+    void refreshUsers(string users);
 };
 
 

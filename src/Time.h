@@ -36,6 +36,7 @@ public:
     bool operator>(const Time &rhs)const;
     bool operator>=(const Time &rhs)const;
 
+    friend ostream &operator << (ostream &os, const Time &t);
 };
 ostream& operator<<(ostream& os, const Time& t);
 

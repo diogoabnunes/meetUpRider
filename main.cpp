@@ -12,6 +12,6 @@ int main() {
     while(ret==-1);
 
     menu.showMenu(*dados);
-    // atualizar ficheiros se necessário
+    dados->refreshUsers("../resources/try1.txt");
     return 0;
 }
