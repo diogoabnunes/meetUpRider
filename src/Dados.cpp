@@ -2,6 +2,14 @@
 #include "Viagem.h"
 
 Dados::Dados() {
+    Graph<Local> *gc = new Graph<Local>();
+    Graph<Local> *gf = new Graph<Local>();
+    Graph<Local> *gi = new Graph<Local>();
+
+    grafoInicial=*gi;
+    grafoConexo=*gc;
+    grafoProcessado=*gf;
+
     Graph<Local> graph;
     vector<Condutor*> r;
     vector<Pessoa*> v = readUsers("../resources/users.txt", r);
@@ -219,14 +227,18 @@ int Dados::processarGrafo() {
     grafoInicial.dfs(condutores[0]->getOrigem());
     cout << "Concluido" << endl;
     auto destino =grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
-    if (!destino->isVisited()) {
+
+    while (!destino->isVisited()) {
         cout << "O destino do condutor nao e atingivel a partir da sua origem. " << endl;
         exit(1) ;
     }
     cout << "A obter o grafo conexo... ";
-    grafoInicial.getGrafoConexo(grafoConexo);
+    Graph<Local> gc;
+    grafoInicial.getGrafoConexo(gc);
     cout << "Concluido" << endl;
-    cout << "A processar o grafo... " ;
+    cout << "A processar o grafo..." ;
+    fflush(stdout);
+    grafoConexo=gc;
 
     grafoConexo.floydWarshallShortestPath();
 
@@ -474,17 +486,19 @@ void Dados::runIter2(int max) {
 }
 
 
-
-
-
-
-
 void Dados::changeGraph(string nodes, string edges, bool real) {
     this->real = real;
     Graph<Local> grafo;
     initGraph(grafo, nodes, edges, real);
     this->grafoInicial = grafo;
-    //processarGrafo();
+
+    vector<Condutor*> r;
+    pessoas = readUsers("../resources/random_users.txt", r);
+    carros = readCarros("../resources/random_cars.txt");
+    this->condutores=r;
+
+    addPessoatoLocal();
+    processarGrafo();
 }
 bool Dados::isReal() const {
     return real;
