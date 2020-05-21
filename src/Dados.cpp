@@ -540,22 +540,13 @@ void Dados::setMiny(int miny) {
     Dados::miny = miny;
 }
 
-const vector<Vertex<Local>*> & Dados::getPdi() const{
-return
-pdi;
-}
-
-void Dados::setPdi(const vector<Vertex<Local>*> & pdi) {
-    Dados::pdi = pdi;
-}
-
 void Dados::refreshUsers(string users) {
     ofstream file(users);
 
     if (file.is_open()) {
         for (Pessoa* p : pessoas) {
             file << "P;" << p->getId() << ";" << p->getOrigem() << ";" << p->getDestino() << ";"
-                 << p->getHoraPartida() << ";" << p->getHoraChegada() << endl;
+                 << p->getHoraMinPartida() << ";" << p->getHoraMaxChegada() << endl;
         }
         file.close();
     }

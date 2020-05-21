@@ -20,6 +20,7 @@
 #include "Graph.h"
 #include "Local.h"
 #include "Dados.h"
+#include <time.h>
 using namespace std;
 
 
