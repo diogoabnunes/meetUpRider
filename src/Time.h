@@ -21,7 +21,7 @@ public:
     Time(int hour, int minutes);
     Time();
     Time(string &t);
-
+    Time(double t);
     Time(int hour, int minutes, int seconds);
 
     int getHour() const;
