@@ -247,6 +247,7 @@ struct priorityData {
     Vertex <Local>*dest;
     double **W;
     Graph<Local> *g;
+    Time currentTime;
 };
 
 struct priorityData info;
@@ -369,15 +370,18 @@ void Dados::runIter1(int max) {
     }
 }
 
+
+
 Graph<Local> Dados::pdiIter2() {
     Graph<Local> pdi;
     for(auto v:grafoConexo.getVertexSet()) {
         auto partidas=v->getInfo().getPartida();
         if (!partidas.empty()) {
             for(auto p:partidas){
-                if(p->getHoraPartida()<condutores[0]->getHoraPartida())
+                //vertices só são adicionados ao pdi se tiverem algum passageiro cuja hora de partida seja igual ou superior à do condutor
+                if(condutores[0]->getHoraPartida()<=p->getHoraPartida())pdi.addVertex(v->getInfo());
             }
-            pdi.addVertex(v->getInfo());
+
         }
     }
     return pdi;
@@ -395,6 +399,7 @@ void Dados::runIter2(int max) {
     //passageiros.push_back(condutores[0]);
     info.dest=grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()));
     info.vatual=grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()));
+    info.currentTime=condutores[0]->getHoraPartida();
     percurso.push_back(info.vatual->getInfo());
     info.W=grafoConexo.getW();
     info.g=&grafoConexo;
@@ -421,18 +426,20 @@ void Dados::runIter2(int max) {
         candidate= fila.top();
         fila.pop();
 
-        double distToCandidate=grafoConexo.getW()[grafoConexo.findVertexIdx(info.vatual->getInfo())][grafoConexo.findVertexIdx(candidate->getInfo())];
-        if(distToCandidate==INF){
+        double timeToCandidate=grafoConexo.getpathtime(info.vatual->getInfo(),candidate->getInfo());
+        if(timeToCandidate==INF){
             auto a=candidate->getInfo();
             pdi.removeVertex(a);
             continue;
         }
-        double candidateToDest=grafoConexo.getW()[grafoConexo.findVertexIdx(candidate->getInfo())][grafoConexo.findVertexIdx(info.dest->getInfo())];
+
+        double candidateToDest=grafoConexo. getpathtime(candidate->getInfo(),info.dest->getInfo());
         if(candidateToDest==INF){pdi.removeVertex(candidate->getInfo());continue;}
         auto p=candidate->getInfo().getPartida();
         //percorre todos os clientes à espera de boleia no local candidato
         for(auto it=p.begin();it<p.end();it++) {
             if (pax < carros[0].getNSeats()){
+                if((*it)->getHoraPartida())
                 passageiros.push_back(*it);
                 pax++;
                 p.erase(it);
