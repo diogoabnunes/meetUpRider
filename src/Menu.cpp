@@ -63,7 +63,7 @@ void Menu::showMenu(Dados &dados) {
     } while (option != 0);
 }
 
-void Menu::chooseMap(Dados &dados) {
+int Menu::chooseMap(Dados &dados) {
     int option;
     string edges,nodes;
 
@@ -79,9 +79,10 @@ void Menu::chooseMap(Dados &dados) {
     cout << "[9] Maia\n";
     cout << "[10] Porto\n";
     cout << "[11] Viseu\n";
-    cout << "[12] GridGraph 4x4\n";
-    cout << "[13] GridGraph 8x8\n";
-    cout << "[14] GridGraph 16x16\n";
+    cout << "[12] Espinho\n";
+    cout << "[13] GridGraph 4x4\n";
+    cout << "[14] GridGraph 8x8\n";
+    cout << "[15] GridGraph 16x16\n";
     cout << "[0] Voltar\n";
     cin >> option;
 
@@ -131,19 +132,23 @@ void Menu::chooseMap(Dados &dados) {
                               "../mapas/PortugalMaps/Viseu/edges_viseu.txt", true);
             break;
         case 12:
+            dados.changeGraph("../mapas/PortugalMaps/Espinho/espinho_strong_nodes_xy.txt",
+                              "../mapas/PortugalMaps/Espinho/espinho_strong_edges.txt", true);
+            break;
+        case 13:
             dados.changeGraph("../mapas/GridGraphs/4x4/nodes.txt",
                               "../mapas/GridGraphs/4x4/edges.txt", false);
             break;
-        case 13:
+        case 14:
             dados.changeGraph("../mapas/GridGraphs/8x8/nodes.txt",
                               "../mapas/GridGraphs/8x8/edges.txt", false);
             break;
-        case 14:
+        case 15:
             dados.changeGraph("../mapas/GridGraphs/16x16/nodes.txt",
                               "../mapas/GridGraphs/16x16/edges.txt", false);
             break;
         case 0:
-            break;
+            return -1;
         default:
             cout << "Numero invalido\n";
             break;

@@ -8,7 +8,7 @@ class Menu {
 public:
     Menu();
     void showMenu(Dados &dados);
-    void chooseMap(Dados &dados);
+    int chooseMap(Dados &dados);
 };
 
 

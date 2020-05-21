@@ -4,9 +4,14 @@
 using namespace std;
 
 int main() {
-    Dados *dados = new Dados();
     Menu menu;
+    Dados *dados = new Dados();
+
+    int ret;
+    do ret = menu.chooseMap(*dados);
+    while(ret==-1);
+
     menu.showMenu(*dados);
-    // atualizar ficheiros se necessário
+    dados->refreshUsers("../resources/try1.txt");
     return 0;
 }

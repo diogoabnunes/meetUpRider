@@ -8,6 +8,7 @@
 #include "Local.h"
 #include "ReadFiles.h"
 #include "limits.h"
+
 #include <vector>
 
 using namespace std;
@@ -83,7 +84,7 @@ public:
 
     void changeGraph(string nodes,string edges,bool real);
 
-
+    void refreshUsers(string users);
 };
 
 
