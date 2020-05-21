@@ -90,4 +90,17 @@ void Time::setSeconds(int seconds) {
     Time::seconds = seconds;
 }
 
+bool Time::operator>(const Time &rhs) const {
+    return !(*this <=rhs);
+}
 
+bool Time::operator>=(const Time &rhs) const {
+    return !(*this <rhs);
+}
+
+
+ostream& operator<<(ostream& os, const Time& t)
+{
+    os << t.getHour() << 'h' << t.getMinutes() << 'm' << t.getSeconds()<<'s';
+    return os;
+}

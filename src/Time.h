@@ -32,8 +32,10 @@ public:
     bool operator<(const Time &rhs) const ;
     bool operator<=(const Time &rhs) const ;
     Time operator+(const Time &rhs)const;
+    bool operator>(const Time &rhs)const;
+    bool operator>=(const Time &rhs)const;
 
 };
-
+ostream& operator<<(ostream& os, const Time& t);
 
 #endif //MEETUPRIDER_TIME_H

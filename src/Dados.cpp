@@ -235,7 +235,7 @@ int Dados::processarGrafo() {
 }
 
 int Dados::runAlgorithm() {
-    runIter1(10000);
+    runIter2(1000);
     cout<<endl<<grafoConexo.getpathtime(Local(5,0,0),Local(8,1,0));
     cout << "TODO, de forma a que seja possível visualizar grafos de cada iteracao?\n"; // TODO
     return 0;
@@ -303,7 +303,7 @@ void Dados::runIter1(int max) {
 
     priority_queue<Vertex<Local>*,vector<Vertex<Local>*>,Choicefunc1>fila;
 
-    condutores[0]->setPickup(condutores[0]->getHoraPartida());
+    condutores[0]->setPickup(condutores[0]->getHoraMinPartida());
     //passageiros.push_back(condutores[0]);
     info.dest=grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()));
     info.vatual=grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()));
@@ -377,11 +377,10 @@ Graph<Local> Dados::pdiIter2() {
     for(auto v:grafoConexo.getVertexSet()) {
         auto partidas=v->getInfo().getPartida();
         if (!partidas.empty()) {
-            for(auto p:partidas){
+            //for(auto p:partidas){
                 //vertices só são adicionados ao pdi se tiverem algum passageiro cuja hora de partida seja igual ou superior à do condutor
-                if(condutores[0]->getHoraPartida()<=p->getHoraPartida())pdi.addVertex(v->getInfo());
-            }
-
+               // if(condutores[0]->getHoraPartida()<=p->getHoraPartida())pdi.addVertex(v->getInfo());}
+            pdi.addVertex(v->getInfo());
         }
     }
     return pdi;
@@ -395,14 +394,15 @@ void Dados::runIter2(int max) {
 
     priority_queue<Vertex<Local>*,vector<Vertex<Local>*>,Choicefunc2>fila;
 
-    condutores[0]->setPickup(condutores[0]->getHoraPartida());
+    condutores[0]->setPickup(condutores[0]->getHoraMinPartida());
     //passageiros.push_back(condutores[0]);
     info.dest=grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()));
     info.vatual=grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()));
-    info.currentTime=condutores[0]->getHoraPartida();
+    info.currentTime=condutores[0]->getHoraMinPartida();
     percurso.push_back(info.vatual->getInfo());
     info.W=grafoConexo.getW();
     info.g=&grafoConexo;
+    bool transportou=false;
 
     auto pdi=pdiIter2();
     for(auto v: pdi.getVertexSet()){
@@ -433,30 +433,38 @@ void Dados::runIter2(int max) {
             continue;
         }
 
-        double candidateToDest=grafoConexo. getpathtime(candidate->getInfo(),info.dest->getInfo());
-        if(candidateToDest==INF){pdi.removeVertex(candidate->getInfo());continue;}
+        double timecandidateToDest=grafoConexo. getpathtime(candidate->getInfo(),info.dest->getInfo());
+        if(timecandidateToDest==INF){pdi.removeVertex(candidate->getInfo());continue;}
         auto p=candidate->getInfo().getPartida();
         //percorre todos os clientes à espera de boleia no local candidato
         for(auto it=p.begin();it<p.end();it++) {
             if (pax < carros[0].getNSeats()){
-                if((*it)->getHoraPartida())
-                passageiros.push_back(*it);
-                pax++;
-                p.erase(it);
-                it--;
+                if((*it)->getHoraMinPartida()<=info.currentTime+Time(timeToCandidate) && condutores[0]->getHoraMaxChegada()>(info.currentTime+Time(timeToCandidate)+Time(timecandidateToDest)) && (*it)->getHoraMaxChegada()>(info.currentTime+Time(timeToCandidate)+Time(timecandidateToDest))){
+                    (*it)->setPickup(info.currentTime+Time(timeToCandidate));
+                    passageiros.push_back(*it);
+                    pax++;
+                    p.erase(it);
+                    it--;
+                    transportou=true;
+                }
+
 
             }
             else break;
         }
-        percurso.push_back(candidate->getInfo());
-        info.vatual=candidate;
+        if(transportou) {
+            percurso.push_back(candidate->getInfo());
+            info.vatual = candidate;
+            info.currentTime = info.currentTime + Time(timeToCandidate);
+        }
+        transportou=false;
         pdi.removeVertex(candidate->getInfo());
     }
     Viagem viagem(percurso,passageiros);
     if (fila.empty()){
         cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
 
-        for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl;
+        for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
 
     }
     else {
