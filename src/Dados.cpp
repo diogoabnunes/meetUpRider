@@ -255,7 +255,7 @@ struct priorityData info;
 double priorityIter2(Vertex<Local>*v){
     double timeToV=info.g->getpathtime(info.vatual->getInfo(),v->getInfo());
     double timeToDestfromV=info.g->getpathtime(v->getInfo(),info.dest->getInfo());
-    return timeToV+timeToDestfromV;
+    return timeToV*5+timeToDestfromV;//pontos mais proximos do vertice atual têm maior prioridade
 }
 
 
