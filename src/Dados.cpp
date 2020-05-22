@@ -590,3 +590,8 @@ void Dados::refreshUsers(string users) {
         file.close();
     }
 }
+
+int Dados::analiseComplexity() {
+    cout << "TODO\n";
+    return 0;
+}

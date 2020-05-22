@@ -82,6 +82,8 @@ public:
     void changeGraph(string nodes,string edges,bool real);
 
     void refreshUsers(string users);
+
+    int analiseComplexity();
 };
 
 

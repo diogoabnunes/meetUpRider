@@ -33,7 +33,7 @@ void Menu::showMenu(Dados &dados) {
                 break;
 
             case 3:
-                if (dados.visualizeGraph() != 0) exit(1);
+                if (dados.visualizeGraph() != 0) exit(3);
                 break;
 
             case 4:
@@ -49,7 +49,7 @@ void Menu::showMenu(Dados &dados) {
                 break;
 
             case 7:
-                //if (dados.analiseComplexity() != 0) exit(7);
+                if (dados.analiseComplexity() != 0) exit(7);
                 break;
 
             case 0:
