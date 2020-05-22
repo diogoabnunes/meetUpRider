@@ -113,7 +113,7 @@ void Dados::addPessoatoLocal() {
 
 int Dados::addPessoa() {
     int id, origem, destino;
-    cout << "ID: "; cin >> id;
+    cout << "ID da pessoa a adicionar: "; cin >> id;
     if (searchPessoa(id) != NULL)
     {
         cout << "Já existe uma pessoa com esse ID\n";
@@ -141,6 +141,23 @@ int Dados::addPessoa() {
     pessoas.push_back(p);
 
     return 0;
+}
+
+int Dados::elimPessoa()
+{
+    int id;
+    cout << "ID da pessoa a eliminar: "; cin >> id;
+
+    if (searchPessoa(id) != NULL) {
+        for (auto it = pessoas.begin(); it != pessoas.end(); it++) {
+            if ((*it)->getId() == id) {
+                pessoas.erase(it);
+                break;
+            }
+        }
+        return 0;
+    }
+    else return 1;
 }
 
 

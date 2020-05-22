@@ -22,26 +22,6 @@ class Dados {
     vector<Automovel> carros;
     bool real;
     int maxx, minx, maxy, miny;
-public:
-    int getMaxx() const;
-
-    void setMaxx(int maxx);
-
-    int getMinx() const;
-
-    void setMinx(int minx);
-
-    int getMaxy() const;
-
-    void setMaxy(int maxy);
-
-    int getMiny() const;
-
-    void setMiny(int miny);
-
-public:
-    bool isReal() const;
-    void setReal(bool real);
 
 public:
     Dados();
@@ -61,9 +41,22 @@ public:
     const Graph<Local> &getGrafoProcessado() const;
     void setGrafoProcessado(const Graph<Local> &grafoProcessado);
 
+    bool isReal() const;
+    void setReal(bool real);
+
+    int getMaxx() const;
+    void setMaxx(int maxx);
+    int getMinx() const;
+    void setMinx(int minx);
+    int getMaxy() const;
+    void setMaxy(int maxy);
+    int getMiny() const;
+    void setMiny(int miny);
+
     Pessoa* searchPessoa(int id);
     Local searchLocal(int id);
     int addPessoa();
+    int elimPessoa();
 
     void graph_to_graphviewer(Graph<Local> &g);
     int visualizeGraph();
