@@ -20,6 +20,7 @@ class Dados {
     vector<Condutor*> condutores;
     vector<Pessoa*> pessoas;
     vector<Automovel> carros;
+    Viagem viagem;
     bool real;
     int maxx, minx, maxy, miny;
 
@@ -71,7 +72,7 @@ public:
     Graph<Local> pdiIter1();
 
     void runIter2(int max);
-    Graph<Local>pdiIter2();
+
 
     int runAlgorithm();
 

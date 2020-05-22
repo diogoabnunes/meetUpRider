@@ -106,7 +106,7 @@ void generatePeople(Graph<Local> *graph){
 
     n1=rand()%nVertex;
     n2=rand()%nVertex;
-    start=graph->getVertexSet().at(n1)->getInfo().getId(); // change 0 to n1
+    start=graph->getVertexSet().at(0)->getInfo().getId(); // change 0 to n1
     end=graph->getVertexSet().at(n2)->getInfo().getId();
 
     ti.setHour(rand()%20);
