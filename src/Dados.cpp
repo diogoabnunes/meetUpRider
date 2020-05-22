@@ -248,7 +248,6 @@ int Dados::processarGrafo() {
 
 int Dados::runAlgorithm() {
     runIter2(1000);
-   // cout<<endl<<grafoConexo.getpathtime(Local(5,0,0),Local(8,1,0));
     cout << "TODO, de forma a que seja possível visualizar grafos de cada iteracao?\n"; // TODO
     return 0;
 }
@@ -369,7 +368,7 @@ void Dados::runIter1(int max) {
         info.vatual=candidate;
         pdi.removeVertex(candidate->getInfo());
         }
-    Viagem viagem(percurso,passageiros);
+    viagem=Viagem(percurso,passageiros);
     if (fila.empty()){
         cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
 
@@ -456,7 +455,7 @@ void Dados::runIter2(int max) {
         transportou=false;
         pdi.removeVertex(candidate->getInfo());
     }
-    Viagem viagem(percurso,passageiros);
+    viagem=Viagem(percurso,passageiros);
     if (fila.empty()){
         cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
 

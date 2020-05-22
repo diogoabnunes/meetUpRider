@@ -20,6 +20,7 @@ class Dados {
     vector<Condutor*> condutores;
     vector<Pessoa*> pessoas;
     vector<Automovel> carros;
+    Viagem viagem;
     bool real;
     int maxx, minx, maxy, miny;
 public:
