@@ -11,6 +11,7 @@
 class Viagem {
 public:
     Viagem(const vector<Local> &percurso, const vector<Pessoa*> & passageiros);
+    Viagem();
 
     const vector<Local> & getPercurso() const;
 

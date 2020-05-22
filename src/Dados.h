@@ -8,6 +8,7 @@
 #include "Local.h"
 #include "ReadFiles.h"
 #include "limits.h"
+#include "Viagem.h"
 
 #include <vector>
 
@@ -58,6 +59,8 @@ public:
     Local searchLocal(int id);
     int addPessoa();
     int elimPessoa();
+    int visualizeInfoPessoa();
+    int visualizeInfo();
 
     void graph_to_graphviewer(Graph<Local> &g);
     int visualizeGraph();

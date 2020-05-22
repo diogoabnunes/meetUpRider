@@ -26,6 +26,7 @@ Dados::Dados() {
     this->miny = INT_MAX;
     this->maxx = INT_MIN;
     this->maxy = INT_MIN;
+    this->viagem = Viagem();
 }
 
 vector<Condutor*> Dados::getCondutores() {
@@ -160,6 +161,44 @@ int Dados::elimPessoa()
     else return 1;
 }
 
+int Dados::visualizeInfoPessoa()
+{
+    int pers; cout << "ID a visualizar: "; cin >> pers;
+    Pessoa *p = searchPessoa(pers);
+    if (p != NULL) { cout << *p; return 0; }
+    else { cout << "O ID que escolheu nao pertence a nenhuma pessoa...\n"; return 1; }
+}
+
+int Dados::visualizeInfo() {
+    int visi = -1;
+    do {
+        cout << "Visualizar informacao:\n";
+        cout << "[1] De todas as pessoas\n";
+        cout << "[2] De uma pessoa especifica\n";
+        cout << "[0] Voltar";
+        cin >> visi;
+
+        switch (visi)
+        {
+            case 1:
+                for (auto p : pessoas) cout << *p;
+                break;
+
+            case 2:
+                visualizeInfoPessoa();
+                break;
+
+            case 0:
+                break;
+
+            default:
+                cin.ignore(1000, '\n');
+                cout << "Numero invalido\n";
+                break;
+        }
+    } while (visi == -1);
+    return 0;
+}
 
 void Dados::graph_to_graphviewer(Graph<Local> &g)
 {

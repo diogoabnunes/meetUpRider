@@ -24,3 +24,5 @@ void Viagem::setPassageiros(const vector<Pessoa*> & passageiros) {
 
 Viagem::Viagem(const vector<Local> &percurso, const vector<Pessoa*> & passageiros) : percurso(percurso),
                                                                                    passageiros(passageiros) {}
+
+Viagem::Viagem() {}

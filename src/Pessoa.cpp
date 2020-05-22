@@ -52,3 +52,9 @@ void Pessoa::setHoraMaxChegada(const Time &horaMaxChegada) {
     Pessoa::horaMaxChegada = horaMaxChegada;
 }
 
+ostream &operator<<(ostream &os, const Pessoa &p) {
+    os << "ID: " << p.id << " | Origem: " << p.origem << " | Destino: " << p.destino
+        << " | Hora Minima de Partida: " << p.horaMinPartida << " | Hora Maxima de Chegada: " << p.horaMaxChegada << endl;
+    return os;
+}
+
