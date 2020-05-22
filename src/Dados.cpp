@@ -284,7 +284,7 @@ int Dados::processarGrafo() {
     cout << "Concluido" << endl;
     auto destino =grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
 
-    while (!destino->isVisited()) {
+    if (!destino->isVisited()) {
         char option;
         cout << "O destino do condutor nao e atingivel a partir da sua origem. " << endl;
         cout <<"Gerar novas pessoas [Y/n]?";
@@ -293,7 +293,7 @@ int Dados::processarGrafo() {
             cout<<"\nloading...";
             fflush(stdout);
             do {
-                changeGraph2(lastNodes, lastEdges, real);
+                changeGraph2();
                 grafoInicial.dfs(condutores[0]->getOrigem());
                 destino = grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
             } while (!destino->isVisited());
@@ -449,8 +449,6 @@ void Dados::runIter1(int max) {
 }
 
 
-
-
 void Dados::runIter2(int max) {
     vector<Pessoa*> passageiros;
     vector<Local>percurso;
@@ -553,7 +551,7 @@ void Dados::changeGraph(string nodes, string edges, bool real) {
     processarGrafo();
 }
 
-void Dados::changeGraph2(string nodes, string edges, bool real) {
+void Dados::changeGraph2() {
     generatePeople(&grafoInicial);
     vector<Condutor*> r;
     pessoas = readUsers("../resources/random_users.txt", r);
