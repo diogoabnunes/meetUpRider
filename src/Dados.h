@@ -8,6 +8,7 @@
 #include "Local.h"
 #include "ReadFiles.h"
 #include "limits.h"
+#include "Viagem.h"
 
 #include <vector>
 
@@ -21,6 +22,17 @@ class Dados {
     vector<Pessoa*> pessoas;
     vector<Automovel> carros;
     Viagem viagem;
+
+public:
+    const vector<Automovel> &getCarros() const;
+
+    void setCarros(const vector<Automovel> &carros);
+
+    const Viagem &getViagem() const;
+
+    void setViagem(const Viagem &viagem);
+
+private:
     bool real;
     int maxx, minx, maxy, miny;
 public:
@@ -74,12 +86,13 @@ public:
     int processarGrafo();
 
     //iteraçoes
+
+    Graph<Local> pdiIter1_2();//seleciona os pontos de interesse das iterações 1 e 2
+
     void runIter1(int max);
-
-    Graph<Local> pdiIter1();
-
     void runIter2(int max);
 
+    int fillCarIter1( Vertex<Local>* & candidate, vector<Pessoa*>& passageiros,vector<Local>percurso , Graph<Local>& pdi  ,int & pax );
 
     int runAlgorithm();
 

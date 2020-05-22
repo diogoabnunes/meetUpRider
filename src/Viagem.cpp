@@ -9,6 +9,8 @@ return
 percurso;
 }
 
+Viagem::Viagem() {}
+
 void Viagem::setPercurso(const vector<Local> & percurso) {
     Viagem::percurso = percurso;
 }

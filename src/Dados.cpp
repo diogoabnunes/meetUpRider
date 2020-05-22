@@ -296,7 +296,7 @@ struct Choicefunc2
 
 
 
-Graph<Local> Dados::pdiIter1() {
+Graph<Local> Dados::pdiIter1_2() {
     Graph<Local> pdi;
     for(auto v:grafoConexo.getVertexSet()) {
         if (!v->getInfo().getPartida().empty()) {
@@ -311,18 +311,15 @@ Graph<Local> Dados::pdiIter1() {
 void Dados::runIter1(int max) {
     vector<Pessoa*> passageiros;
     vector<Local>percurso;
-
     priority_queue<Vertex<Local>*,vector<Vertex<Local>*>,Choicefunc1>fila;
-
     condutores[0]->setPickup(condutores[0]->getHoraMinPartida());
-    //passageiros.push_back(condutores[0]);
     info.dest=grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()));
     info.vatual=grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()));
     percurso.push_back(info.vatual->getInfo());
     info.W=grafoConexo.getW();
     info.g=&grafoConexo;
 
-    auto pdi=pdiIter1();
+    auto pdi=pdiIter1_2();
     for(auto v: pdi.getVertexSet()){
         double d = info.vatual->getInfo().distance(v->getInfo());
         if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
@@ -343,32 +340,10 @@ void Dados::runIter1(int max) {
         if(fila.empty())break;
         candidate= fila.top();
         fila.pop();
-
-        double distToCandidate=grafoConexo.getW()[grafoConexo.findVertexIdx(info.vatual->getInfo())][grafoConexo.findVertexIdx(candidate->getInfo())];
-        if(distToCandidate==INF){
-            auto a=candidate->getInfo();
-            pdi.removeVertex(a);
-            continue;
+        if (fillCarIter1(candidate, passageiros,  percurso,pdi,  pax))continue;
         }
-        double candidateToDest=grafoConexo.getW()[grafoConexo.findVertexIdx(candidate->getInfo())][grafoConexo.findVertexIdx(info.dest->getInfo())];
-        if(candidateToDest==INF){pdi.removeVertex(candidate->getInfo());continue;}
-        auto p=candidate->getInfo().getPartida();
-        //percorre todos os clientes à espera de boleia no local candidato
-        for(auto it=p.begin();it<p.end();it++) {
-            if (pax < carros[0].getNSeats()){
-                passageiros.push_back(*it);
-                pax++;
-                p.erase(it);
-                it--;
-
-            }
-            else break;
-        }
-        percurso.push_back(candidate->getInfo());
-        info.vatual=candidate;
-        pdi.removeVertex(candidate->getInfo());
-        }
-    viagem=Viagem(percurso,passageiros);
+    viagem.setPassageiros(passageiros);
+    viagem.setPercurso(percurso);
     if (fila.empty()){
         cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
 
@@ -379,7 +354,38 @@ void Dados::runIter1(int max) {
         cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl;
         for (auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl;
     }
+
 }
+
+
+
+
+int Dados::fillCarIter1(Vertex<Local> *&candidate, vector<Pessoa *> &passageiros, vector<Local> percurso,Graph<Local> &pdi, int & pax) {
+    double distToCandidate=grafoConexo.getW()[grafoConexo.findVertexIdx(info.vatual->getInfo())][grafoConexo.findVertexIdx(candidate->getInfo())];
+    if(distToCandidate==INF){
+
+        pdi.removeVertex(candidate->getInfo());
+        return 1;
+    }
+    double candidateToDest=grafoConexo.getW()[grafoConexo.findVertexIdx(candidate->getInfo())][grafoConexo.findVertexIdx(info.dest->getInfo())];
+    if(candidateToDest==INF){pdi.removeVertex(candidate->getInfo());return 1;}
+    auto p=candidate->getInfo().getPartida();
+    //percorre todos os clientes à espera de boleia no local candidato
+    for(auto it=p.begin();it<p.end();it++) {
+        if (pax < carros[0].getNSeats()){
+            passageiros.push_back(*it);
+            pax++;
+            p.erase(it);
+            it--;
+
+        }
+        else break;
+    }
+    percurso.push_back(candidate->getInfo());
+    info.vatual=candidate;
+    pdi.removeVertex(candidate->getInfo());
+}
+
 
 
 
@@ -400,7 +406,7 @@ void Dados::runIter2(int max) {
     info.g=&grafoConexo;
     bool transportou=false;
 
-    auto pdi=pdiIter1();
+    auto pdi=pdiIter1_2();
     for(auto v: pdi.getVertexSet()){
         double d = info.vatual->getInfo().distance(v->getInfo());
         if(!v->getInfo().getPartida().empty() && d < max) fila.push(v);
@@ -455,7 +461,8 @@ void Dados::runIter2(int max) {
         transportou=false;
         pdi.removeVertex(candidate->getInfo());
     }
-    viagem=Viagem(percurso,passageiros);
+    viagem.setPassageiros(passageiros);
+    viagem.setPercurso(percurso);
     if (fila.empty()){
         cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
 
@@ -534,3 +541,22 @@ void Dados::refreshUsers(string users) {
         file.close();
     }
 }
+
+const vector<Automovel> &Dados::getCarros() const {
+    return carros;
+}
+
+void Dados::setCarros(const vector<Automovel> &carros) {
+    Dados::carros = carros;
+}
+
+const Viagem &Dados::getViagem() const {
+    return viagem;
+}
+
+void Dados::setViagem(const Viagem &viagem) {
+    Dados::viagem = viagem;
+}
+
+
+
