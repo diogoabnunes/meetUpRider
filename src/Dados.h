@@ -24,6 +24,7 @@ class Dados {
     Viagem viagem;
     bool real;
     int maxx, minx, maxy, miny;
+    string lastNodes,lastEdges;
 
 public:
     Dados();
@@ -80,6 +81,7 @@ public:
     int runAlgorithm();
 
     void changeGraph(string nodes,string edges,bool real);
+    void changeGraph2(string nodes,string edges,bool real);
 
     void refreshUsers(string users);
 

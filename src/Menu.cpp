@@ -68,82 +68,52 @@ int Menu::chooseMap(Dados &dados) {
     string edges,nodes;
 
     cout << "\nMapas\n\n";
-    cout << "[1] Portugal\n";
-    cout << "[2] Aveiro\n";
-    cout << "[3] Braga\n";
-    cout << "[4] Coimbra\n";
-    cout << "[5] Ermesinde\n";
-    cout << "[6] Fafe\n";
-    cout << "[7] Gondomar\n";
-    cout << "[8] Lisboa\n";
-    cout << "[9] Maia\n";
-    cout << "[10] Porto\n";
-    cout << "[11] Viseu\n";
-    cout << "[12] Espinho\n";
-    cout << "[13] GridGraph 4x4\n";
-    cout << "[14] GridGraph 8x8\n";
-    cout << "[15] GridGraph 16x16\n";
+    cout << "[1] Porto\n";
+    cout << "[2] Porto (conexo)\n";
+    cout << "[3] Penafiel\n";
+    cout << "[4] Penafiel (conexo)\n";
+    cout << "[5] Espinho\n";
+    cout << "[6] Espinho (conexo)\n";
+    cout << "[7] GridGraph 4x4\n";
+    cout << "[8] GridGraph 8x8\n";
+    cout << "[9] GridGraph 16x16\n";
     cout << "[0] Voltar\n";
     cin >> option;
 
     switch(option) {
         case 1:
-            dados.changeGraph("../mapas/PortugalMaps/Portugal/nodes_x_y_portugal.txt",
-                    "../mapas/PortugalMaps/Portugal/edges_portugal.txt", true);
-            return 0;
+            dados.changeGraph("../mapas/PortugalMaps/Porto/porto_full_nodes_xy.txt",
+                    "../mapas/PortugalMaps/Porto/porto_full_edges.txt", true);
+            break;
         case 2:
-            dados.changeGraph("../mapas/PortugalMaps/Aveiro/nodes_x_y_aveiro.txt",
-                              "../mapas/PortugalMaps/Aveiro/edges_aveiro.txt", true);
-            return 0;
+            dados.changeGraph("../mapas/PortugalMaps/Porto/porto_strong_nodes_xy.txt",
+                              "../mapas/PortugalMaps/Porto/porto_strong_edges.txt", true);
+            break;
         case 3:
-            dados.changeGraph("../mapas/PortugalMaps/Braga/nodes_x_y_braga.txt",
-                              "../mapas/PortugalMaps/Braga/edges_braga.txt", true);
-            return 0;
+            dados.changeGraph("../mapas/PortugalMaps/Penafiel/penafiel_full_nodes_xy.txt",
+                              "../mapas/PortugalMaps/Penafiel/penafiel_full_edges.txt", true);
+            break;
         case 4:
-            dados.changeGraph("../mapas/PortugalMaps/Coimbra/nodes_x_y_coimbra.txt",
-                              "../mapas/PortugalMaps/Coimbra/edges_coimbra.txt", true);
-            return 0;
+            dados.changeGraph("../mapas/PortugalMaps/Penafiel/penafiel_strong_nodes_xy.txt",
+                              "../mapas/PortugalMaps/Penafiel/penafiel_strong_edges.txt", true);
+            break;
         case 5:
-            dados.changeGraph("../mapas/PortugalMaps/Ermesinde/nodes_x_y_ermesinde.txt",
-                              "../mapas/PortugalMaps/Ermesinde/edges_ermesinde.txt", true);
-            return 0;
+            dados.changeGraph("../mapas/PortugalMaps/Espinho/espinho_full_nodes_xy.txt",
+                              "../mapas/PortugalMaps/Espinho/espinho_full_edges.txt", true);
+            break;
         case 6:
-            dados.changeGraph("../mapas/PortugalMaps/Fafe/nodes_x_y_fafe.txt",
-                              "../mapas/PortugalMaps/Fafe/edges_fafe.txt", true);
-            return 0;
-        case 7:
-            dados.changeGraph("../mapas/PortugalMaps/Gondomar/nodes_x_y_gondomar.txt",
-                              "../mapas/PortugalMaps/Gondomar/edges_gondomar.txt", true);
-            return 0;
-        case 8:
-            dados.changeGraph("../mapas/PortugalMaps/Lisboa/nodes_x_y_lisboa.txt",
-                              "../mapas/PortugalMaps/Lisboa/edges_lisboa.txt", true);
-            return 0;
-        case 9:
-            dados.changeGraph("../mapas/PortugalMaps/Maia/nodes_x_y_maia.txt",
-                              "../mapas/PortugalMaps/Maia/edges_maia.txt", true);
-            return 0;
-        case 10:
-            dados.changeGraph("../mapas/PortugalMaps/Porto/nodes_x_y_porto.txt",
-                              "../mapas/PortugalMaps/Porto/edges_porto.txt", true);
-            return 0;
-        case 11:
-            dados.changeGraph("../mapas/PortugalMaps/Viseu/nodes_x_y_viseu.txt",
-                              "../mapas/PortugalMaps/Viseu/edges_viseu.txt", true);
-            return 0;
-        case 12:
             dados.changeGraph("../mapas/PortugalMaps/Espinho/espinho_strong_nodes_xy.txt",
                               "../mapas/PortugalMaps/Espinho/espinho_strong_edges.txt", true);
-            return 0;
-        case 13:
+            break;
+        case 7:
             dados.changeGraph("../mapas/GridGraphs/4x4/nodes.txt",
                               "../mapas/GridGraphs/4x4/edges.txt", false);
-            return 0;
-        case 14:
+            break;
+        case 8:
             dados.changeGraph("../mapas/GridGraphs/8x8/nodes.txt",
                               "../mapas/GridGraphs/8x8/edges.txt", false);
-            return 0;
-        case 15:
+            break;
+        case 9:
             dados.changeGraph("../mapas/GridGraphs/16x16/nodes.txt",
                               "../mapas/GridGraphs/16x16/edges.txt", false);
             return 0;
