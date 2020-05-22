@@ -45,7 +45,7 @@ void Menu::showMenu(Dados &dados) {
                 break;
 
             case 6:
-                //if (dados.delPessoa() != 0) exit(6);
+                if (dados.elimPessoa() != 0) exit(6);
                 break;
 
             case 7:

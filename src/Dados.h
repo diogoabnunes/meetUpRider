@@ -35,26 +35,6 @@ public:
 private:
     bool real;
     int maxx, minx, maxy, miny;
-public:
-    int getMaxx() const;
-
-    void setMaxx(int maxx);
-
-    int getMinx() const;
-
-    void setMinx(int minx);
-
-    int getMaxy() const;
-
-    void setMaxy(int maxy);
-
-    int getMiny() const;
-
-    void setMiny(int miny);
-
-public:
-    bool isReal() const;
-    void setReal(bool real);
 
 public:
     Dados();
@@ -74,9 +54,22 @@ public:
     const Graph<Local> &getGrafoProcessado() const;
     void setGrafoProcessado(const Graph<Local> &grafoProcessado);
 
+    bool isReal() const;
+    void setReal(bool real);
+
+    int getMaxx() const;
+    void setMaxx(int maxx);
+    int getMinx() const;
+    void setMinx(int minx);
+    int getMaxy() const;
+    void setMaxy(int maxy);
+    int getMiny() const;
+    void setMiny(int miny);
+
     Pessoa* searchPessoa(int id);
     Local searchLocal(int id);
     int addPessoa();
+    int elimPessoa();
 
     void graph_to_graphviewer(Graph<Local> &g);
     int visualizeGraph();
@@ -88,11 +81,16 @@ public:
     //iteraçoes
 
     Graph<Local> pdiIter1_2();//seleciona os pontos de interesse das iterações 1 e 2
-
+    Graph<Local> pdiIter3();
     void runIter1(int max);
     void runIter2(int max);
 
-    int fillCarIter1( Vertex<Local>* & candidate, vector<Pessoa*>& passageiros,vector<Local>percurso , Graph<Local>& pdi  ,int & pax );
+    int fillCarIter1( Vertex<Local>* & candidate, vector<Pessoa*>& passageiros,vector<Local>&percurso , Graph<Local>& pdi  ,int & pax );
+    int fillCarIter2( Vertex<Local>* & candidate, vector<Pessoa*>& passageiros,vector<Local> &percurso , Graph<Local>& pdi  ,int & pax );
+
+
+
+    void runIter3(int max);
 
     int runAlgorithm();
 
