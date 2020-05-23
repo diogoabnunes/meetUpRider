@@ -35,6 +35,7 @@ public:
 private:
     bool real;
     int maxx, minx, maxy, miny;
+    string lastNodes,lastEdges;
 
 public:
     Dados();
@@ -70,6 +71,8 @@ public:
     Local searchLocal(int id);
     int addPessoa();
     int elimPessoa();
+    int visualizeInfoPessoa();
+    int visualizeInfo();
 
     void graph_to_graphviewer(Graph<Local> &g);
     int visualizeGraph();
@@ -95,8 +98,11 @@ public:
     int runAlgorithm();
 
     void changeGraph(string nodes,string edges,bool real);
+    void changeGraph2(string nodes,string edges,bool real);
 
     void refreshUsers(string users);
+
+    int analiseComplexity();
 };
 
 

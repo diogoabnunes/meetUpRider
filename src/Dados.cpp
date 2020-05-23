@@ -26,6 +26,7 @@ Dados::Dados() {
     this->miny = INT_MAX;
     this->maxx = INT_MIN;
     this->maxy = INT_MIN;
+    this->viagem = Viagem();
 }
 
 vector<Condutor*> Dados::getCondutores() {
@@ -160,6 +161,44 @@ int Dados::elimPessoa()
     else return 1;
 }
 
+int Dados::visualizeInfoPessoa()
+{
+    int pers; cout << "ID a visualizar: "; cin >> pers;
+    Pessoa *p = searchPessoa(pers);
+    if (p != NULL) { cout << *p; return 0; }
+    else { cout << "O ID que escolheu nao pertence a nenhuma pessoa...\n"; return 1; }
+}
+
+int Dados::visualizeInfo() {
+    int visi = -1;
+    do {
+        cout << "Visualizar informacao:\n";
+        cout << "[1] De todas as pessoas\n";
+        cout << "[2] De uma pessoa especifica\n";
+        cout << "[0] Voltar";
+        cin >> visi;
+
+        switch (visi)
+        {
+            case 1:
+                for (auto p : pessoas) cout << *p;
+                break;
+
+            case 2:
+                visualizeInfoPessoa();
+                break;
+
+            case 0:
+                break;
+
+            default:
+                cin.ignore(1000, '\n');
+                cout << "Numero invalido\n";
+                break;
+        }
+    } while (visi == -1);
+    return 0;
+}
 
 void Dados::graph_to_graphviewer(Graph<Local> &g)
 {
@@ -246,10 +285,21 @@ int Dados::processarGrafo() {
     auto destino =grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
 
     while (!destino->isVisited()) {
+        char option;
         cout << "O destino do condutor nao e atingivel a partir da sua origem. " << endl;
-        exit(1) ;
+        cout <<"Gerar novas pessoas [Y/n]?";
+        cin >> option;
+        if(tolower(option)=='y') {
+            cout<<"\nloading...";
+            fflush(stdout);
+            do {
+                changeGraph2(lastNodes, lastEdges, real);
+                grafoInicial.dfs(condutores[0]->getOrigem());
+                destino = grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
+            } while (!destino->isVisited());
+        } else exit(0);
     }
-    cout << "A obter o grafo conexo... ";
+    cout << "\nA obter o grafo conexo... ";
     Graph<Local> gc;
     grafoInicial.getGrafoConexo(gc);
     cout << "Concluido" << endl;
@@ -516,6 +566,8 @@ void Dados::runIter3(int max) {
 
 
 void Dados::changeGraph(string nodes, string edges, bool real) {
+    lastNodes=nodes;
+    lastEdges=edges;
     this->real = real;
     Graph<Local> grafo;
     initGraph(grafo, nodes, edges, real);
@@ -529,6 +581,17 @@ void Dados::changeGraph(string nodes, string edges, bool real) {
     addPessoatoLocal();
     processarGrafo();
 }
+
+void Dados::changeGraph2(string nodes, string edges, bool real) {
+    generatePeople(&grafoInicial);
+    vector<Condutor*> r;
+    pessoas = readUsers("../resources/random_users.txt", r);
+    carros = readCarros("../resources/random_cars.txt");
+    this->condutores=r;
+
+    addPessoatoLocal();
+}
+
 bool Dados::isReal() const {
     return real;
 }
@@ -601,4 +664,10 @@ void Dados::setViagem(const Viagem &viagem) {
 
 
 
+
+
+int Dados::analiseComplexity() {
+    cout << "TODO\n";
+    return 0;
+}
 

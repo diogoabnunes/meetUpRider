@@ -30,10 +30,12 @@ public:
     int getDestino() const;
     void setDestino(int destino);
 
-
     const Time &getPickup() const;
 
     void setPickup(const Time &pickup);
+
+    friend ostream &operator << (ostream &os, const Pessoa &p);
+
 };
 
 #endif //MEETUPRIDER_PESSOA_H

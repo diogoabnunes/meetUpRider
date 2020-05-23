@@ -38,6 +38,5 @@ public:
 
     friend ostream &operator << (ostream &os, const Time &t);
 };
-ostream& operator<<(ostream& os, const Time& t);
 
 #endif //MEETUPRIDER_TIME_H
