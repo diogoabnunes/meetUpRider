@@ -15,6 +15,7 @@
 using namespace std;
 
 class Dados {
+private:
     Graph<Local> grafoInicial;
     Graph<Local> grafoConexo;
     Graph<Local> grafoProcessado;
@@ -74,6 +75,7 @@ public:
     int visualizeInfoPessoa();
     int visualizeInfo();
 
+    void graph_to_coloured_graphviewer(Graph<Local> &g);
     void graph_to_graphviewer(Graph<Local> &g);
     int visualizeGraph();
 
@@ -88,17 +90,19 @@ public:
     void runIter1(int max);
     void runIter2(int max);
 
+
+
     int fillCarIter1( Vertex<Local>* & candidate, vector<Pessoa*>& passageiros,vector<Local>&percurso , Graph<Local>& pdi  ,int & pax );
     int fillCarIter2( Vertex<Local>* & candidate, vector<Pessoa*>& passageiros,vector<Local> &percurso , Graph<Local>& pdi  ,int & pax );
 
-
+    vector<Pessoa*>getCandidatePassengers();
 
     void runIter3(int max);
 
     int runAlgorithm();
 
     void changeGraph(string nodes,string edges,bool real);
-    void changeGraph2(string nodes,string edges,bool real);
+    void changeGraph2();
 
     void refreshUsers(string users);
 

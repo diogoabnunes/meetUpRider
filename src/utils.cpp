@@ -25,3 +25,18 @@ string to_lower(string s)
     }
     return result;
 }
+
+chrono::system_clock::time_point start;
+chrono::system_clock::time_point finish;
+
+void startTime()
+{
+    start = chrono::high_resolution_clock::now();
+}
+
+double elapsedTime()
+{
+    finish = std::chrono::high_resolution_clock::now();
+    auto mili = chrono::duration_cast<chrono::milliseconds>(finish - start).count();
+    return mili;
+}

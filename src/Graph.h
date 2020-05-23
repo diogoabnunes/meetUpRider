@@ -217,6 +217,8 @@ public:
 
     void setP(int **p);
 
+    int findLocalId(int id);
+
     double set(const T &orig, const T &dest) const;
 };
 
@@ -320,6 +322,20 @@ int Graph<T>::findVertexIdx(const T &in) const {
 			return i;
 	return -1;
 }
+
+
+
+template<class T>
+int Graph<T>::findLocalId(int id) {
+    for (unsigned i = 0; i < vertexSet.size(); i++)
+        if (vertexSet[i]->info.getID() == id)
+            return i;
+    return -1;
+}
+
+
+
+
 /*
  *  Adds a vertex with a given content or info (in) to a graph (this).
  *  Returns true if successful, and false if a vertex with that content already exists.

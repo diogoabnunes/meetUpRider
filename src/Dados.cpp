@@ -221,7 +221,7 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
             if (v->getInfo().getY() < miny) miny = v->getInfo().getY();
         }
         for (auto v : g.getVertexSet()) {
-            gv->setVertexSize(v->getInfo().getId(), 10);
+            gv->setVertexSize(v->getInfo().getId(), 1);
             auxx = (v->getInfo().getX() - minx) / (maxx - minx);
             auxy = 1 - ((v->getInfo().getY() - miny) / (maxy - miny));
             gv->setVertexLabel(v->getInfo().getId(), to_string(v->getInfo().getId()));
@@ -242,6 +242,68 @@ void Dados::graph_to_graphviewer(Graph<Local> &g)
         }
     }
     gv->rearrange();
+}
+
+void Dados::graph_to_coloured_graphviewer(Graph<Local> &g) {
+
+    int width = 600;
+    int height = 600;
+    GraphViewer *gv = new GraphViewer(width, height, false);
+    gv->createWindow(width, height);
+    gv->defineEdgeCurved(false);
+    gv->defineVertexColor("blue");
+    gv->defineEdgeColor("black");
+
+    double auxx, auxy;
+    if (real) {
+        for (auto v : g.getVertexSet()) {
+            if (v->getInfo().getX() > maxx) maxx = v->getInfo().getX();
+            if (v->getInfo().getY() > maxy) maxy = v->getInfo().getY();
+            if (v->getInfo().getX() < minx) minx = v->getInfo().getX();
+            if (v->getInfo().getY() < miny) miny = v->getInfo().getY();
+        }
+        for (auto v : g.getVertexSet()) {
+            gv->setVertexSize(v->getInfo().getId(), 1);
+            auxx = (v->getInfo().getX() - minx) / (maxx - minx);
+            auxy = 1 - ((v->getInfo().getY() - miny) / (maxy - miny));
+            gv->setVertexLabel(v->getInfo().getId(), to_string(v->getInfo().getId()));
+            gv->addNode(v->getInfo().getId(), (int) (auxx * width), (int) (auxy * height));
+        }
+    }
+    else {
+        for (auto v : g.getVertexSet()) {
+            gv->setVertexSize(v->getInfo().getId(), 10);
+            gv->setVertexLabel(v->getInfo().getId(), to_string(v->getInfo().getId()));
+            gv->addNode(v->getInfo().getId(), (int) v->getInfo().getX(), (int) v->getInfo().getY());
+        }
+    }
+    int idEdge = 0;
+    for (auto v : g.getVertexSet())
+    {
+        for (auto e : v->getAdj()) {
+            gv->addEdge(idEdge++, v->getInfo().getId(), e.getDest()->getInfo().getId(), 1);
+        }
+    }
+    idEdge = 10000;
+    Vertex<Local> inicio = viagem.getPercurso()[0];
+    Vertex<Local> fim = viagem.getPercurso()[viagem.getPercurso().size() - 1];
+    Vertex<Local> *here = nullptr;
+
+    for (auto &v : viagem.getPercurso())
+    {
+        if (v.getId() != inicio.getInfo().getId() && v.getId() != fim.getInfo().getId()) {
+            cout << "";
+        }
+        if (here == nullptr) here = grafoConexo.findVertex(v);
+        else {
+            gv->setEdgeColor(idEdge, "green");
+            gv->addEdge(idEdge++, here->getInfo().getId(), v.getId(), 1);
+            here = grafoConexo.findVertex(v);
+        }
+    }
+
+    gv->rearrange();
+
 }
 
 int Dados::visualizeGraph() {
@@ -265,7 +327,7 @@ int Dados::visualizeGraph() {
                 break;
 
             case 3:
-                graph_to_graphviewer(grafoProcessado);
+                graph_to_coloured_graphviewer(grafoConexo);
                 break;
 
             case 0:
@@ -284,7 +346,7 @@ int Dados::processarGrafo() {
     cout << "Concluido" << endl;
     auto destino =grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
 
-    while (!destino->isVisited()) {
+    if (!destino->isVisited()) {
         char option;
         cout << "O destino do condutor nao e atingivel a partir da sua origem. " << endl;
         cout <<"Gerar novas pessoas [Y/n]?";
@@ -293,7 +355,7 @@ int Dados::processarGrafo() {
             cout<<"\nloading...";
             fflush(stdout);
             do {
-                changeGraph2(lastNodes, lastEdges, real);
+                changeGraph2();
                 grafoInicial.dfs(condutores[0]->getOrigem());
                 destino = grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
             } while (!destino->isVisited());
@@ -425,8 +487,6 @@ void Dados::runIter1(int max) {
 }
 
 
-
-
 int Dados::fillCarIter1(Vertex<Local> *&candidate, vector<Pessoa *> &passageiros, vector<Local> &percurso,Graph<Local> &pdi, int & pax) {
     double distToCandidate=grafoConexo.getW()[grafoConexo.findVertexIdx(info.vatual->getInfo())][grafoConexo.findVertexIdx(candidate->getInfo())];
     if(distToCandidate==INF){
@@ -457,7 +517,6 @@ int Dados::fillCarIter1(Vertex<Local> *&candidate, vector<Pessoa *> &passageiros
     pdi.removeVertex(candidate->getInfo());
     return 0;
 }
-
 
 
 
@@ -582,7 +641,7 @@ void Dados::changeGraph(string nodes, string edges, bool real) {
     processarGrafo();
 }
 
-void Dados::changeGraph2(string nodes, string edges, bool real) {
+void Dados::changeGraph2() {
     generatePeople(&grafoInicial);
     vector<Condutor*> r;
     pessoas = readUsers("../resources/random_users.txt", r);

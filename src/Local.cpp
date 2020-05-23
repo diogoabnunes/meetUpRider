@@ -61,3 +61,7 @@ void Local::setChegada(const vector<Pessoa *>& chegada) {
     this->chegada = chegada;
 }
 
+
+
+
+

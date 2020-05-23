@@ -36,6 +36,10 @@ public:
     const vector<Pessoa*> & getChegada() const;
 
     void setChegada(const vector<Pessoa*> & chegada);
+
+
 };
+
+
 
 #endif //MEETUPRIDER_LOCAL_H
