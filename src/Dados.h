@@ -15,6 +15,7 @@
 using namespace std;
 
 class Dados {
+private:
     Graph<Local> grafoInicial;
     Graph<Local> grafoConexo;
     Graph<Local> grafoProcessado;
@@ -63,6 +64,7 @@ public:
     int visualizeInfoPessoa();
     int visualizeInfo();
 
+    void graph_to_coloured_graphviewer(Graph<Local> &g);
     void graph_to_graphviewer(Graph<Local> &g);
     int visualizeGraph();
 
