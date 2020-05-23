@@ -34,5 +34,7 @@ void parse_edges(Graph<Local> *g, string file);
 
 void generatePeople(Graph<Local> *graph);
 
+void readPreprocessedMatrix(Graph<Local> *g,string path);
+void writePreprocessedMatrix(Graph<Local> *g,string path);
 
 #endif //MEETUPRIDER_READFILES_H

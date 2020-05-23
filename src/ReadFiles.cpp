@@ -106,7 +106,7 @@ void generatePeople(Graph<Local> *graph){
 
     n1=rand()%nVertex;
     n2=rand()%nVertex;
-    start=graph->getVertexSet().at(n1)->getInfo().getId(); // change 0 to n1
+    start=graph->getVertexSet().at(0)->getInfo().getId(); // change 0 to n1
     end=graph->getVertexSet().at(n2)->getInfo().getId();
 
     ti.setHour(rand()%20);
@@ -144,4 +144,55 @@ void generatePeople(Graph<Local> *graph){
     }
 
     file.close();
+}
+
+void readPreprocessedMatrix(Graph<Local> *g, string path){
+    ifstream file(path);
+
+    unsigned n = g->getVertexSet().size();
+    double ** W = nullptr;   // dist
+    int **P = nullptr;   // path
+    W = new double *[n];
+    P = new int *[n];
+    string line;
+
+    for (unsigned i = 0; i < n; i++) {
+        for (unsigned j = 0; j < n; j++) {
+            W[i] = new double[n];
+            P[i] = new int[n];
+            getline(file,line);
+            auto v = split(line,";");
+            W[i][j]=stod(v.at(0));
+            P[i][j]=stoi(v.at(1));
+        }
+    }
+
+    file.close();
+
+    g->setW(W);
+    g->setP(P);
+}
+
+void writePreprocessedMatrix(Graph<Local> *g,string path){
+
+    ofstream file;
+    unsigned n = g->getVertexSet().size();
+    int ** P = g->getP();
+    double ** W =g->getW();
+
+    file.open(path);
+
+    for (unsigned i = 0; i < n; i++) {
+        for (unsigned j = 0; j < n; j++) {
+            file << W[i][j];
+            file << ";";
+            file << P[i][j];
+            if(i+1==n && j+1==n)
+                break;
+            file << endl;
+        }
+    }
+
+    file.close();
+
 }
