@@ -344,10 +344,11 @@ int Dados::visualizeGraph() {
 
 int Dados::processarGrafo() {
     cout << "Dfs a partir do ponto de partida do condutor... " ;
-    grafoInicial.dfs(condutores[0]->getOrigem());
+    //grafoInicial.dfs(condutores[0]->getOrigem());
     cout << "Concluido" << endl;
     auto destino =grafoInicial.findVertex(searchLocal(condutores[0]->getDestino()));
 
+    /*
     if (!destino->isVisited()) {
         char option;
         cout << "O destino do condutor nao e atingivel a partir da sua origem. " << endl;
@@ -363,6 +364,7 @@ int Dados::processarGrafo() {
             } while (!destino->isVisited());
         } else exit(0);
     }
+     */
     cout << "\nA obter o grafo conexo... ";
     Graph<Local> gc;
     grafoInicial.getGrafoConexo(gc);
@@ -383,11 +385,11 @@ int Dados::processarGrafo() {
     file.open(path);
 
     if(!file.is_open()) {
-        grafoConexo.floydWarshallShortestPath();
+        grafoInicial.floydWarshallShortestPath();
         char option;
         cout<<"Save Floyd's matrix for future use? [Y/n]?";
         cin >> option;
-        if(tolower(option)=='y') writePreprocessedMatrix(&grafoConexo,path);
+        if(tolower(option)=='y') writePreprocessedMatrix(&grafoInicial,path);
     }
     else {
         file.close();
@@ -401,10 +403,16 @@ int Dados::processarGrafo() {
 }
 
 int Dados::runAlgorithm() {
+    startTime();
     runIter2(1000);
+    cout<<"Algoritmo demorou "<<elapsedTime()<<" ms\n";
     cout << "TODO, de forma a que seja possível visualizar grafos de cada iteracao?\n"; // TODO
     return 0;
 }
+
+//100 - 429 ms
+//1000 - 7057 ms
+//10000 -
 
 //struct com informação a ser utilizada na função de prioridade
 struct priorityData {
@@ -514,7 +522,6 @@ void Dados::runIter1(int max) {
                 pax++;
                 p.erase(it);
                 it--;
-
             }
             else break;
         }
