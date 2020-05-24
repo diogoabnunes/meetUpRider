@@ -168,7 +168,6 @@ class Graph {
 	int **P = nullptr;   // path
 
 
-
 public:
     int findVertexIdx(const T &in) const;
 	Vertex<T> *findVertex(const T &in) const;
