@@ -5,7 +5,7 @@
 #ifndef MEETUPRIDER_READFILES_H
 #define MEETUPRIDER_READFILES_H
 
-#define numPeople 6000
+#define numPeople 200
 
 #include <iostream>
 #include <string>

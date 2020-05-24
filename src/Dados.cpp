@@ -12,16 +12,9 @@ Dados::Dados() {
 
     Graph<Local> graph;
     vector<Condutor*> r;
-    //vector<Pessoa*> v = readUsers("../resources/users.txt", r);
-    //vector<Automovel> c = readCarros("../resources/cars.txt");
 
-   // initGraph(grafoInicial, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt", false);
 
     this->condutores=r;
-    //this->pessoas=v;
-    //this->carros = c;
-    //addPessoatoLocal();
-    //processarGrafo();
     this->minx = INT_MAX;
     this->miny = INT_MAX;
     this->maxx = INT_MIN;
@@ -376,7 +369,7 @@ int Dados::processarGrafo() {
 }
 
 int Dados::runAlgorithm() {
-    runIter3(1000);
+    runIter2(1000);
     cout << "TODO, de forma a que seja possível visualizar grafos de cada iteracao?\n"; // TODO
     return 0;
 }
@@ -552,13 +545,13 @@ int Dados::fillCarIter1(Vertex<Local> *&candidate, vector<Pessoa *> &passageiros
 
 void Dados::runIter2(int max) {
     vector<Pessoa*> passageiros;
-    vector<Local>percurso;
+    Graph<Local>percurso;
     priority_queue<Vertex<Local>*,vector<Vertex<Local>*>,Choicefunc2>fila;
     condutores[0]->setPickup(condutores[0]->getHoraMinPartida());
     info.dest=grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()));
     info.vatual=grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()));
     info.currentTime=condutores[0]->getHoraMinPartida();
-    percurso.push_back(info.vatual->getInfo());
+    percurso.addVertex(info.vatual->getInfo());
     info.W=grafoConexo.getW();
     info.g=&grafoConexo;
 
@@ -585,23 +578,33 @@ void Dados::runIter2(int max) {
         if (fillCarIter2(candidate, passageiros,  percurso,pdi,  pax))continue;
 
     }
+    info.dest->getInfo().setPassagem(grafoProcessado.getpathtime(info.vatual->getInfo(),info.dest->getInfo()));
+    percurso.addVertex(info.dest->getInfo());
+
     viagem.setPassageiros(passageiros);
-    viagem.setPercurso(percurso);
+    vector<Local>locals;
+
+    for(auto p:percurso.getVertexSet()){
+        locals.push_back(p->getInfo());
+    }
+    viagem.setPercurso(locals);
     if (fila.empty()){
-        cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
+        cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl<<endl;
 
         for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
-
+        cout <<endl<< "Percurso:"<<endl;
+        for(auto p:locals)cout<<"Id do Local:" <<p.getId() << endl <<  "Hora de passagem: "<<p.getPassagem()<<endl;
     }
     else {
-        cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl;
+        cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl<<endl;
         for (auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
+        for(auto p:locals)cout<<"Id do Local:" <<p.getId() << endl <<  "Hora de passagem: "<<p.getPassagem()<<endl;
     }
 }
 
 
 int
-Dados::fillCarIter2(Vertex<Local> *&candidate, vector<Pessoa *> &passageiros, vector<Local>& percurso, Graph<Local> &pdi,int &pax) {
+Dados::fillCarIter2(Vertex<Local> *&candidate, vector<Pessoa *> &passageiros, Graph<Local>& percurso, Graph<Local> &pdi,int &pax) {
     bool transportou=false;
     double timeToCandidate=grafoConexo.getpathtime(info.vatual->getInfo(),candidate->getInfo());
     if(timeToCandidate==INF){
@@ -628,7 +631,7 @@ Dados::fillCarIter2(Vertex<Local> *&candidate, vector<Pessoa *> &passageiros, ve
         else break;
     }
     if(transportou) {
-        percurso.push_back(candidate->getInfo());
+        percurso.addVertex(candidate->getInfo());
         info.vatual = candidate;
         info.currentTime = info.currentTime + Time(timeToCandidate);
     }
@@ -740,13 +743,18 @@ void Dados::runIter3(int max) {
 
     if (pax!=carros[0].getNSeats()){
         cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
-
+        cout << "Passageiros:"<<endl;
         for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
-
+        cout << "Percurso:"<<endl;
+        for(auto p:locals)cout<<"Id do Local:" <<p.getId() << endl <<  "Hora de passagem: "<<p.getPassagem()<<endl;
     }
     else {
         cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl;
-        for (auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
+        cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
+        cout << "Passageiros:"<<endl;
+        for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
+        cout << "Percurso:"<<endl;
+        for(auto p:locals)cout<<"Id do Local:" <<p.getId() << endl <<  "Hora de passagem: "<<p.getPassagem()<<endl;
     }
 }
 
@@ -867,7 +875,7 @@ vector<Pessoa *> Dados::getCandidatePassengers() {
         && grafoConexo.getW()[grafoConexo.findLocalId(p->getOrigem())][grafoConexo.findLocalId(p->getOrigem())]!=INF)
         candidates.push_back(p);
     }
-    //if(!candidates.empty())sort(candidates.begin(),candidates.end(),ChoicefuncPassengers());
+    //sort(candidates.begin(),candidates.end(),ChoicefuncPassengers());
     return candidates;
 
 }

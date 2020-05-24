@@ -98,7 +98,7 @@ public:
 
 
     int fillCarIter1( Vertex<Local>* & candidate, vector<Pessoa*>& passageiros,vector<Local>&percurso , Graph<Local>& pdi  ,int & pax );
-    int fillCarIter2( Vertex<Local>* & candidate, vector<Pessoa*>& passageiros,vector<Local> &percurso , Graph<Local>& pdi  ,int & pax );
+    int fillCarIter2( Vertex<Local>* & candidate, vector<Pessoa*>& passageiros,Graph<Local> &percurso , Graph<Local>& pdi  ,int & pax );
 
     vector<Pessoa*>getCandidatePassengers();
 
