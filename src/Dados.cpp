@@ -13,6 +13,11 @@ Dados::Dados() {
     Graph<Local> graph;
     vector<Condutor*> r;
 
+    vector<Pessoa*> v = readUsers("../resources/users.txt", r);
+    vector<Automovel> c = readCarros("../resources/cars.txt");
+    lastNodes="../mapas/GridGraphs/16x16/nodes.txt";
+    lastEdges="../mapas/GridGraphs/16x16/edges.txt";
+
 
     this->condutores=r;
     this->minx = INT_MAX;
@@ -362,7 +367,30 @@ int Dados::processarGrafo() {
     fflush(stdout);
     grafoConexo=gc;
 
-    grafoConexo.floydWarshallShortestPath();
+    /** seeing if map has saved matrix*/
+    string path;
+    ifstream file;
+    auto v=split(lastNodes,"/");
+
+    for(int i=0;i<v.size()-1;i++)
+        path.append(v.at(i)+"/");
+
+    path.append("floyd_W_P.txt");
+    file.open(path);
+
+    if(!file.is_open()) {
+        grafoConexo.floydWarshallShortestPath();
+        char option;
+        cout<<"Save Floyd's matrix for future use? [Y/n]?";
+        cin >> option;
+        if(tolower(option)=='y') writePreprocessedMatrix(&grafoConexo,path);
+    }
+    else {
+        file.close();
+        readPreprocessedMatrix(&grafoConexo,path);
+    }
+    /***************************************/
+
 
     cout << "Grafo processado" << endl;
     return 0;
