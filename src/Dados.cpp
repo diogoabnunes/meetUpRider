@@ -12,16 +12,16 @@ Dados::Dados() {
 
     Graph<Local> graph;
     vector<Condutor*> r;
-    vector<Pessoa*> v = readUsers("../resources/users.txt", r);
-    vector<Automovel> c = readCarros("../resources/cars.txt");
+    //vector<Pessoa*> v = readUsers("../resources/users.txt", r);
+    //vector<Automovel> c = readCarros("../resources/cars.txt");
 
-    initGraph(grafoInicial, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt", false);
+   // initGraph(grafoInicial, "../mapas/GridGraphs/16x16/nodes.txt", "../mapas/GridGraphs/16x16/edges.txt", false);
 
     this->condutores=r;
-    this->pessoas=v;
-    this->carros = c;
-    addPessoatoLocal();
-    processarGrafo();
+    //this->pessoas=v;
+    //this->carros = c;
+    //addPessoatoLocal();
+    //processarGrafo();
     this->minx = INT_MAX;
     this->miny = INT_MAX;
     this->maxx = INT_MIN;
@@ -376,7 +376,7 @@ int Dados::processarGrafo() {
 }
 
 int Dados::runAlgorithm() {
-    runIter2(10000);
+    runIter3(1000);
     cout << "TODO, de forma a que seja possível visualizar grafos de cada iteracao?\n"; // TODO
     return 0;
 }
@@ -405,6 +405,12 @@ double priorityiter1(Vertex<Local> *v) {
     return distTov+vtoDestdist;
 }
 
+double priorityPassengers( Pessoa* p){
+    double distToOrig=info.W[info.g->findVertexIdx(info.vatual->getInfo())][info.g->findLocalId(p->getOrigem())];
+    double distToDest=info.W[info.g->findVertexIdx(info.vatual->getInfo())][info.g->findVertexIdx(p->getDestino())];
+    return distToDest+distToOrig;
+}
+
 struct Choicefunc1
 {
     bool operator()(Vertex<Local>* lhs, Vertex<Local>* rhs)
@@ -422,6 +428,29 @@ struct Choicefunc2
         return priorityIter2(lhs) > priorityIter2(rhs);
     }
 };
+
+
+
+
+struct Choicefunc3
+{
+    bool operator()(Vertex<Local>* lhs, Vertex<Local>* rhs)
+    {
+        return info.g->getpathtime(info.vatual->getInfo(),lhs->getInfo()) > info.g->getpathtime(info.vatual->getInfo(),rhs->getInfo());
+    }
+};
+
+
+
+struct ChoicefuncPassengers
+{
+    bool operator()(Pessoa* lhs, Pessoa* rhs)
+    {
+        return priorityPassengers(lhs) > priorityPassengers(lhs);
+    }
+};
+
+
 
 
 
@@ -470,7 +499,7 @@ void Dados::runIter1(int max) {
         candidate= fila.top();
         fila.pop();
         if (fillCarIter1(candidate, passageiros,  percurso,pdi,  pax))continue;
-        }
+    }
     viagem.setPassageiros(passageiros);
     viagem.setPercurso(percurso);
     if (fila.empty()){
@@ -609,14 +638,116 @@ Dados::fillCarIter2(Vertex<Local> *&candidate, vector<Pessoa *> &passageiros, ve
 }
 
 
-Graph<Local> Dados::pdiIter3() {
-    return Graph<Local>();
+
+
+vector<Vertex<Local>*> Dados::getCandidateOrigs(Graph<Local> pdi) {
+    vector<Vertex<Local>*> fila;
+    for(auto l:pdi.getVertexSet()){
+        if(!l->getInfo().getPartida().empty()){
+            fila.push_back(l);
+        }
+    }
+    sort(fila.begin(),fila.end(),Choicefunc3());
+    return fila;
+}
+
+
+
+vector<Vertex<Local>*> Dados::getCandidateDest(Graph<Local> pdi) {
+    vector<Vertex<Local>*> fila;
+    for(auto l:pdi.getVertexSet()){
+        if(!l->getInfo().getChegada().empty()){
+            fila.push_back(l);
+        }
+    }
+    sort(fila.begin(),fila.end(),Choicefunc3());
+    return fila;
+}
+
+
+
+
+Graph<Local> Dados::pdiIter3(vector<Pessoa*> passengers) {
+    Graph<Local> g;
+    for(auto p:passengers){
+        //adiciona as origens e destinos dos passageiros candidatos
+        g.addVertex(grafoConexo.getVertexSet()[grafoConexo.findLocalId(p->getOrigem())]->getInfo());
+        g.addVertex(grafoConexo.getVertexSet()[grafoConexo.findLocalId(p->getDestino())]->getInfo());
+    }
+    return g;
 }
 
 
 
 void Dados::runIter3(int max) {
+    info.dest=grafoConexo.findVertex(searchLocal(condutores[0]->getDestino()));
+    info.vatual=grafoConexo.findVertex(searchLocal(condutores[0]->getOrigem()));
+    info.currentTime=condutores[0]->getHoraMinPartida();
+    auto candidates= getCandidatePassengers();
+    vector<Pessoa*> passageiros;
+    Graph<Local>percurso;
 
+    int pax=0;
+    for(auto c:candidates){
+        //o passageiro só é adicionado caso o vertice de chegada não tenha já sido percorrido
+        // e se houver caminho desde o ultimo vertice percorrido até À origem do condutor e o tempo de percorrer esse caminho permita o passageiro chegar a horas
+        if (pax==carros[0].getNSeats())break;
+        if(percurso.findLocalId(c->getDestino())==-1 ) {
+            Time passagem = grafoConexo.findLocal(c->getOrigem()).getPassagem();
+            Time timetoFinalDest=Time(grafoConexo.getpathtime(grafoConexo.findVertex(searchLocal(c->getDestino()))->getInfo(),info.dest->getInfo()));
+            Time tchegada= info.currentTime+Time(grafoConexo.getpathtime(info.vatual->getInfo(),grafoConexo.findVertex(searchLocal(c->getOrigem()))->getInfo()));
+            //caso o vertice de partida pertença já ao percurso
+            //e se a hora de passagem no vertice for superior ou igual à gora minima de partida do passageiro
+            if (percurso.findLocalId(c->getOrigem()) != -1 && tchegada<c->getHoraMaxChegada() && passagem >= c->getHoraMinPartida() && tchegada+timetoFinalDest<condutores[0]->getHoraMaxChegada()) {
+
+                //verificadas estas condiçoes o passageiro é transportado
+                info.currentTime=tchegada;
+                info.vatual=grafoConexo.findVertex(searchLocal(c->getOrigem()));
+                c->setPickup(passagem);
+                passageiros.push_back(c);
+                auto local=grafoConexo.findLocal(c->getDestino());
+                local.setPassagem(tchegada);
+                percurso.addVertex(local);
+                pax++;
+            }
+            else{
+                Local origem = grafoConexo.findVertex(searchLocal(c->getOrigem()))->getInfo();
+                Local destino=grafoConexo.findVertex(searchLocal(c->getDestino()))->getInfo();
+                Time timetoPorig=Time(grafoConexo.getpathtime(info.vatual->getInfo(),origem));
+                Time timeFromPorigToDest=Time(grafoConexo.getpathtime(origem,destino));
+                Time timeFromPdestToFinalDest=Time(grafoConexo.getpathtime(origem,info.dest->getInfo()));
+                if(info.currentTime+timeFromPorigToDest>c->getHoraMinPartida() && info.currentTime+timetoPorig+timeFromPorigToDest<c->getHoraMaxChegada()
+                &&  info.currentTime+timetoPorig+timeFromPorigToDest+timeFromPdestToFinalDest<condutores[0]->getHoraMaxChegada())
+                {
+                    origem.setPassagem(info.currentTime+timetoPorig);
+                    c->setPickup(info.currentTime+timetoPorig);
+                    passageiros.push_back(c);
+                    info.currentTime=info.currentTime+timetoPorig+timeFromPorigToDest;
+                    destino.setPassagem(info.currentTime);
+                    percurso.addVertex(origem);
+                    percurso.addVertex(destino);
+                    pax++;
+                }
+            }
+        }
+    }
+    viagem.setPassageiros(passageiros);
+    vector<Local>locals;
+    for(auto p:percurso.getVertexSet()){
+        locals.push_back(p->getInfo());
+    }
+    viagem.setPercurso(locals);
+
+    if (pax!=carros[0].getNSeats()){
+        cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
+
+        for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
+
+    }
+    else {
+        cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl;
+        for (auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
+    }
 }
 
 
@@ -720,13 +851,23 @@ void Dados::setViagem(const Viagem &viagem) {
 }
 
 
-
-
-
-
-
 int Dados::analiseComplexity() {
     cout << "TODO\n";
     return 0;
 }
 
+vector<Pessoa *> Dados::getCandidatePassengers() {
+    vector<Pessoa *> candidates;
+
+    for(auto p:pessoas){
+        auto o=grafoConexo.findLocalId(p->getOrigem());
+        auto d=grafoConexo.findLocalId(p->getDestino());
+        if(o!=-1&& d!=-1 &&grafoConexo.getW()[grafoConexo.findLocalId(condutores[0]->getOrigem())][grafoConexo.findLocalId(p->getOrigem())]!=INF
+        && grafoConexo.getW()[grafoConexo.findLocalId(p->getOrigem())][grafoConexo.findLocalId(condutores[0]->getOrigem())]!=INF
+        && grafoConexo.getW()[grafoConexo.findLocalId(p->getOrigem())][grafoConexo.findLocalId(p->getOrigem())]!=INF)
+        candidates.push_back(p);
+    }
+    //if(!candidates.empty())sort(candidates.begin(),candidates.end(),ChoicefuncPassengers());
+    return candidates;
+
+}

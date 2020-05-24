@@ -219,6 +219,8 @@ public:
 
     int findLocalId(int id);
 
+    T findLocal(int id);
+
     double set(const T &orig, const T &dest) const;
 };
 
@@ -328,12 +330,19 @@ int Graph<T>::findVertexIdx(const T &in) const {
 template<class T>
 int Graph<T>::findLocalId(int id) {
     for (unsigned i = 0; i < vertexSet.size(); i++)
-        if (vertexSet[i]->info.getID() == id)
+        if (vertexSet[i]->getInfo().getId() ==id)
             return i;
     return -1;
 }
 
 
+template<class T>
+T Graph<T>::findLocal(int id) {
+    for (unsigned i = 0; i < vertexSet.size(); i++)
+        if (vertexSet[i]->info.getId()== id)
+            return vertexSet[i]->info;
+    return Local(-1);
+}
 
 
 /*
@@ -684,6 +693,7 @@ double Graph<T>::calcEdgeWeight(const T &sourc, const T & dest) {
     return s->getInfo().distance(d->getInfo());
 }
 
+
 template<class T>
 double **Graph<T>::getW() const {
     return W;
@@ -698,6 +708,8 @@ template<class T>
 void Graph<T>::setP(int **p) {
     P = p;
 }
+
+
 
 #endif /* GRAPH_H_ */
 

@@ -10,6 +10,7 @@ private:
     double y;
     vector<Pessoa*> partida;
     vector<Pessoa*> chegada;
+    Time passagem;
     
 public:
     Local(int id, int x, int y);
@@ -36,6 +37,10 @@ public:
     const vector<Pessoa*> & getChegada() const;
 
     void setChegada(const vector<Pessoa*> & chegada);
+
+    const Time &getPassagem() const;
+
+    void setPassagem(const Time &passagem);
 
 
 };

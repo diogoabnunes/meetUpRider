@@ -86,9 +86,14 @@ public:
     //iteraçoes
 
     Graph<Local> pdiIter1_2();//seleciona os pontos de interesse das iterações 1 e 2
-    Graph<Local> pdiIter3();
+    Graph<Local> pdiIter3(vector<Pessoa*> passengers);
     void runIter1(int max);
     void runIter2(int max);
+
+
+    vector<Vertex<Local>*> getCandidateOrigs(Graph<Local> pdi);
+
+    vector<Vertex<Local>*> getCandidateDest(Graph<Local> pdi);
 
 
 

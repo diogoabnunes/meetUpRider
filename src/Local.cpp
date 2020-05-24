@@ -8,6 +8,8 @@ void Local::setId(int id) {
     this->id = id;
 }
 
+
+
 Local::Local(int id, int x, int y) : id(id), x(x), y(y) {}
 
 Local::Local(int id) : id(id) {}
@@ -59,6 +61,14 @@ const vector<Pessoa *>& Local::getChegada() const{
 
 void Local::setChegada(const vector<Pessoa *>& chegada) {
     this->chegada = chegada;
+}
+
+const Time &Local::getPassagem() const {
+    return passagem;
+}
+
+void Local::setPassagem(const Time &passagem) {
+    Local::passagem = passagem;
 }
 
 
