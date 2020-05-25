@@ -18,7 +18,7 @@ void Menu::showMenu(Dados &dados) {
         cout << "[4] Visualizar informacao de pessoas\n";
         cout << "[5] Adicionar pessoa\n";
         cout << "[6] Remover pessoa\n";
-        cout << "[7] Analisar complexidade\n";
+
         cout << "[0] Terminar programa\n";
         cin >> option;
 
@@ -46,10 +46,6 @@ void Menu::showMenu(Dados &dados) {
 
             case 6:
                 if (dados.elimPessoa() != 0) exit(6);
-                break;
-
-            case 7:
-                if (dados.analiseComplexity() != 0) exit(7);
                 break;
 
             case 0:
