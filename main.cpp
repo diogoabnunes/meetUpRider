@@ -12,6 +12,5 @@ int main() {
     while(ret==-1);
 
     menu.showMenu(*dados);
-    dados->refreshUsers("../resources/try1.txt");
     return 0;
 }

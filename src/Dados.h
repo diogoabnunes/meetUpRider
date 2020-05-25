@@ -108,8 +108,6 @@ public:
     void changeGraph(string nodes,string edges,bool real);
     void changeGraph2();
 
-    void refreshUsers(string users);
-
     int analiseComplexity();
 };
 

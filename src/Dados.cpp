@@ -425,8 +425,8 @@ int Dados::runAlgorithm() {
                 break;
         }
         double a = elapsedTime();
-        cout << "Elapsed time: " << a << "ms" << endl;
-        cout << "Elapsed time: " << a/1000.0 << "s" << endl;
+        cout << "Elapsed time: " << a << " ms" << endl;
+        cout << "Elapsed time: " << a/1000.0 << " s" << endl;
     } while (see != 0);
     return 0;
 
@@ -894,18 +894,6 @@ int Dados::getMiny() const {
 
 void Dados::setMiny(int miny) {
     Dados::miny = miny;
-}
-
-void Dados::refreshUsers(string users) {
-    ofstream file(users);
-
-    if (file.is_open()) {
-        for (Pessoa* p : pessoas) {
-            file << "P;" << p->getId() << ";" << p->getOrigem() << ";" << p->getDestino() << ";"
-                 << p->getHoraMinPartida() << ";" << p->getHoraMaxChegada() << endl;
-        }
-        file.close();
-    }
 }
 
 const vector<Automovel> &Dados::getCarros() const {

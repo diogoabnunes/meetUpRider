@@ -78,54 +78,96 @@ int Menu::chooseMap(Dados &dados) {
     cout << "[8] GridGraph 8x8\n";
     cout << "[9] GridGraph 16x16\n";
     cout << "[10] GridGraph 32x32\n";
-    cout << "[11] GridGraph 64x64\n";
+    cout << "[11] GridGraph 48x48\n";
+    cout << "[12] GridGraph 64x64\n";
     cout << "[0] Voltar\n";
     cin >> option;
-
+    double b;
+    startTime();
     switch(option) {
         case 1:
             dados.changeGraph("../mapas/PortugalMaps/Porto/porto_full_nodes_xy.txt",
                     "../mapas/PortugalMaps/Porto/porto_full_edges.txt", true);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << " ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << " s" << endl;
             return 0;
         case 2:
             dados.changeGraph("../mapas/PortugalMaps/Porto/porto_strong_nodes_xy.txt",
                               "../mapas/PortugalMaps/Porto/porto_strong_edges.txt", true);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << "ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << "s" << endl;
             return 0;
         case 3:
             dados.changeGraph("../mapas/PortugalMaps/Penafiel/penafiel_full_nodes_xy.txt",
                               "../mapas/PortugalMaps/Penafiel/penafiel_full_edges.txt", true);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << "ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << "s" << endl;
             return 0;
         case 4:
             dados.changeGraph("../mapas/PortugalMaps/Penafiel/penafiel_strong_nodes_xy.txt",
                               "../mapas/PortugalMaps/Penafiel/penafiel_strong_edges.txt", true);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << "ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << "s" << endl;
             return 0;
         case 5:
             dados.changeGraph("../mapas/PortugalMaps/Espinho/espinho_full_nodes_xy.txt",
                               "../mapas/PortugalMaps/Espinho/espinho_full_edges.txt", true);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << "ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << "s" << endl;
             return 0;
         case 6:
             dados.changeGraph("../mapas/PortugalMaps/Espinho/espinho_strong_nodes_xy.txt",
                               "../mapas/PortugalMaps/Espinho/espinho_strong_edges.txt", true);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << "ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << "s" << endl;
             return 0;
         case 7:
             dados.changeGraph("../mapas/GridGraphs/4x4/nodes.txt",
                               "../mapas/GridGraphs/4x4/edges.txt", false);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << "ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << "s" << endl;
             return 0;
         case 8:
             dados.changeGraph("../mapas/GridGraphs/8x8/nodes.txt",
                               "../mapas/GridGraphs/8x8/edges.txt", false);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << "ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << "s" << endl;
             return 0;
         case 9:
             dados.changeGraph("../mapas/GridGraphs/16x16/nodes.txt",
                               "../mapas/GridGraphs/16x16/edges.txt", false);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << "ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << "s" << endl;
             return 0;
         case 10:
             dados.changeGraph("../mapas/GridGraphs/32x32/nodes.txt",
                                 "../mapas/GridGraphs/32x32/edges.txt", true);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << "ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << "s" << endl;
             return 0;
         case 11:
+            dados.changeGraph("../mapas/GridGraphs/48x48/nodes.txt",
+                              "../mapas/GridGraphs/48x48/edges.txt", true);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << "ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << "s" << endl;
+            return 0;
+        case 12:
             dados.changeGraph("../mapas/GridGraphs/64x64/nodes.txt",
                               "../mapas/GridGraphs/64x64/edges.txt", true);
+            b = elapsedTime();
+            cout << "Elapsed time: " << b << "ms" << endl;
+            cout << "Elapsed time: " << b/1000.0 << "s" << endl;
             return 0;
         case 0:
             return -1;
