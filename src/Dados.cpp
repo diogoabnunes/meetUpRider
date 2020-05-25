@@ -289,7 +289,9 @@ void Dados::graph_to_coloured_graphviewer(Graph<Local> &g) {
         }
         if (here == nullptr) here = grafoConexo.findVertex(v);
         else {
+
             gv->setEdgeColor(idEdge, "green");
+
             gv->addEdge(idEdge++, here->getInfo().getId(), v.getId(), 1);
             here = grafoConexo.findVertex(v);
         }
@@ -392,7 +394,43 @@ int Dados::processarGrafo() {
 }
 
 int Dados::runAlgorithm() {
-    runIter2(1000);
+    int see = -1;
+    do {
+        cout<<endl;
+        cout << "Iteracoes:\n";
+        cout << "[1] 1a Iteracao\n";
+        cout << "[2] 2a Iteracao \n";
+        cout << "[3] 3a Iteracao\n";
+        cout << "[0] Voltar\n";
+        cin >> see;
+
+        switch (see)
+        {
+            case 1:
+                runIter1(1000);
+                break;
+
+            case 2:
+                runIter2(1000);
+                break;
+
+            case 3:
+                runIter3(1000);
+                break;
+
+            case 0:
+                break;
+
+            default:
+                break;
+        }
+    } while (see != 0);
+    return 0;
+
+
+
+
+
     cout << "TODO, de forma a que seja possível visualizar grafos de cada iteracao?\n"; // TODO
     return 0;
 }
@@ -614,15 +652,14 @@ void Dados::runIter2(int max) {
     if (fila.empty()){
         cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl<<endl;
 
-        for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
-        cout <<endl<< "Percurso:"<<endl;
-        for(auto p:locals)cout<<"Id do Local:" <<p.getId() << endl <<  "Hora de passagem: "<<p.getPassagem()<<endl;
+        for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << "   Id do local:"<<p->getOrigem()<<endl<< "   Hora de pickUp: "<<p->getPickup()<<endl;
+        
     }
     else {
         cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl<<endl;
         for (auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
-        cout <<endl<< "Percurso:"<<endl;
-        for(auto p:locals)cout<<"Id do Local:" <<p.getId() << endl <<  "Hora de passagem: "<<p.getPassagem()<<endl;
+
+
     }
 }
 
@@ -645,6 +682,7 @@ Dados::fillCarIter2(Vertex<Local> *&candidate, vector<Pessoa *> &passageiros, Gr
         if (pax < carros[0].getNSeats()){
             if((*it)->getHoraMinPartida()<=info.currentTime+Time(timeToCandidate) && condutores[0]->getHoraMaxChegada()>(info.currentTime+Time(timeToCandidate)+Time(timecandidateToDest)) && (*it)->getHoraMaxChegada()>(info.currentTime+Time(timeToCandidate)+Time(timecandidateToDest))){
                 (*it)->setPickup(info.currentTime+Time(timeToCandidate));
+
                 passageiros.push_back(*it);
                 pax++;
                 p.erase(it);
@@ -655,6 +693,7 @@ Dados::fillCarIter2(Vertex<Local> *&candidate, vector<Pessoa *> &passageiros, Gr
         else break;
     }
     if(transportou) {
+        candidate->getInfo().setPassagem(Time(grafoConexo.getpathtime(info.vatual->getInfo(),candidate->getInfo()))+info.currentTime);
         percurso.addVertex(candidate->getInfo());
         info.vatual = candidate;
         info.currentTime = info.currentTime + Time(timeToCandidate);
