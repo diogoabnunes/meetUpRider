@@ -4,7 +4,6 @@
 using namespace std;
 
 int main() {
-    startTime();
     Menu menu;
     Dados *dados = new Dados();
 
@@ -14,7 +13,5 @@ int main() {
 
     menu.showMenu(*dados);
     dados->refreshUsers("../resources/try1.txt");
-    double a = elapsedTime();
-    cout << "Elapsed time: " << a << endl;
     return 0;
 }

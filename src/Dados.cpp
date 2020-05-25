@@ -403,6 +403,7 @@ int Dados::runAlgorithm() {
         cout << "[0] Voltar\n";
         cin >> see;
 
+        startTime();
         switch (see)
         {
             case 1:
@@ -423,6 +424,9 @@ int Dados::runAlgorithm() {
             default:
                 break;
         }
+        double a = elapsedTime();
+        cout << "Elapsed time: " << a << "ms" << endl;
+        cout << "Elapsed time: " << a/1000.0 << "s" << endl;
     } while (see != 0);
     return 0;
 
