@@ -77,6 +77,7 @@ int Menu::chooseMap(Dados &dados) {
     cout << "[7] GridGraph 4x4\n";
     cout << "[8] GridGraph 8x8\n";
     cout << "[9] GridGraph 16x16\n";
+    cout << "[10] Grid 10x10\n";
     cout << "[0] Voltar\n";
     cin >> option;
 
@@ -116,6 +117,10 @@ int Menu::chooseMap(Dados &dados) {
         case 9:
             dados.changeGraph("../mapas/GridGraphs/16x16/nodes.txt",
                               "../mapas/GridGraphs/16x16/edges.txt", false);
+            return 0;
+        case 10:
+            dados.changeGraph("../mapas/GridGraphs/Test/nodes.txt",
+                                "../mapas/GridGraphs/Test/edges.txt", true);
             return 0;
         case 0:
             return -1;
