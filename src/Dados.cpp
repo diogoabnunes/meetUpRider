@@ -8,7 +8,7 @@ Dados::Dados() {
 
     grafoInicial=*gi;
     grafoConexo=*gc;
-    grafoProcessado=*gf;
+
 
     Graph<Local> graph;
     vector<Condutor*> r;
@@ -67,13 +67,8 @@ void Dados::setGrafoConexo(const Graph<Local> &grafoConexo) {
     Dados::grafoConexo = grafoConexo;
 }
 
-const Graph<Local> &Dados::getGrafoProcessado() const {
-    return grafoProcessado;
-}
 
-void Dados::setGrafoProcessado(const Graph<Local> &grafoProcessado) {
-    Dados::grafoProcessado = grafoProcessado;
-}
+
 
 Pessoa* Dados::searchPessoa(int id) {
     for (auto p : pessoas)
@@ -368,7 +363,7 @@ int Dados::processarGrafo() {
     grafoConexo=gc;
 
     /** seeing if map has saved matrix*/
-    string path;
+   /* string path;
     ifstream file;
     auto v=split(lastNodes,"/");
 
@@ -388,10 +383,10 @@ int Dados::processarGrafo() {
     else {
         file.close();
         readPreprocessedMatrix(&grafoConexo,path);
-    }
+    }*/
     /***************************************/
 
-
+    grafoConexo.floydWarshallShortestPath();
     cout << "Grafo processado" << endl;
     return 0;
 }
@@ -606,7 +601,7 @@ void Dados::runIter2(int max) {
         if (fillCarIter2(candidate, passageiros,  percurso,pdi,  pax))continue;
 
     }
-    info.dest->getInfo().setPassagem(grafoProcessado.getpathtime(info.vatual->getInfo(),info.dest->getInfo()));
+    info.dest->getInfo().setPassagem(Time(grafoConexo.getpathtime(info.vatual->getInfo(),info.dest->getInfo()))+info.currentTime);
     percurso.addVertex(info.dest->getInfo());
 
     viagem.setPassageiros(passageiros);
@@ -626,6 +621,7 @@ void Dados::runIter2(int max) {
     else {
         cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl<<endl;
         for (auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
+        cout <<endl<< "Percurso:"<<endl;
         for(auto p:locals)cout<<"Id do Local:" <<p.getId() << endl <<  "Hora de passagem: "<<p.getPassagem()<<endl;
     }
 }
@@ -770,14 +766,14 @@ void Dados::runIter3(int max) {
     viagem.setPercurso(locals);
 
     if (pax!=carros[0].getNSeats()){
-        cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
+        cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl<<endl;
         cout << "Passageiros:"<<endl;
         for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;
         cout << "Percurso:"<<endl;
         for(auto p:locals)cout<<"Id do Local:" <<p.getId() << endl <<  "Hora de passagem: "<<p.getPassagem()<<endl;
     }
     else {
-        cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl;
+        cout << "Nem todos os passageiros compativeis foram tranportados pois a lotacao do carro foi atingida"<<endl<<endl;
         cout << "Todos os passageiros que eram compativeis com a boleia foram transportados"<<endl;
         cout << "Passageiros:"<<endl;
         for(auto p:passageiros)cout <<"Id do Passageiro:" <<p->getId() << endl << "Id do local:"<<p->getOrigem()<<endl<< "Hora de pickUp: "<<p->getPickup()<<endl;

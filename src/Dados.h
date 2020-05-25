@@ -18,7 +18,7 @@ class Dados {
 private:
     Graph<Local> grafoInicial;
     Graph<Local> grafoConexo;
-    Graph<Local> grafoProcessado;
+
     vector<Condutor*> condutores;
     vector<Pessoa*> pessoas;
     vector<Automovel> carros;
@@ -53,8 +53,7 @@ public:
     void setGrafoInicial(const Graph<Local> &grafoInicial);
     const Graph<Local> &getGrafoConexo() const;
     void setGrafoConexo(const Graph<Local> &grafoConexo);
-    const Graph<Local> &getGrafoProcessado() const;
-    void setGrafoProcessado(const Graph<Local> &grafoProcessado);
+
 
     bool isReal() const;
     void setReal(bool real);
