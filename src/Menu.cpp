@@ -77,7 +77,7 @@ int Menu::chooseMap(Dados &dados) {
     cout << "[7] GridGraph 4x4\n";
     cout << "[8] GridGraph 8x8\n";
     cout << "[9] GridGraph 16x16\n";
-    cout << "[10] Grid 10x10\n";
+    cout << "[10] GridGraph 32x32\n";
     cout << "[0] Voltar\n";
     cin >> option;
 
